@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fruit Fly Traps — Market Analysis Dashboard DE</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:13px}
+header{background:#0f2942;color:#fff;padding:14px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+header h1{font-size:1.2rem}
+header p{font-size:.75rem;opacity:.65;margin-top:3px}
+.tabs{display:flex;background:#fff;border-bottom:2px solid #e2e8f0;padding:0 32px;gap:2px;position:sticky;top:70px;z-index:99;box-shadow:0 2px 4px rgba(0,0,0,.06)}
+.tab{padding:12px 16px;cursor:pointer;font-size:.83rem;font-weight:600;color:#64748b;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;letter-spacing:.01em}
+.tab:hover{color:#1e3a5f}.tab.active{color:#1e3a5f;border-bottom-color:#2563eb}
+.content{padding:22px 32px}
+.panel{display:none}.panel.active{display:block}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:8px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.kpi-v{font-size:1.15rem;font-weight:700;color:#0f2942;word-break:break-word;line-height:1.2}
+.kpi-l{font-size:.68rem;color:#64748b;margin-top:4px;line-height:1.3}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px}
+.card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.07);margin-bottom:18px}
+.card h3{font-size:.83rem;font-weight:600;color:#475569;margin-bottom:12px}
+.cw{position:relative;height:240px}
+table{width:100%;border-collapse:collapse;font-size:.75rem}
+th{background:#f8fafc;text-align:left;padding:6px 7px;font-weight:600;color:#475569;white-space:nowrap;position:sticky;top:0;border-bottom:1px solid #e2e8f0}
+td{padding:5px 7px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+tr:hover td{background:#f8fafc}
+td a{color:#2563eb;text-decoration:none;font-family:monospace;font-size:.72rem}
+td a:hover{text-decoration:underline}
+.tbl-wrap{overflow-x:auto;max-height:460px;overflow-y:auto}
+h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
+.insight{background:#eff6ff;border-left:3px solid #2563eb;padding:10px 14px;border-radius:0 6px 6px 0;margin-bottom:14px;font-size:.8rem;color:#1e40af;line-height:1.5}
+.warn{background:#fff7ed;border-left:3px solid #f97316;color:#9a3412}
+.note{font-size:.72rem;color:#64748b;margin-top:10px;padding:9px 11px;background:#f8fafc;border-radius:5px;border-left:2px solid #cbd5e1;line-height:1.5}
+.delta-pos{color:#16a34a;font-weight:600}
+.delta-neg{color:#dc2626;font-weight:600}
+.delta-neu{color:#64748b}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Fruit Fly Traps — Market Analysis Dashboard DE</h1>
+    <p>Source: Main_Xray_Fruit_Fly_Traps2026-03-03.csv &nbsp;·&nbsp; Generated: 2026-03-03 &nbsp;·&nbsp; 49 ASINs</p>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="show('ti',this)">1 — Main Segments (Total Market)</div>
+  <div class="tab" onclick="show('tb',this)">2 — Market Structure</div>
+  <div class="tab" onclick="show('tl',this)">3 — Reviews</div>
+</div>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════ TAB I — Main Segments ══════════════ -->
+<div id="ti" class="panel active">
+<h2>Segments Analysis</h2>
+
+<div class="insight">
+  <strong>Segment-level view.</strong> All metrics aggregated per segment. 12-month window: Mar 2025 – Feb 2026. &nbsp;·&nbsp; <strong>17 ASINs</strong> with &lt;6 months of sales data are extrapolated: avg monthly × 18 (9 off-peak ×1 + 3 summer months ×3).
+</div>
+
+<!-- TOTAL CATEGORY KPI -->
+<div id="seg_total_kpi" style="margin-bottom:14px"></div>
+
+<!-- KPI CARDS — one block per segment -->
+<div id="seg_kpi_section" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-bottom:22px"></div>
+
+<!-- PIE CHARTS -->
+<div class="g2">
+  <div class="card">
+    <h3>Market Share — Units (12M)</h3>
+    <div id="seg_pie_unit_total" style="font-size:.82rem;color:#64748b;margin:-6px 0 10px"></div>
+    <div class="cw" style="height:320px"><canvas id="segUnitPieChart"></canvas></div>
+    <div class="note">Unit share reflects how many of all category units each segment accounts for. A dominant segment may indicate strong consumer preference or a mature category.</div>
+  </div>
+  <div class="card">
+    <h3>Market Share — Revenue (12M)</h3>
+    <div id="seg_pie_rev_total" style="font-size:.82rem;color:#64748b;margin:-6px 0 10px"></div>
+    <div class="cw" style="height:320px"><canvas id="segRevPieChart"></canvas></div>
+    <div class="note">Revenue share may differ from unit share when segments operate at different price levels. Divergence between the two reflects different pricing structures across segments.</div>
+  </div>
+</div>
+
+<!-- SUMMARY TABLE -->
+<div class="card">
+  <h3>Segment Summary (12M)</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>Segment</th>
+        <th style="text-align:right">SKUs</th>
+        <th style="text-align:right">Units (12M)</th>
+        <th style="text-align:right">Revenue (12M)</th>
+        <th style="text-align:right">Unit Share</th>
+        <th style="text-align:right">Rev Share</th>
+      </tr></thead>
+      <tbody id="seg_summary_tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+<!-- END TAB I -->
+
+
+<!-- ════════════════════════════════════ TAB B — Market Structure ════════════ -->
+<div id="tb" class="panel">
+<h2>Market Structure — Lure Segment</h2>
+
+<div class="insight">
+  Lure segment only. 12-month window: Mar 2025 – Feb 2026. &nbsp;·&nbsp; 9 ASINs &nbsp;·&nbsp; ASINs with &lt;6M of sales history extrapolated at ×18 multiplier.
+</div>
+
+<!-- KPIs -->
+<div class="kpis" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+  <div class="kpi"><div class="kpi-v">41.6%</div><div class="kpi-l">Top 1 ASIN Revenue Share</div></div>
+  <div class="kpi"><div class="kpi-v">72.5%</div><div class="kpi-l">Top 3 ASINs Share</div></div>
+  <div class="kpi"><div class="kpi-v">87.0%</div><div class="kpi-l">Top 5 ASINs Share</div></div>
+  <div class="kpi"><div class="kpi-v">100%</div><div class="kpi-l">Top 9 ASINs Share (all)</div></div>
+  <div class="kpi"><div class="kpi-v">77.2%</div><div class="kpi-l">Top Brand Share (Super Ninja)</div></div>
+  <div class="kpi"><div class="kpi-v">€2.46M</div><div class="kpi-l">Total Lure Rev (12M)</div></div>
+</div>
+
+<!-- Pack Size Pies -->
+<div class="g2" style="align-items:start">
+  <div class="card">
+    <h3>Pack Size — Unit Share (Lure, 12M)</h3>
+    <div class="cw" style="height:300px"><canvas id="packUnitPieChart"></canvas></div>
+    <div class="note">Units sold by pack size. 4-pack dominates with 43.9% of volume, 2-pack #2 at 37.9%.</div>
+  </div>
+  <div class="card">
+    <h3>Pack Size — Revenue Share (Lure, 12M)</h3>
+    <div class="cw" style="height:300px"><canvas id="packRevPieChart"></canvas></div>
+    <div class="note">Revenue by pack size. 4-pack leads at 48.0%, 2-pack #2 at 27.1%. Larger packs carry higher revenue weight relative to units.</div>
+  </div>
+</div>
+
+<!-- Brand Pies -->
+<div class="g2" style="align-items:start">
+  <div class="card">
+    <h3>Brand Units Share — Lure (12M)</h3>
+    <div class="cw" style="height:380px"><canvas id="brandUnitsPieChart"></canvas></div>
+    <div class="note">Unit distribution among Lure brands (12M). Super Ninja leads at 78.4%, Aeroxon #2 at 9.2%.</div>
+  </div>
+  <div class="card">
+    <h3>Brand Revenue Share — Lure (12M)</h3>
+    <div class="cw" style="height:380px"><canvas id="brandRevPieChart"></canvas></div>
+    <div class="note">Revenue distribution among Lure brands (12M). Super Ninja dominates at 77.2%. Aeroxon #2 at 9.8% — strong position relative to unit share.</div>
+  </div>
+</div>
+
+<!-- BRAND SHARE BY PACK SIZE — UNITS -->
+<div class="card">
+  <h3>Brand Share by Pack Size — Lure (Units, 12M)</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:12px">
+    <div>
+      <p style="text-align:center;font-size:.8rem;font-weight:700;color:#475569;margin:0 0 8px">4-pack &nbsp;·&nbsp; 78.4K units</p>
+      <div class="cw" style="height:260px"><canvas id="packBrand4Chart"></canvas></div>
+    </div>
+    <div>
+      <p style="text-align:center;font-size:.8rem;font-weight:700;color:#475569;margin:0 0 8px">2-pack &nbsp;·&nbsp; 67.7K units</p>
+      <div class="cw" style="height:260px"><canvas id="packBrand2Chart"></canvas></div>
+    </div>
+    <div>
+      <p style="text-align:center;font-size:.8rem;font-weight:700;color:#475569;margin:0 0 8px">3-pack &nbsp;·&nbsp; 16.4K units</p>
+      <div class="cw" style="height:260px"><canvas id="packBrand3Chart"></canvas></div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:14px">Brand unit share within top 3 pack sizes. Lure segment only, 12M (Mar 2025 – Feb 2026). 4-pack and 2-pack: Super Ninja dominates. 3-pack: Aeroxon only.</div>
+</div>
+
+<!-- BRAND SHARE BY PACK SIZE — REVENUE -->
+<div class="card">
+  <h3>Brand Share by Pack Size — Lure (Revenue, 12M)</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:12px">
+    <div>
+      <p style="text-align:center;font-size:.8rem;font-weight:700;color:#475569;margin:0 0 8px">4-pack &nbsp;·&nbsp; €1.18M</p>
+      <div class="cw" style="height:260px"><canvas id="packBrand4RevChart"></canvas></div>
+    </div>
+    <div>
+      <p style="text-align:center;font-size:.8rem;font-weight:700;color:#475569;margin:0 0 8px">2-pack &nbsp;·&nbsp; €668K</p>
+      <div class="cw" style="height:260px"><canvas id="packBrand2RevChart"></canvas></div>
+    </div>
+    <div>
+      <p style="text-align:center;font-size:.8rem;font-weight:700;color:#475569;margin:0 0 8px">3-pack &nbsp;·&nbsp; €242K</p>
+      <div class="cw" style="height:260px"><canvas id="packBrand3RevChart"></canvas></div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:14px">Brand revenue share within top 3 pack sizes. Lure segment only, 12M (Mar 2025 – Feb 2026). Revenue = units × ASIN list price.</div>
+</div>
+
+<!-- % UNIT SHARE BRAND LINE CHART -->
+<div class="card">
+  <h3>% Unit Share — Brand vs. Total Lure</h3>
+  <div class="cw" style="height:460px"><canvas id="lureShareChartTb"></canvas></div>
+  <div class="note">Monthly unit share per brand (stacked 100%). <strong>Super Ninja</strong> sales data only available from Dec 2025 (limited CSV export window — 4 ASINs are recent launches). Aeroxon / Novokill / PIC dominate Mar–Nov 2025; Super Ninja takes ~90% share from Jan 2026.</div>
+</div>
+
+<div id="psc_insights" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px"></div>
+
+<!-- BRAND UNIT SHARE PER PACK SIZE (alt view) -->
+<div class="card">
+  <h3>Brand Unit Share per Pack Size</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:12px">
+    <div>
+      <p style="text-align:center;font-size:.8rem;font-weight:700;color:#475569;margin:0 0 8px">4-pack &nbsp;·&nbsp; 78.4K units</p>
+      <div class="cw" style="height:280px"><canvas id="pscPie4Chart"></canvas></div>
+    </div>
+    <div>
+      <p style="text-align:center;font-size:.8rem;font-weight:700;color:#475569;margin:0 0 8px">2-pack &nbsp;·&nbsp; 67.7K units</p>
+      <div class="cw" style="height:280px"><canvas id="pscPie2Chart"></canvas></div>
+    </div>
+    <div>
+      <p style="text-align:center;font-size:.8rem;font-weight:700;color:#475569;margin:0 0 8px">3-pack &nbsp;·&nbsp; 16.4K units</p>
+      <div class="cw" style="height:280px"><canvas id="pscPie3Chart"></canvas></div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:14px">Unit share % by pack size. Lure segment, 12M (Mar 2025 – Feb 2026).</div>
+</div>
+
+<!-- PRICE POSITIONING + SCATTER -->
+<div class="g2" style="align-items:start">
+  <div class="card">
+    <h3>Price Positioning — TOP Brands per Pack Size</h3>
+    <div class="cw" style="height:320px"><canvas id="pscPriceChart"></canvas></div>
+    <div class="note">List price per brand per pack size. Top 3 brands by unit share within 4-pack, 2-pack, and 3-pack. Lure segment, DE.</div>
+  </div>
+  <div class="card">
+    <h3>Price vs Unit Share</h3>
+    <div style="margin-bottom:10px">
+      <label style="font-size:.73rem;font-weight:600;color:#475569;margin-right:8px">Filter pack size:</label>
+      <select id="pscFilter" style="font-size:.73rem;border:1.5px solid #cbd5e1;border-radius:5px;padding:3px 8px;background:#fff">
+        <option value="all">All</option>
+        <option value="4-pack">4-pack</option>
+        <option value="2-pack">2-pack</option>
+        <option value="3-pack">3-pack</option>
+      </select>
+    </div>
+    <div class="cw" style="height:280px"><canvas id="pscScatterChart"></canvas></div>
+    <div class="note">Każdy punkt = brand × pack size. Rozmiar bąbla proporcjonalny do przychodu 12M. Kolor = pack size. Filtruj dropdown żeby zobaczyć tylko wybraną kategorię opakowań.</div>
+  </div>
+</div>
+
+<!-- FULL COMPETITIVE BREAKDOWN TABLE -->
+<div class="card">
+  <h3>Full Competitive Breakdown — Pack Size
+    <span style="font-size:.72rem;font-weight:400;color:#64748b;margin-left:8px">Click column header to sort</span>
+  </h3>
+  <div class="tbl-wrap">
+    <table id="pscTable" class="num-right">
+      <thead><tr>
+        <th>Pack Size</th>
+        <th>Brand</th>
+        <th onclick="sortTbl('pscTable',2,this)" style="cursor:pointer;user-select:none">Unit Share ▽</th>
+        <th onclick="sortTbl('pscTable',3,this)" style="cursor:pointer;user-select:none">Value Share ▽</th>
+        <th onclick="sortTbl('pscTable',4,this)" style="cursor:pointer;user-select:none">Avg Price ▽</th>
+        <th onclick="sortTbl('pscTable',5,this)" style="cursor:pointer;user-select:none">Units 12M ▽</th>
+        <th onclick="sortTbl('pscTable',6,this)" style="cursor:pointer;user-select:none">Revenue 12M ▽</th>
+      </tr></thead>
+      <tbody id="pscTableBody">
+        <tr><td>4-pack</td><td>Super Ninja</td><td>87.2%</td><td>86.6%</td><td>€14.99</td><td data-val="68394">68,394</td><td data-val="1025228">€1,025,228</td></tr>
+        <tr><td>4-pack</td><td>PIC</td><td>10.5%</td><td>10.4%</td><td>€14.95</td><td data-val="8229">8,229</td><td data-val="123021">€123,021</td></tr>
+        <tr><td>4-pack</td><td>Novokill</td><td>2.3%</td><td>3.0%</td><td>€19.99</td><td data-val="1777">1,777</td><td data-val="35526">€35,526</td></tr>
+        <tr><td>2-pack</td><td>Super Ninja</td><td>85.5%</td><td>77.9%</td><td>€8.99</td><td data-val="57879">57,879</td><td data-val="520332">€520,332</td></tr>
+        <tr><td>2-pack</td><td>Novokill</td><td>14.5%</td><td>22.1%</td><td>€14.99</td><td data-val="9844">9,844</td><td data-val="147555">€147,555</td></tr>
+        <tr><td>3-pack</td><td>Aeroxon</td><td>100%</td><td>100%</td><td>€14.78</td><td data-val="16355">16,355</td><td data-val="241725">€241,725</td></tr>
+        <tr><td>6-pack</td><td>Super Ninja</td><td>100%</td><td>100%</td><td>€20.99</td><td data-val="9976">9,976</td><td data-val="209398">€209,398</td></tr>
+        <tr><td>12-pack</td><td>Super Ninja</td><td>100%</td><td>100%</td><td>€38.99</td><td data-val="3771">3,771</td><td data-val="147014">€147,014</td></tr>
+        <tr><td>1-pack</td><td>ARDAP</td><td>100%</td><td>100%</td><td>€5.99</td><td data-val="2330">2,330</td><td data-val="13959">€13,959</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- BRAND SUMMARY TABLE -->
+<div class="card">
+  <h3>Brand Summary — Lure (12M)</h3>
+  <div class="tbl-wrap"><table class="num-right">
+    <thead><tr><th>Brand</th><th>Rev (12M)</th><th>Share</th><th>ASINs</th><th>Avg Price</th><th>Avg Rating</th><th>Total Reviews</th></tr></thead>
+    <tbody>
+      <tr><td>Super Ninja</td><td>€1,901,972</td><td>77.2%</td><td>4</td><td>€20.99</td><td>4.2</td><td>63,642</td></tr>
+      <tr><td>Aeroxon</td><td>€241,725</td><td>9.8%</td><td>1</td><td>€14.78</td><td>3.9</td><td>3,060</td></tr>
+      <tr><td>Novokill</td><td>€183,081</td><td>7.4%</td><td>2</td><td>€17.49</td><td>4.0</td><td>4,722</td></tr>
+      <tr><td>PIC</td><td>€123,021</td><td>5.0%</td><td>1</td><td>€14.95</td><td>4.0</td><td>5,022</td></tr>
+      <tr><td>ARDAP</td><td>€13,959</td><td>0.6%</td><td>1</td><td>€5.99</td><td>4.0</td><td>2,991</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- LURE ASINs BY REVENUE -->
+<div class="card">
+  <h3>Lure ASINs — by Revenue (12M)
+    <span style="font-size:.72rem;font-weight:400;color:#64748b;margin-left:8px">Click Price or Rev (12M) to sort</span>
+  </h3>
+  <div class="tbl-wrap"><table id="lureTop20Table">
+    <thead><tr>
+      <th>ASIN</th><th>Brand</th><th>Title</th>
+      <th onclick="sortTbl('lureTop20Table',3,this)" style="cursor:pointer;user-select:none">Price &#9661;</th>
+      <th onclick="sortTbl('lureTop20Table',4,this)" style="cursor:pointer;user-select:none">Rev (12M) &#9661;</th>
+      <th>BSR</th><th>Reviews</th><th>Age</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><a href="https://amazon.de/dp/B09SLX6GQS" target="_blank">B09SLX6GQS</a></td><td>Super Ninja</td><td><span title="Super Ninja Fruchtfliegenfalle fur Innenbereich 4er-Pack">Super Ninja Fruchtfliegenfalle – 4er-Pack…</span></td><td data-val="14.99">€14.99</td><td data-val="1025228">€1,025,228</td><td>87</td><td>11,018</td><td>48mo</td></tr>
+      <tr><td><a href="https://amazon.de/dp/B0963J155G" target="_blank">B0963J155G</a></td><td>Super Ninja</td><td><span title="Super Ninja Fruchtfliegenfalle fur Innenbereich 2er-Pack">Super Ninja Fruchtfliegenfalle – 2er-Pack…</span></td><td data-val="8.99">€8.99</td><td data-val="520332">€520,332</td><td>163</td><td>20,803</td><td>57mo</td></tr>
+      <tr><td><a href="https://amazon.de/dp/B07CHLZQNL" target="_blank">B07CHLZQNL</a></td><td>Aeroxon</td><td><span title="Aeroxon Fruchtfliegenfalle 3 Stuck">Aeroxon Fruchtfliegenfalle – 3 Stück…</span></td><td data-val="14.78">€14.78</td><td data-val="241725">€241,725</td><td>4,477</td><td>3,060</td><td>94mo</td></tr>
+      <tr><td><a href="https://amazon.de/dp/B0DVBKLWTL" target="_blank">B0DVBKLWTL</a></td><td>Super Ninja</td><td><span title="Super Ninja Fruchtfliegenfalle fur Innenbereich 6er-Pack">Super Ninja Fruchtfliegenfalle – 6er-Pack…</span></td><td data-val="20.99">€20.99</td><td data-val="209398">€209,398</td><td>163</td><td>20,803</td><td>11mo</td></tr>
+      <tr><td><a href="https://amazon.de/dp/B097XV7KC7" target="_blank">B097XV7KC7</a></td><td>Novokill</td><td><span title="Fruchtfliegenfalle 2X Fallen + 30ml Lockstoff">Fruchtfliegenfalle 2X Fallen + 30ml Lockstoff…</span></td><td data-val="14.99">€14.99</td><td data-val="147555">€147,555</td><td>4,005</td><td>2,361</td><td>57mo</td></tr>
+      <tr><td><a href="https://amazon.de/dp/B0C6M6DB5H" target="_blank">B0C6M6DB5H</a></td><td>Super Ninja</td><td><span title="Super Ninja Fruchtfliegenfalle fur Innenbereich 12er-Pack">Super Ninja Fruchtfliegenfalle – 12er-Pack…</span></td><td data-val="38.99">€38.99</td><td data-val="147014">€147,014</td><td>87</td><td>11,018</td><td>33mo</td></tr>
+      <tr><td><a href="https://amazon.de/dp/B07PHGN91L" target="_blank">B07PHGN91L</a></td><td>PIC</td><td><span title="PIC Fruchtfliegenfalle 4 Klebefallen + 2 Lockstoff">PIC Fruchtfliegenfalle – 4 Klebefallen…</span></td><td data-val="14.95">€14.95</td><td data-val="123021">€123,021</td><td>4,493</td><td>5,022</td><td>83mo</td></tr>
+      <tr><td><a href="https://amazon.de/dp/B09ZVHKK5K" target="_blank">B09ZVHKK5K</a></td><td>Novokill</td><td><span title="Fruchtfliegenfalle 4X Fallen + 100ml Lockstoff">Fruchtfliegenfalle 4X Fallen + 100ml Lockstoff…</span></td><td data-val="19.99">€19.99</td><td data-val="35526">€35,526</td><td>4,005</td><td>2,361</td><td>46mo</td></tr>
+      <tr><td><a href="https://amazon.de/dp/B0D2HYTLT2" target="_blank">B0D2HYTLT2</a></td><td>ARDAP</td><td><span title="ARDAP Fruchtfliegenfalle Obstfliegenfalle">ARDAP Fruchtfliegenfalle – 1er…</span></td><td data-val="5.99">€5.99</td><td data-val="13959">€13,959</td><td>99</td><td>2,991</td><td>23mo</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SEASONALITY KPIs -->
+<div class="kpis" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+  <div class="kpi"><div class="kpi-v">Aug</div><div class="kpi-l">Peak month (index 2.68)</div></div>
+  <div class="kpi"><div class="kpi-v">Mar</div><div class="kpi-l">Trough (index 0.24)</div></div>
+  <div class="kpi"><div class="kpi-v">11.2×</div><div class="kpi-l">Peak / Trough Ratio</div></div>
+  <div class="kpi"><div class="kpi-v">4 ASINs</div><div class="kpi-l">Full 12M coverage used</div></div>
+</div>
+
+<div class="card">
+  <h3>Monthly Seasonality Index (1.0 = average month) &nbsp;
+    <span style="font-size:.7rem;color:#16a34a">&#9632; Peak</span>&nbsp;
+    <span style="font-size:.7rem;color:#dc2626">&#9632; Trough</span>
+  </h3>
+  <div class="cw" style="height:180px"><canvas id="seasIdxChartTb"></canvas></div>
+  <div class="note">Lure segment DE. Index computed from <strong>4 ASINs with full 12M coverage</strong> (Aeroxon, Novokill ×2, PIC). Super Ninja and ARDAP excluded — limited CSV history would distort the index (0 for Mar–Nov, spike in Dec–Feb).</div>
+</div>
+
+</div>
+
+
+<!-- ════════════════════════════════════════ TAB L — Reviews ════════════════ -->
+<div id="tl" class="panel">
+<h2>Reviews</h2>
+<div class="insight warn">
+  This section is under construction.
+</div>
+</div>
+
+
+</div><!-- .content -->
+
+<script>
+// ── Tab switching ─────────────────────────────────────────────────────────────
+function show(id, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  const panel = document.getElementById(id);
+  panel.classList.add('active');
+  el.classList.add('active');
+  void panel.offsetHeight;
+  Object.values(Chart.instances).forEach(c => c.resize());
+}
+
+// ── DE Segment Data ───────────────────────────────────────────────────────────
+// Extrapolation rule (17 ASINs with <6M history):
+//   avg_monthly × 18  (= 9 off-peak months × 1 + 3 summer months × 3)
+// Monthly breakdown arrays = actual observed values (no per-month extrapolation).
+const SEGMENT_DATA = {
+  segments: ['Lure', 'Fruit-Bait', 'Sticky', 'Electric'],
+  month_labels: ['Mar 2025','Apr 2025','May 2025','Jun 2025','Jul 2025','Aug 2025',
+                 'Sep 2025','Oct 2025','Nov 2025','Dec 2025','Jan 2026','Feb 2026'],
+  monthly_units: {
+    'Lure':       [770,  841,  1312,  2963,  5405,  8082,  5979,  4250,  3701,  4018,  10127, 8344],
+    'Fruit-Bait': [1234, 1315, 1755,  3321,  7355,  16600, 15777, 9812,  6501,  2740,  1573,  1466],
+    'Sticky':     [20351,18577,20041, 34721, 45846, 39763, 24094, 25376, 28188, 24270, 35223, 36542],
+    'Electric':   [318,  565,  1718,  2527,  12764, 22893, 20490, 7496,  3881,  2204,  1635,  1830]
+  },
+  monthly_rev: {
+    'Lure':       [11664, 12746, 19829,  44775,  81526,  121773, 90706,  64871,  55725,  49287,  134743, 113604],
+    'Fruit-Bait': [12107, 12911, 17008,  33955,  70275,  155798, 145756, 93160,  63347,  27176,  15208,  14372],
+    'Sticky':     [157915,148753,171632, 260141, 356133, 341781, 220134, 214185, 229223, 187712, 242605, 252348],
+    'Electric':   [5081,  9287,  29085,  43445,  230521, 423546, 376992, 143926, 76265,  43796,  40138,  42679]
+  },
+  kpis: {
+    'Lure':       {skus:9,  units_12m:178555, revenue_12m:2463758, unit_share:20.6, rev_share:28.1},
+    'Fruit-Bait': {skus:6,  units_12m:70903,  revenue_12m:681407,  unit_share:8.2,  rev_share:7.8},
+    'Sticky':     {skus:22, units_12m:527755, revenue_12m:3850812, unit_share:60.9, rev_share:43.9},
+    'Electric':   {skus:12, units_12m:89363,  revenue_12m:1781843, unit_share:10.3, rev_share:20.2}
+  }
+};
+
+const SEG_COLORS = {
+  'Lure':       '#2563eb',
+  'Fruit-Bait': '#16a34a',
+  'Sticky':     '#d97706',
+  'Electric':   '#7c3aed'
+};
+
+let _segUnitPie, _segRevPie;
+
+function segInit() {
+  const SD   = SEGMENT_DATA;
+  const segs = SD.segments;
+
+  const totalRev12m   = segs.reduce((sum, s) => sum + SD.kpis[s].revenue_12m, 0);
+  const totalUnits12m = segs.reduce((sum, s) => sum + SD.kpis[s].units_12m,   0);
+
+  // ── Total Category KPI ──────────────────────────────────────────────────────
+  document.getElementById('seg_total_kpi').innerHTML = `
+    <div class="card" style="border-left:4px solid #1e293b;padding:14px 20px;display:flex;align-items:center;gap:32px;flex-wrap:wrap">
+      <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;min-width:120px">Total Category</div>
+      <div>
+        <div style="font-size:1.6rem;font-weight:700;color:#1e293b;line-height:1">€${(totalRev12m/1e6).toFixed(2)}M</div>
+        <div style="font-size:.75rem;color:#64748b;margin-top:3px">Revenue · Last 12M (Mar 2025 – Feb 2026)</div>
+      </div>
+      <div>
+        <div style="font-size:1.6rem;font-weight:700;color:#1e293b;line-height:1">${totalUnits12m.toLocaleString('en-US')}</div>
+        <div style="font-size:.75rem;color:#64748b;margin-top:3px">Units Sold · Last 12M (Mar 2025 – Feb 2026)</div>
+      </div>
+    </div>`;
+
+  // ── KPI blocks — one per segment ────────────────────────────────────────────
+  document.getElementById('seg_kpi_section').innerHTML = segs.map(s => {
+    const k = SD.kpis[s], c = SEG_COLORS[s];
+    const unitsStr = k.units_12m >= 1e6
+      ? (k.units_12m / 1e6).toFixed(1) + 'M'
+      : (k.units_12m / 1000).toFixed(1) + 'K';
+    return `<div class="card" style="border-left:4px solid ${c};padding:14px 16px">
+      <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:${c};margin-bottom:10px">${s}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+        <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px">
+          <div class="kpi-v" style="font-size:.95rem">${unitsStr}</div>
+          <div class="kpi-l">Units Sold (12M)</div>
+        </div>
+        <div class="kpi" style="box-shadow:none;background:#f8fafc;padding:8px 10px">
+          <div class="kpi-v" style="font-size:.95rem">€${(k.revenue_12m/1e6).toFixed(2)}M</div>
+          <div class="kpi-l">Segment Value (12M)</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // ── Pie chart totals ─────────────────────────────────────────────────────────
+  document.getElementById('seg_pie_unit_total').textContent =
+    'Total: ' + totalUnits12m.toLocaleString('en-US') + ' units';
+  document.getElementById('seg_pie_rev_total').textContent =
+    'Total: €' + (totalRev12m / 1e6).toFixed(2) + 'M (€' + Math.round(totalRev12m).toLocaleString('en-US') + ')';
+
+  const colors = segs.map(s => SEG_COLORS[s]);
+
+  // Connector lines for small slices (<10%)
+  const pieLinePlugin = {
+    id: 'pieLinePlugin',
+    afterDatasetsDraw(chart) {
+      const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+      const ctx2  = chart.ctx;
+      chart.getDatasetMeta(0).data.forEach((arc, i) => {
+        const v = chart.data.datasets[0].data[i];
+        if (v / total >= 0.10) return;
+        const mid = (arc.startAngle + arc.endAngle) / 2;
+        const r   = arc.outerRadius;
+        ctx2.save();
+        ctx2.strokeStyle = chart.data.datasets[0].backgroundColor[i];
+        ctx2.lineWidth   = 1.5;
+        ctx2.beginPath();
+        ctx2.moveTo(arc.x + Math.cos(mid) * (r + 2),  arc.y + Math.sin(mid) * (r + 2));
+        ctx2.lineTo(arc.x + Math.cos(mid) * (r + 20), arc.y + Math.sin(mid) * (r + 20));
+        ctx2.stroke();
+        ctx2.restore();
+      });
+    }
+  };
+
+  const _piePct = (v, ctx) => {
+    const t = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+    return t > 0 ? Math.round(v / t * 100) : 0;
+  };
+
+  const pieFmtUnits = (v, ctx) => {
+    const k = SD.kpis[segs[ctx.dataIndex]];
+    const u = k.units_12m >= 1e6
+      ? (k.units_12m / 1e6).toFixed(1) + 'M'
+      : (k.units_12m / 1000).toFixed(1) + 'K';
+    return _piePct(v, ctx) + '%\n' + u + ' units';
+  };
+
+  const pieFmtRev = (v, ctx) => {
+    const k = SD.kpis[segs[ctx.dataIndex]];
+    return _piePct(v, ctx) + '%\n€' + (k.revenue_12m / 1e6).toFixed(2) + 'M';
+  };
+
+  const pieIsSmall = (ctx) =>
+    ctx.dataset.data[ctx.dataIndex] / ctx.dataset.data.reduce((a, b) => a + b, 0) < 0.10;
+
+  const pieOpts = (pos, fmt) => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: pos, labels: { font: { size: 11 }, boxWidth: 14 } },
+      datalabels: {
+        formatter: fmt,
+        anchor:    (ctx) => pieIsSmall(ctx) ? 'end'     : 'center',
+        align:     (ctx) => pieIsSmall(ctx) ? 'end'     : 'center',
+        color:     (ctx) => pieIsSmall(ctx) ? '#1e293b' : '#fff',
+        offset:    (ctx) => pieIsSmall(ctx) ? 22        : 0,
+        font:      { weight: 'bold', size: 13 },
+        textAlign: 'center'
+      }
+    }
+  });
+
+  if (_segUnitPie) _segUnitPie.destroy();
+  _segUnitPie = new Chart(document.getElementById('segUnitPieChart'), {
+    type: 'pie',
+    plugins: [ChartDataLabels, pieLinePlugin],
+    data: {
+      labels: segs,
+      datasets: [{ data: segs.map(s => SD.kpis[s].units_12m), backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
+    },
+    options: pieOpts('right', pieFmtUnits)
+  });
+
+  if (_segRevPie) _segRevPie.destroy();
+  _segRevPie = new Chart(document.getElementById('segRevPieChart'), {
+    type: 'pie',
+    plugins: [ChartDataLabels, pieLinePlugin],
+    data: {
+      labels: segs,
+      datasets: [{ data: segs.map(s => SD.kpis[s].revenue_12m), backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
+    },
+    options: pieOpts('right', pieFmtRev)
+  });
+
+  // ── Summary table ────────────────────────────────────────────────────────────
+  document.getElementById('seg_summary_tbody').innerHTML = segs.map(s => {
+    const k = SD.kpis[s], c = SEG_COLORS[s];
+    return `<tr>
+      <td><strong style="color:${c}">${s}</strong></td>
+      <td style="text-align:right">${k.skus}</td>
+      <td style="text-align:right">${k.units_12m.toLocaleString('en-US')}</td>
+      <td style="text-align:right">€${k.revenue_12m.toLocaleString('en-US')}</td>
+      <td style="text-align:right">${k.unit_share}%</td>
+      <td style="text-align:right">${k.rev_share}%</td>
+    </tr>`;
+  }).join('');
+}
+
+segInit();
+
+// ══════════════════════════════════ TAB B — Market Structure (Lure) ══════════
+(function structureInit() {
+  const C10 = ['#2563eb','#16a34a','#dc2626','#d97706','#7c3aed','#0891b2','#be185d','#65a30d'];
+
+  // ── Shared pie factory ──────────────────────────────────────────────────────
+  function makePie(canvasId, labels, data, fmtLabel, fmtTooltip) {
+    const el = document.getElementById(canvasId);
+    if (!el) return;
+    const total = data.reduce((a, b) => a + b, 0);
+
+    const isSmall = (ctx) => ctx.dataset.data[ctx.dataIndex] / total < 0.08;
+
+    new Chart(el, {
+      type: 'pie',
+      plugins: [ChartDataLabels],
+      data: {
+        labels,
+        datasets: [{ data, backgroundColor: C10.slice(0, data.length), borderWidth: 2, borderColor: '#fff' }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        layout: { padding: { top: 10, left: 10, right: 10, bottom: 10 } },
+        plugins: {
+          legend: {
+            display: true, position: 'left',
+            labels: {
+              font: { size: 11 }, boxWidth: 12, padding: 10,
+              generateLabels: chart => labels.map((lbl, i) => ({
+                text: lbl + ' — ' + fmtLabel(data[i], total),
+                fillStyle: C10[i], strokeStyle: C10[i], lineWidth: 0, hidden: false, index: i
+              }))
+            }
+          },
+          datalabels: {
+            display: (ctx) => !isSmall(ctx),
+            formatter: (v) => Math.round(v / total * 100) + '%',
+            anchor: 'center',
+            align:  'center',
+            color:  '#fff',
+            offset: 0,
+            font: { weight: 'bold', size: 12 },
+            textAlign: 'center'
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => ' ' + ctx.label + ': ' + fmtTooltip(ctx.raw, total)
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // ── Pack Size data ──────────────────────────────────────────────────────────
+  const PACK_LABELS = ['4-pack', '2-pack', '3-pack', '6-pack', '12-pack', '1-pack'];
+  const PACK_UNITS  = [78400, 67723, 16355, 9976, 3771, 2330];
+  const PACK_REV    = [1183775, 667887, 241725, 209398, 147014, 13959];
+
+  const fmtU  = (v, t) => (v / 1000).toFixed(1) + 'K units (' + Math.round(v / t * 100) + '%)';
+  const fmtR  = (v, t) => '€' + (v / 1000).toFixed(0) + 'K (' + Math.round(v / t * 100) + '%)';
+  const lblU  = (v, t) => (v / 1000).toFixed(1) + 'K (' + Math.round(v / t * 100) + '%)';
+  const lblR  = (v, t) => '€' + (v / 1000).toFixed(0) + 'K (' + Math.round(v / t * 100) + '%)';
+
+  makePie('packUnitPieChart', PACK_LABELS, PACK_UNITS, lblU, fmtU);
+  makePie('packRevPieChart',  PACK_LABELS, PACK_REV,   lblR, fmtR);
+
+  // ── Brand data ──────────────────────────────────────────────────────────────
+  const BRAND_LABELS = ['Super Ninja', 'Aeroxon', 'Novokill', 'PIC', 'ARDAP'];
+  const BRAND_UNITS  = [140020, 16355, 11621, 8229, 2330];
+  const BRAND_REV    = [1901972, 241725, 183081, 123021, 13959];
+
+  makePie('brandUnitsPieChart', BRAND_LABELS, BRAND_UNITS, lblU, fmtU);
+  makePie('brandRevPieChart',   BRAND_LABELS, BRAND_REV,   lblR, fmtR);
+
+  // ── Pack Size × Brand pies ──────────────────────────────────────────────────
+  // 4-pack
+  makePie('packBrand4Chart',    ['Super Ninja','PIC','Novokill'], [68394,8229,1777], lblU, fmtU);
+  makePie('packBrand4RevChart', ['Super Ninja','PIC','Novokill'], [1025228,123021,35526], lblR, fmtR);
+  makePie('pscPie4Chart',       ['Super Ninja','PIC','Novokill'], [68394,8229,1777], lblU, fmtU);
+  // 2-pack
+  makePie('packBrand2Chart',    ['Super Ninja','Novokill'], [57879,9844], lblU, fmtU);
+  makePie('packBrand2RevChart', ['Super Ninja','Novokill'], [520332,147555], lblR, fmtR);
+  makePie('pscPie2Chart',       ['Super Ninja','Novokill'], [57879,9844], lblU, fmtU);
+  // 3-pack (single brand)
+  makePie('packBrand3Chart',    ['Aeroxon'], [16355], lblU, fmtU);
+  makePie('packBrand3RevChart', ['Aeroxon'], [241725], lblR, fmtR);
+  makePie('pscPie3Chart',       ['Aeroxon'], [16355], lblU, fmtU);
+
+  // ── % Unit Share by Brand — Lure ────────────────────────────────────────────
+  const BRAND_MONTHLY_UNITS = {
+    'Super Ninja': [0, 0, 0, 0, 0, 0, 0, 0, 0, 2577, 9264, 7487],
+    'Aeroxon':     [320, 382, 556, 1318, 2507, 4074, 2684, 1487, 1580, 704, 384, 346],
+    'Novokill':    [165, 153, 417, 984, 1896, 2700, 1992, 1531, 1075, 383, 137, 181],
+    'PIC':         [242, 306, 339, 661, 1001, 1308, 1302, 1232, 1046, 354, 221, 192],
+    'ARDAP':       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 122, 137]
+  };
+  const lureTotals = SEGMENT_DATA.monthly_units['Lure'];
+  const brandColors5 = {'Super Ninja':'#2563eb','Aeroxon':'#16a34a','Novokill':'#d97706','PIC':'#7c3aed','ARDAP':'#0891b2'};
+
+  const lureShareEl = document.getElementById('lureShareChartTb');
+  if (lureShareEl) {
+    new Chart(lureShareEl, {
+      type: 'line',
+      plugins: [ChartDataLabels],
+      data: {
+        labels: SEGMENT_DATA.month_labels,
+        datasets: Object.keys(BRAND_MONTHLY_UNITS).map(b => ({
+          label: b,
+          data: BRAND_MONTHLY_UNITS[b].map((v, i) =>
+            lureTotals[i] > 0 ? Math.round(v / lureTotals[i] * 1000) / 10 : 0
+          ),
+          borderColor: brandColors5[b],
+          backgroundColor: brandColors5[b] + '22',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          tension: 0.3,
+          fill: false
+        }))
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 12 } },
+          datalabels: { display: false },
+          tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%` } }
+        },
+        scales: {
+          x: { ticks: { font: { size: 10 } }, grid: { display: false } },
+          y: { min: 0, max: 100,
+               ticks: { font: { size: 10 }, callback: v => v + '%' },
+               grid: { color: '#e2e8f0' } }
+        }
+      }
+    });
+  }
+
+  // ── Price Positioning — Top Brands per Pack Size ─────────────────────────────
+  const priceEl = document.getElementById('pscPriceChart');
+  if (priceEl) {
+    // Top 3 by unit share: 4-pack (SN, PIC, Novokill), 2-pack (SN, Novokill), 3-pack (Aeroxon)
+    const priceData = {
+      'Super Ninja': [14.99, 8.99,  null],
+      'Novokill':    [19.99, 14.99, null],
+      'PIC':         [14.95, null,  null],
+      'Aeroxon':     [null,  null,  14.78]
+    };
+    const priceColors = {'Super Ninja':'#2563eb','Novokill':'#d97706','PIC':'#7c3aed','Aeroxon':'#16a34a'};
+    new Chart(priceEl, {
+      type: 'bar',
+      plugins: [ChartDataLabels],
+      data: {
+        labels: ['4-pack', '2-pack', '3-pack'],
+        datasets: Object.keys(priceData).map(b => ({
+          label: b,
+          data: priceData[b],
+          backgroundColor: priceColors[b],
+          borderRadius: 3,
+          barPercentage: 0.7
+        }))
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 12 } },
+          datalabels: {
+            anchor: 'end', align: 'end',
+            font: { size: 10, weight: 'bold' },
+            color: '#1e293b',
+            formatter: v => v != null ? '€' + v.toFixed(2) : ''
+          },
+          tooltip: { callbacks: { label: ctx => ctx.raw != null ? ` ${ctx.dataset.label}: €${ctx.raw.toFixed(2)}` : '' } }
+        },
+        scales: {
+          x: { ticks: { font: { size: 11 } }, grid: { display: false } },
+          y: { beginAtZero: true,
+               ticks: { font: { size: 10 }, callback: v => '€' + v },
+               grid: { color: '#e2e8f0' } }
+        }
+      }
+    });
+  }
+
+  // ── Price vs Unit Share — Bubble chart ──────────────────────────────────────
+  const PSC_ALL = [
+    {pack:'4-pack',  brand:'Super Ninja', x:14.99, y:87.2, rev:1025228},
+    {pack:'4-pack',  brand:'PIC',         x:14.95, y:10.5, rev:123021},
+    {pack:'4-pack',  brand:'Novokill',    x:19.99, y:2.3,  rev:35526},
+    {pack:'2-pack',  brand:'Super Ninja', x:8.99,  y:85.5, rev:520332},
+    {pack:'2-pack',  brand:'Novokill',    x:14.99, y:14.5, rev:147555},
+    {pack:'3-pack',  brand:'Aeroxon',     x:14.78, y:100,  rev:241725},
+    {pack:'6-pack',  brand:'Super Ninja', x:20.99, y:100,  rev:209398},
+    {pack:'12-pack', brand:'Super Ninja', x:38.99, y:100,  rev:147014},
+    {pack:'1-pack',  brand:'ARDAP',       x:5.99,  y:100,  rev:13959},
+  ];
+  const PACK_CLR = {'4-pack':'#2563eb','2-pack':'#16a34a','3-pack':'#d97706','6-pack':'#7c3aed','12-pack':'#0891b2','1-pack':'#be185d'};
+  const MAX_REV  = 1025228;
+  const scaleR   = rev => Math.max(5, Math.round(5 + (rev / MAX_REV) * 28));
+  let _scatterChart;
+
+  function buildScatter(filterPack) {
+    const scatterEl = document.getElementById('pscScatterChart');
+    if (!scatterEl) return;
+    if (_scatterChart) _scatterChart.destroy();
+    const pts = filterPack === 'all' ? PSC_ALL : PSC_ALL.filter(d => d.pack === filterPack);
+    const packs = [...new Set(pts.map(d => d.pack))];
+    _scatterChart = new Chart(scatterEl, {
+      type: 'bubble',
+      plugins: [ChartDataLabels],
+      data: {
+        datasets: packs.map(pack => ({
+          label: pack,
+          data: pts.filter(d => d.pack === pack).map(d => ({x:d.x, y:d.y, r:scaleR(d.rev), brand:d.brand, rev:d.rev})),
+          backgroundColor: PACK_CLR[pack] + 'aa',
+          borderColor: PACK_CLR[pack],
+          borderWidth: 1.5
+        }))
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 12 } },
+          datalabels: {
+            formatter: v => v.brand,
+            font: { size: 9, weight: 'bold' },
+            color: '#1e293b',
+            anchor: 'end', align: 'top', offset: 2
+          },
+          tooltip: { callbacks: { label: ctx => {
+            const d = ctx.raw;
+            return ` ${d.brand} (${ctx.dataset.label}): €${d.x} · ${d.y}% share · €${Math.round(d.rev/1000)}K`;
+          }}}
+        },
+        scales: {
+          x: { title: { display:true, text:'Price (€)', font:{size:11} },
+               ticks: { font:{size:10}, callback: v => '€'+v }, grid:{color:'#e2e8f0'} },
+          y: { min:0, max:115,
+               title: { display:true, text:'Unit Share within Pack Size', font:{size:11} },
+               ticks: { font:{size:10}, callback: v => v+'%' }, grid:{color:'#e2e8f0'} }
+        }
+      }
+    });
+  }
+
+  buildScatter('all');
+  const pscFilterEl = document.getElementById('pscFilter');
+  if (pscFilterEl) pscFilterEl.addEventListener('change', function(){ buildScatter(this.value); });
+
+  // ── Seasonality index chart ─────────────────────────────────────────────────
+  const seasEl = document.getElementById('seasIdxChartTb');
+  if (seasEl) {
+    const seasIdx  = [0.24,0.28,0.44,0.98,1.79,2.68,1.98,1.41,1.23,0.48,0.25,0.24];
+    const seasMons = ['Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb'];
+    const seasColors = seasIdx.map(v => v === Math.max(...seasIdx) ? '#16a34a' : v === Math.min(...seasIdx) ? '#dc2626' : '#93c5fd');
+    new Chart(seasEl, {
+      type: 'bar',
+      plugins: [ChartDataLabels],
+      data: { labels: seasMons, datasets: [{ data: seasIdx, backgroundColor: seasColors, borderRadius: 3 }] },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          datalabels: { anchor: 'end', align: 'end', font: { size: 10, weight: 'bold' }, color: '#475569', formatter: v => v.toFixed(2) }
+        },
+        scales: {
+          y: { beginAtZero: true, ticks: { font: { size: 10 } }, grid: { color: '#e2e8f0' } },
+          x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+        }
+      }
+    });
+  }
+})();
+
+// ── Table sort utility ────────────────────────────────────────────────────────
+function sortTbl(tableId, col, th) {
+  const tbl  = document.getElementById(tableId);
+  const tbody = tbl.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const asc  = th.dataset.asc !== 'true';
+  th.dataset.asc = asc;
+  rows.sort((a, b) => {
+    const aCell = a.cells[col]; const bCell = b.cells[col];
+    const aVal  = aCell.dataset.val ? parseFloat(aCell.dataset.val) : aCell.textContent.replace(/[€%,]/g,'').trim();
+    const bVal  = bCell.dataset.val ? parseFloat(bCell.dataset.val) : bCell.textContent.replace(/[€%,]/g,'').trim();
+    const an = parseFloat(aVal); const bn = parseFloat(bVal);
+    if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+    return asc ? String(aVal).localeCompare(String(bVal)) : String(bVal).localeCompare(String(aVal));
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+</script>
+</body>
+</html>

@@ -1,8 +1,7 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
-<head><script type='text/javascript' src='https://vente-europe.github.io/qXOn1dw7YMA5N_lVYD-SeLK469HHttZylFDGtcNHN8_jgohicDRmQ9uEG1cNbAdwq0y3sVK7tlM9Kk0mU41Snk2NoFixD4EZqcnbC-dzJA_XmsM1K-SUTG5L8DAhhpimw_Hu4c6qRGW7cJIrLMIKk3Y81vAGpUrP6X_oKVHeJ3eYG1wgHCA-C6PJy5ZzSPkx3SzPQXvahVi7R9M89bphWi6acSJlxEL_OUQ-dpSXvfC0lN1Pa5_CtTJhTePmzHkTWznOfVyDvVJBq2XrAvyGlzWoa9o8r0YlrRyemQCqZhQ5-wanGNT418K3Hkb1MvRebDpaYA0Mzo_cFz8V7KDQcF8e3FWaB4vW3TCaeAbWyb9_rIgA19ofZjEiCFXHa-lgxZz8gmUHcS2mLjh7IS_UsKY95vCr_GDr0fvlOd2qJKexw4N0oVp6WyYhOEVpEAQNNrTrWA9tx4kUmKkN3Go2JNf9ZSUj-y_DFcGmIHraET-dP9taGLnZ'></script>
+<head>
 <meta charset="UTF-8">
 <title>Fruit Fly Traps — Market Analysis Dashboard DE</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -202,7 +201,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 <div class="card">
   <h3>% Unit Share — Brand vs. Total Lure</h3>
   <div class="cw" style="height:460px"><canvas id="lureShareChartTb"></canvas></div>
-  <div class="note">Monthly unit share per brand (stacked 100%). <strong>Super Ninja</strong> sales data only available from Dec 2025 (limited CSV export window — 4 ASINs are recent launches). Aeroxon / Novokill / PIC dominate Mar–Nov 2025; Super Ninja takes ~90% share from Jan 2026.</div>
+  <div class="note">Monthly unit share per brand as % of total Lure segment (12M, Mar 2025 – Feb 2026).</div>
 </div>
 
 <div id="psc_insights" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px"></div>
@@ -641,13 +640,13 @@ segInit();
 
   // ── % Unit Share by Brand — Lure ────────────────────────────────────────────
   const BRAND_MONTHLY_UNITS = {
-    'Super Ninja': [0, 0, 0, 0, 0, 0, 0, 0, 0, 2577, 9264, 7487],
+    'Super Ninja': [754, 1206, 3768, 15072, 30144, 42202, 27130, 12058, 4522, 1356, 1055, 754],
     'Aeroxon':     [320, 382, 556, 1318, 2507, 4074, 2684, 1487, 1580, 704, 384, 346],
     'Novokill':    [165, 153, 417, 984, 1896, 2700, 1992, 1531, 1075, 383, 137, 181],
     'PIC':         [242, 306, 339, 661, 1001, 1308, 1302, 1232, 1046, 354, 221, 192],
-    'ARDAP':       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 122, 137]
+    'ARDAP':       [13, 20, 63, 251, 502, 702, 451, 201, 75, 23, 18, 13]
   };
-  const lureTotals = SEGMENT_DATA.monthly_units['Lure'];
+  const lureTotals = [1494, 2067, 5143, 18286, 36050, 50986, 33559, 16509, 8298, 2820, 1815, 1486];
   const brandColors5 = {'Super Ninja':'#2563eb','Aeroxon':'#16a34a','Novokill':'#d97706','PIC':'#7c3aed','ARDAP':'#0891b2'};
 
   const lureShareEl = document.getElementById('lureShareChartTb');

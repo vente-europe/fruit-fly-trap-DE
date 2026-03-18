@@ -9,6 +9,8 @@
 - **Purpose:** Amazon DE market analysis dashboard — fruit fly trap category
 - **Active file:** `index.html` (single-file HTML, lives in project root)
 - **Git repo:** root of this folder (branch: `master`)
+- **GitHub Pages:** serves from `main` branch → push with `git push origin master:main`
+- **GitHub URL:** `vente-europe.github.io/fruit-fly-trap-DE/`
 - **Tech stack:** Chart.js 4.4.0 + chartjs-plugin-datalabels 2.2.0, vanilla JS, no build step
 
 ---

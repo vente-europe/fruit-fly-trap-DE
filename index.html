@@ -134,7 +134,16 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 .kw-table tr:hover td{background:#f8fafc}
 .kw-sort{cursor:pointer;user-select:none}
 .kw-sort:hover{color:#93c5fd}
-.kw-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;padding:8px 12px;font-size:.68rem;color:#64748b}
+.kw-table{width:100%;border-collapse:collapse;font-size:.72rem}
+.kw-table thead th{position:sticky;top:0;background:#0f2942;color:#fff;padding:8px 6px;font-size:.68rem;font-weight:600;cursor:pointer;white-space:nowrap;user-select:none}
+.kw-table thead th:hover{background:#1e3a5f}
+.kw-table thead th .sort-arrow{font-size:.6rem;margin-left:3px;opacity:.5}
+.kw-table thead th.sorted .sort-arrow{opacity:1}
+.kw-table tbody td{padding:5px 6px;border-bottom:1px solid #f1f5f9}
+.kw-table tbody tr:hover td{background:#f8fafc!important}
+.kw-sv{font-weight:600;text-align:right;color:#1e293b}
+.kw-term{color:#334155;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kw-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:.68rem;color:#64748b}
 .kw-legend span{display:inline-flex;align-items:center;gap:4px}
 .kw-legend i{display:inline-block;width:16px;height:12px;border-radius:2px}
 
@@ -4146,15 +4155,19 @@ var KW6_ANALYSIS_DATA = {
     var html = '';
     sorted.forEach(function(kw) {
       html += '<tr>';
-      html += '<td style="position:sticky;left:0;background:#fff;z-index:1;text-align:left;padding:6px 10px;font-weight:500;white-space:nowrap;border-bottom:1px solid #f1f5f9">' + kw.t + '</td>';
-      html += '<td style="font-weight:700;color:#0f2942;border-bottom:1px solid #f1f5f9">' + kw.sv.toLocaleString() + '</td>';
+      html += '<td class="kw-term">' + kw.t + '</td>';
+      html += '<td class="kw-sv">' + kw.sv.toLocaleString() + '</td>';
       var relPct = Math.round(kw.rl * 100);
-      var relStyle = relPct >= 80 ? 'font-weight:700;color:#16a34a' : 'color:#64748b';
-      html += '<td style="border-bottom:1px solid #f1f5f9;' + relStyle + '">' + relPct + '%</td>';
+      var rlBg = relPct >= 80 ? '#dcfce7' : relPct >= 50 ? '#fef9c3' : '#fee2e2';
+      var rlTxt = relPct >= 80 ? '#166534' : relPct >= 50 ? '#854d0e' : '#991b1b';
+      html += '<td style="text-align:center;font-size:.68rem;font-weight:600;background:' + rlBg + ';color:' + rlTxt + '">' + relPct + '%</td>';
       kw.r.forEach(function(rank) {
-        var c = rankColor(rank);
-        var label = (!rank || rank <= 0 || rank > 306) ? '\u2014' : rank;
-        html += '<td style="border-bottom:1px solid #f1f5f9"><span style="display:inline-block;min-width:28px;padding:2px 5px;border-radius:4px;font-weight:700;font-size:.68rem;background:' + c.bg + ';color:' + c.fg + '">' + label + '</span></td>';
+        if (!rank || rank <= 0 || rank > 306) {
+          html += '<td style="text-align:center;color:#cbd5e1;font-size:.72rem">\u2014</td>';
+        } else {
+          var c = rankColor(rank);
+          html += '<td style="text-align:center;background:' + c.bg + ';color:' + c.fg + ';font-weight:600;font-size:.72rem;padding:4px 2px">' + rank + '</td>';
+        }
       });
       html += '</tr>';
     });

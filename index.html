@@ -95,6 +95,37 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 .si-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.7rem;font-weight:600;line-height:1.3}
 @media(max-width:900px){.cp-charts{grid-template-columns:1fr 1fr}}
 @media(max-width:550px){.cp-charts{grid-template-columns:1fr}}
+
+/* Listing Communication Tab */
+.lc5-subtabs{display:flex;gap:6px;margin-bottom:16px}
+.lc5-stab{padding:6px 14px;border:1.5px solid #cbd5e1;border-radius:20px;cursor:pointer;font-size:.75rem;font-weight:600;color:#475569;background:#fff;transition:all .15s}
+.lc5-stab.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.lc5-sp{display:none}.lc5-sp.active{display:block}
+.cc{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.07);margin-bottom:12px;overflow:hidden}
+.cc-hdr{padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-left:4px solid #2563eb;transition:background .15s}
+.cc-hdr:hover{background:#f8fafc}
+.cc-body{display:none;padding:0 16px 16px;border-top:1px solid #f1f5f9}
+.cc-body.open{display:block}
+.ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:10px}
+.ig-slot{position:relative;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;overflow:hidden;text-align:center}
+.ig-slot img{width:100%;aspect-ratio:1;object-fit:contain;display:block}
+.ig-badge{position:absolute;top:3px;left:3px;font-size:.58rem;padding:2px 5px;border-radius:3px;font-weight:600;color:#fff;text-transform:uppercase;letter-spacing:.3px}
+.ig-var{font-size:.62rem;color:#94a3b8;padding:2px 0;text-align:center}
+.tm-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.tm-table th,.tm-table td{text-align:center;padding:10px 10px;border-bottom:1px solid #e2e8f0}
+.tm-table th{background:#f8fafc;color:#475569;font-weight:600;font-size:.78rem}
+.tm-table td:first-child,.tm-table th:first-child{text-align:left;font-size:.82rem}
+.tm-chk{font-size:1.6rem;font-weight:700}.tm-miss{color:#c8c8c8;font-size:1.6rem}
+.cl-badge{display:inline-block;font-size:.65rem;font-weight:500;padding:2px 7px;border-radius:10px;margin:2px;white-space:nowrap}
+.ts-tag{display:inline-block;font-size:.68rem;padding:2px 6px;border-radius:4px;margin:2px}
+.bench-card{padding:14px;margin-bottom:10px;background:#fff;border:.5px solid #e2e8f0;border-radius:8px}
+.bench-card h4{font-size:.82rem;font-weight:600;color:#1e293b;margin:0 0 8px}
+.bench-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:.75rem;margin-bottom:8px}
+.bench-lbl{font-size:.62rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.bench-rec{margin-top:8px;padding:6px 10px;background:#eff6ff;border-radius:6px;font-size:.73rem;color:#1e40af}
+.gap-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.68rem;font-weight:600}
+.gap-high{background:#fee2e2;color:#991b1b}.gap-med{background:#fef3c7;color:#92400e}.gap-low{background:#dcfce7;color:#15803d}
+
 </style>
 </head>
 <body>
@@ -111,6 +142,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
   <div class="tab" onclick="show('tb',this)">2 — Market Structure</div>
   <div class="tab" onclick="show('tl',this)">3 — Reviews</div>
   <div class="tab" onclick="show('tv',this)">4 — Reviews VOC</div>
+  <div class="tab" onclick="show('tlc',this)">5 — Listing Communication</div>
 </div>
 
 <div class="content">
@@ -842,6 +874,62 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
   </div>
 </div>
 </div><!-- /tv -->
+
+<!-- ══════════════════════════════════════ TAB 5 — Listing Communication ══════════════ -->
+<div id="tlc" class="panel">
+<h2 id="lc5-title"></h2>
+<div class="insight" id="lc5-insight"></div>
+<div class="lc5-subtabs" id="lc5-subtabs"></div>
+
+<div id="lc5_listing" class="lc5-sp active">
+  <div class="kpis" id="lc5-kpis" style="margin-bottom:18px"></div>
+  <div class="card">
+    <h3 id="lc5-matrix-title"></h3>
+    <p id="lc5-matrix-subtitle" style="font-size:.72rem;color:#64748b;margin-bottom:10px"></p>
+    <table class="tm-table">
+      <thead id="lc5-matrix-thead"></thead>
+      <tbody id="lc5-matrix-tbody"></tbody>
+    </table>
+    <div id="lc5-matrix-legend" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px"></div>
+    <div class="note" id="lc5-matrix-note" style="margin-top:12px"></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;margin-top:22px">
+    <h3 style="margin:0;font-size:.88rem;font-weight:700;color:#1e293b">Competitor Listing Details</h3>
+    <div style="display:flex;gap:6px">
+      <button id="lc5-expand-all" style="font-size:.68rem;padding:4px 10px;cursor:pointer;background:#fff;border:1px solid #cbd5e1;border-radius:5px;color:#475569">Expand all</button>
+      <button id="lc5-collapse-all" style="font-size:.68rem;padding:4px 10px;cursor:pointer;background:#fff;border:1px solid #cbd5e1;border-radius:5px;color:#475569">Collapse all</button>
+    </div>
+  </div>
+  <div id="lc5-competitors"></div>
+</div>
+
+<div id="lc5_bench" class="lc5-sp">
+  <div class="card">
+    <h3 id="lc5-bench-title"></h3>
+    <p id="lc5-bench-subtitle" style="font-size:.72rem;color:#64748b;margin-bottom:14px"></p>
+    <div id="lc5-bench-dimensions"></div>
+  </div>
+  <div class="card">
+    <h3 id="lc5-gaps-title"></h3>
+    <p id="lc5-gaps-subtitle" style="font-size:.72rem;color:#64748b;margin-bottom:10px"></p>
+    <div id="lc5-gaps-rows"></div>
+  </div>
+  <div class="note" id="lc5-bench-note" style="margin-top:18px"></div>
+</div>
+
+<div class="card" id="lc5-gap-analysis" style="margin-top:22px;border-left:4px solid #7c3aed">
+  <h3 id="lc5-ga-title" style="font-size:.92rem;color:#1e293b;margin-bottom:4px"></h3>
+  <p id="lc5-ga-description" style="font-size:.72rem;color:#64748b;margin-bottom:14px"></p>
+  <table class="tm-table" style="font-size:.76rem">
+    <thead id="lc5-ga-thead"></thead>
+    <tbody id="lc5-ga-tbody"></tbody>
+  </table>
+  <div id="lc5-ga-insights" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px"></div>
+  <div class="note" id="lc5-ga-note" style="margin-top:14px"></div>
+</div>
+
+</div><!-- /tlc -->
+
 
 </div><!-- .content -->
 
@@ -3163,6 +3251,599 @@ function vocShowSubTab(id,el){document.querySelectorAll('.voc-sub-tab').forEach(
 function vocScrollTo(e,id,el){e.preventDefault();var t=document.getElementById(id);if(t){var y=t.getBoundingClientRect().top+window.pageYOffset-150;window.scrollTo({top:y,behavior:'smooth'})}document.querySelectorAll('.voc-anchor-nav a').forEach(function(a){a.classList.remove('active')});if(el)el.classList.add('active')}
 function vocToggleNF(row){var d=row.nextElementSibling,o=row.classList.contains('open');document.querySelectorAll('#tv .nf-row.open').forEach(function(r){r.classList.remove('open');r.nextElementSibling.classList.remove('open')});if(!o){row.classList.add('open');d.classList.add('open')}}
 function vocTogglePF(row){var d=row.nextElementSibling,o=row.classList.contains('open');document.querySelectorAll('#tv .pf-row.open').forEach(function(r){r.classList.remove('open');r.nextElementSibling.classList.remove('open')});if(!o){row.classList.add('open');d.classList.add('open')}}
+
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LISTING COMMUNICATION TAB — Data + Rendering
+// ═══════════════════════════════════════════════════════════════════════════
+var LC5_DATA = {
+  title: 'Listing Communication Analysis \u2014 DE Lure Segment',
+  insight: '<strong>Competitive listing audit.</strong> Analysis of 5 lure-segment competitors on Amazon.de. Claim themes extracted from bullet points and titles. Data from Helium 10 X-Ray (March 2026) + manual listing review.',
+
+  subtabs: [
+    { id: 'lc5_listing', label: 'Listing Communication' },
+    { id: 'lc5_bench', label: 'Competitive Benchmark' }
+  ],
+
+  kpis: [
+    { value: '\u20ac14.94', label: 'Avg price', sublabel: 'across 5 listings' },
+    { value: '3.8 \u2605', label: 'Avg rating', sublabel: 'across 5 listings' },
+    { value: '1,247', label: 'Avg reviews', sublabel: 'across 5 listings' },
+    { value: '3/5', label: 'Have A+ Content' },
+    { value: '1/5', label: 'Have listing video' },
+    { value: '7', label: 'Avg image slots', sublabel: 'per listing' }
+  ],
+
+  claimThemes: [
+    { id: 'effectiveness', label: 'Effectiveness', color: '#1D9E75' },
+    { id: 'safety', label: 'Safety / Non-toxic', color: '#378ADD' },
+    { id: 'design', label: 'Design / Aesthetics', color: '#7F77DD' },
+    { id: 'ease', label: 'Ease of use', color: '#D85A30' },
+    { id: 'value', label: 'Value / Longevity', color: '#BA7517' },
+    { id: 'mechanism', label: 'Mechanism / Tech', color: '#D4537E' },
+    { id: 'eco', label: 'Eco / Sustainability', color: '#639922' }
+  ],
+  claimMatrixTitle: 'Claim Theme Coverage',
+  claimMatrixSubtitle: 'Communication themes across competitor bullet points and titles \u2014 DE Lure segment',
+  claimMethodology: '<strong>Legend:</strong> <span style="color:#1D9E75;font-size:.85rem;font-weight:700">\u25cf</span> = theme present in listing &nbsp;|&nbsp; <span style="color:#d4d4d4;font-size:.85rem">\u25cb</span> = theme absent<br><strong>Methodology:</strong> Categories defined from recurring communication themes in bullet points and titles of top 5 lure competitors on Amazon.de.',
+
+  competitors: [
+    {
+      asin: 'B09SLX6GQS',
+      brand: 'Super Ninja',
+      title: 'Super Ninja Fruchtfliegenfalle f\u00fcr Innenbereich \u2013 4er-Pack, Wirksame \u00d6kologische Fruchtfliegenfalle f\u00fcr K\u00fcche und Innenraum \u2013 Obstfliegenfalle',
+      rating: 4.5, ratingStars: '\u2605\u2605\u2605\u2605\u00bd', reviews: 3217,
+      price: '\u20ac14.99', bsr: 142, bsrColor: '#16a34a',
+      hasAplus: true, hasVideo: true,
+      mainKeyword: 'Fruchtfliegenfalle',
+      titleStructure: [
+        { key: 'Brand', value: 'Super Ninja', color: '#7F77DD' },
+        { key: 'Product type', value: 'Fruchtfliegenfalle f\u00fcr Innenbereich', color: '#1D9E75' },
+        { key: 'Key benefit', value: 'Wirksame \u00d6kologische', color: '#378ADD' },
+        { key: 'Use case', value: 'K\u00fcche und Innenraum', color: '#D85A30' },
+        { key: 'Pack size', value: '4er-Pack', color: '#BA7517' }
+      ],
+      heroMessage: 'H\u00f6chst effektive \u00f6kologische Fruchtfliegenfalle \u2014 giftfreier Lockstoff, recycelter Kunststoff, bis zu 3 Wochen pro Falle',
+      keyClaims: [
+        { text: 'H\u00f6chst effektiv \u2014 wirkt sofort', color: '#1D9E75' },
+        { text: 'Giftstofffreier \u00f6kologischer Lockstoff', color: '#378ADD' },
+        { text: 'Recycelter Kunststoff', color: '#639922' },
+        { text: 'Stick & Go \u2014 \u00fcberall anbringbar', color: '#D85A30' },
+        { text: 'Bis zu 3 Wochen pro Falle', color: '#BA7517' },
+        { text: 'Gegen Fruchtfliegen, nicht Trauerm\u00fccken', color: '#D4537E' }
+      ],
+      bulletPoints: [
+        { heading: 'H\u00d6CHST EFFEKTIV \u2713:', body: 'Super Ninja Fruchtfliegenfallen enthalten die attraktivste Fl\u00fcssigkeit f\u00fcr Fruchtfliegen und wirken sofort.' },
+        { heading: 'UMWELTVERANTWORTLICH \u2713:', body: 'Der \u00f6kologische Lockstoff ist v\u00f6llig frei von Giftstoffen und die Flasche ist aus recyceltem Kunststoff hergestellt.' },
+        { heading: 'STICK AND GO \u2713:', body: 'Die Falle kann mit dem r\u00fcckseitigen Klebeband \u00fcberall angebracht werden, nahe der betreffenden Stelle und doch aus dem Blickfeld.' },
+        { heading: 'BIS ZU 3 MONATE \u2713:', body: 'Jede Falle h\u00e4lt bis zu 3 Wochen. Ein 4er-Pack h\u00e4lt also bis zu 3 Monate.' },
+        { heading: 'FRUCHTFLIEGEN \u2713:', body: 'Funktioniert extrem gut gegen Fruchtfliegen, aber nicht gegen Trauerm\u00fccken.' }
+      ],
+      unmetNeeds: [
+        { theme: 'Design / Aesthetics', color: '#7F77DD', text: '6.3% der Kunden sch\u00e4tzen diskretes Design \u2014 listing erw\u00e4hnt es nur indirekt.' },
+        { theme: 'Mechanism / Tech', color: '#D4537E', text: 'Kein Hinweis darauf, wie der Lockstoff funktioniert oder warum er besser ist als Essig.' }
+      ],
+      strongClaims: [
+        { theme: 'Eco / Sustainability', color: '#639922', text: 'Einziger Wettbewerber mit explizitem Nachhaltigkeitsfokus \u2014 recycelter Kunststoff + giftfrei.' },
+        { theme: 'Effectiveness', color: '#1D9E75', text: '"Wirkt sofort" \u2014 starker Claim, aber 37.6% der Kunden sagen "kein Effekt."' }
+      ],
+      images: [
+        { src: 'https://m.media-amazon.com/images/I/51NNw-+urxL.jpg', variant: 'MAIN', isHero: true },
+        { src: 'https://m.media-amazon.com/images/I/519az3zcgWL.jpg', variant: 'PT01' },
+        { src: 'https://m.media-amazon.com/images/I/512DmEdVesL.jpg', variant: 'PT02' },
+        { src: 'https://m.media-amazon.com/images/I/51eNOcLPc7L.jpg', variant: 'PT03' },
+        { src: 'https://m.media-amazon.com/images/I/51YhsA7LY2L.jpg', variant: 'PT04' },
+        { src: 'https://m.media-amazon.com/images/I/51SQu4I6l-L.jpg', variant: 'PT05' },
+        { src: 'https://m.media-amazon.com/images/I/51Dt6QCktDL.jpg', variant: 'PT06' },
+        { src: 'https://m.media-amazon.com/images/I/51DpZUEb9VL.jpg', variant: 'PT07' }
+      ],
+      claims: { effectiveness: true, safety: true, design: false, ease: true, value: true, mechanism: false, eco: true }
+    },
+    {
+      asin: 'B07CHLZQNL',
+      brand: 'Aeroxon',
+      title: 'Aeroxon Fruchtfliegenfalle \u2013 3 St\u00fcck Klebefalle mit nat\u00fcrlicher Lockstoffmischung',
+      rating: 3.9, ratingStars: '\u2605\u2605\u2605\u2605\u2606', reviews: 1842,
+      price: '\u20ac14.78', bsr: 387, bsrColor: '#d97706',
+      hasAplus: true, hasVideo: false,
+      mainKeyword: 'Fruchtfliegenfalle Klebefalle',
+      titleStructure: [
+        { key: 'Brand', value: 'Aeroxon', color: '#7F77DD' },
+        { key: 'Product type', value: 'Fruchtfliegenfalle', color: '#1D9E75' },
+        { key: 'Key benefit', value: 'Klebefalle', color: '#D4537E' },
+        { key: 'Use case', value: 'Fruchtfliegen bek\u00e4mpfen', color: '#D85A30' },
+        { key: 'Pack size', value: '3 St\u00fcck', color: '#BA7517' }
+      ],
+      heroMessage: 'Dekorative Leimfalle mit nat\u00fcrlicher Lockstoffmischung \u2014 bis zu 8 Wochen Wirkung, direkt neben Lebensmitteln einsetzbar',
+      keyClaims: [
+        { text: 'Dekorative Leimfalle mit Fruchtmotiven', color: '#7F77DD' },
+        { text: 'Nat\u00fcrliche Lockstoffmischung (Essig)', color: '#D4537E' },
+        { text: 'Bis zu 8 Wochen Wirkung', color: '#BA7517' },
+        { text: 'Direkt neben Lebensmitteln einsetzbar', color: '#378ADD' },
+        { text: 'F\u00fcr Frucht-, Obst- und Essigfliegen', color: '#1D9E75' }
+      ],
+      bulletPoints: [
+        { heading: 'DEKORATIVE FALLE:', body: 'Leimfalle mit Fruchtmotiven \u2014 f\u00fcgt sich dekorativ in die K\u00fcchenumgebung ein.' },
+        { heading: 'NAT\u00dcRLICHER LOCKSTOFF:', body: 'Spezial-Essigmischung in Lebensmittelqualit\u00e4t lockt Fliegen zuverl\u00e4ssig an.' },
+        { heading: 'LANGZEITEINSATZ:', body: 'Nach \u00d6ffnen der Flasche h\u00e4lt der Lockeffekt bis zu 8 Wochen an.' },
+        { heading: 'SICHERE ANWENDUNG:', body: 'Direkt neben Lebensmitteln einsetzbar.' },
+        { heading: 'DOPPELTE FANGMETHODE:', body: 'Fliegen werden vom Duft angezogen und auf der beleimten Innenseite festgehalten.' }
+      ],
+      unmetNeeds: [
+        { theme: 'Eco / Sustainability', color: '#639922', text: '22.5% der Kunden sch\u00e4tzen umweltfreundliche L\u00f6sungen \u2014 Aeroxon kommuniziert keine Nachhaltigkeit.' },
+        { theme: 'Ease of use', color: '#D85A30', text: 'Aufbau erfordert Schutzpapier abziehen + Dreiecksform falten \u2014 nicht als einfach kommuniziert.' }
+      ],
+      strongClaims: [
+        { theme: 'Design / Aesthetics', color: '#7F77DD', text: 'Einziger Wettbewerber mit explizitem Design-Claim (dekorative Falle mit Fruchtmotiven).' },
+        { theme: 'Value / Longevity', color: '#BA7517', text: '8 Wochen Wirkung \u2014 l\u00e4ngster Longevity-Claim im Segment.' }
+      ],
+      images: [
+        { src: 'https://m.media-amazon.com/images/I/51nQpO3QdEL.jpg', variant: 'MAIN', isHero: true },
+        { src: 'https://m.media-amazon.com/images/I/51y4sFDpBRL.jpg', variant: 'PT01' },
+        { src: 'https://m.media-amazon.com/images/I/51hE4BRRfuL.jpg', variant: 'PT02' },
+        { src: 'https://m.media-amazon.com/images/I/41uH5qD2Z6L.jpg', variant: 'PT03' },
+        { src: 'https://m.media-amazon.com/images/I/51MxNnp5jOL.jpg', variant: 'PT04' },
+        { src: 'https://m.media-amazon.com/images/I/51rFN0WxGxL.jpg', variant: 'PT05' },
+        { src: 'https://m.media-amazon.com/images/I/51c8sY3PCIL.jpg', variant: 'PT06' }
+      ],
+      claims: { effectiveness: true, safety: true, design: true, ease: false, value: true, mechanism: true, eco: false }
+    },
+    {
+      asin: 'B07PHGN91L',
+      brand: 'PIC',
+      title: 'PIC Fruchtfliegenfalle f\u00fcr K\u00fcche \u2013 4 Klebefallen + 2 Lockstoffbeh\u00e4lter',
+      rating: 3.7, ratingStars: '\u2605\u2605\u2605\u00bd\u2606', reviews: 689,
+      price: '\u20ac14.95', bsr: 1240, bsrColor: '#94a3b8',
+      hasAplus: true, hasVideo: false,
+      mainKeyword: 'Fruchtfliegenfalle K\u00fcche',
+      titleStructure: [
+        { key: 'Brand', value: 'PIC', color: '#7F77DD' },
+        { key: 'Product type', value: 'Fruchtfliegenfalle f\u00fcr K\u00fcche', color: '#1D9E75' },
+        { key: 'Key benefit', value: '4 Klebefallen + 2 Lockstoffbeh\u00e4lter', color: '#D4537E' },
+        { key: 'Use case', value: 'Innenbereich', color: '#D85A30' },
+        { key: 'Pack size', value: '4+2 Set', color: '#BA7517' }
+      ],
+      heroMessage: 'Giftfreie Klebefalle mit Obstprint \u2014 bis zu 8 Wochen, doppelte Fallenanzahl f\u00fcr Extra-Schutz',
+      keyClaims: [
+        { text: 'Giftfrei und unbedenklich', color: '#378ADD' },
+        { text: 'Dekorativ mit Obstprint', color: '#7F77DD' },
+        { text: 'Bis zu 8 Wochen Wirkung', color: '#BA7517' },
+        { text: '4 Leimfallen + 2 Lockstoffbeh\u00e4lter', color: '#D4537E' },
+        { text: 'Direkt neben Lebensmitteln', color: '#378ADD' },
+        { text: 'Nat\u00fcrliche Lockstoffmischung', color: '#1D9E75' }
+      ],
+      bulletPoints: [
+        { heading: 'GIFTFREI:', body: 'Giftfreie und f\u00fcr den Menschen unbedenkliche M\u00f6glichkeit, Fruchtfliegen zu bek\u00e4mpfen.' },
+        { heading: 'DEKORATIV:', body: 'Dekoratives Produkt mit Obstprint, direkt neben Lebensmitteln verwendbar.' },
+        { heading: 'DOPPELT WIRKSAM:', body: 'Doppelte Fallenanzahl \u2014 Lockstoffbeh\u00e4lter entfalten volles Potenzial.' },
+        { heading: 'LANGZEITEINSATZ:', body: 'Ein Beh\u00e4lter wirkt bis zu 8 Wochen.' },
+        { heading: 'NAT\u00dcRLICH:', body: 'Nat\u00fcrliche Lockstoffmischung zieht Fruchtfliegen an, Leimfalle h\u00e4lt sie fest.' }
+      ],
+      unmetNeeds: [
+        { theme: 'Eco / Sustainability', color: '#639922', text: 'Keine Erw\u00e4hnung von Nachhaltigkeit oder Recycling.' },
+        { theme: 'Mechanism / Tech', color: '#D4537E', text: 'Keine Erkl\u00e4rung wie der Lockstoff funktioniert.' }
+      ],
+      strongClaims: [
+        { theme: 'Value / Longevity', color: '#BA7517', text: '4 Fallen + 2 Lockstoffbeh\u00e4lter \u2014 bestes Preis-Leistungs-Verh\u00e4ltnis.' },
+        { theme: 'Safety / Non-toxic', color: '#378ADD', text: 'Klare Sicherheitskommunikation \u2014 giftfrei und unbedenklich.' }
+      ],
+      images: [
+        { src: 'https://m.media-amazon.com/images/I/51lgXY6UURL.jpg', variant: 'MAIN', isHero: true },
+        { src: 'https://m.media-amazon.com/images/I/51BqMH5SCCL.jpg', variant: 'PT01' },
+        { src: 'https://m.media-amazon.com/images/I/513LsUkfXHL.jpg', variant: 'PT02' },
+        { src: 'https://m.media-amazon.com/images/I/51vLx+2n3cL.jpg', variant: 'PT03' },
+        { src: 'https://m.media-amazon.com/images/I/51rWqV9HUQL.jpg', variant: 'PT04' },
+        { src: 'https://m.media-amazon.com/images/I/51LoM9T4oCL.jpg', variant: 'PT05' }
+      ],
+      claims: { effectiveness: true, safety: true, design: true, ease: false, value: true, mechanism: false, eco: false }
+    },
+    {
+      asin: 'B097XV7KC7',
+      brand: 'Novokill',
+      title: 'Fruchtfliegenfalle 2X Fallen + 30ml Lockstoff \u2013 Wiederverwendbar \u2013 Laborgetestet',
+      rating: 3.5, ratingStars: '\u2605\u2605\u2605\u00bd\u2606', reviews: 412,
+      price: '\u20ac14.99', bsr: 2100, bsrColor: '#94a3b8',
+      hasAplus: false, hasVideo: false,
+      mainKeyword: 'Fruchtfliegenfalle wiederverwendbar',
+      titleStructure: [
+        { key: 'Brand', value: 'Novokill', color: '#7F77DD' },
+        { key: 'Product type', value: 'Fruchtfliegenfalle', color: '#1D9E75' },
+        { key: 'Key benefit', value: 'Wiederverwendbar, Laborgetestet', color: '#378ADD' },
+        { key: 'Use case', value: 'K\u00fcche und Innenraum', color: '#D85A30' },
+        { key: 'Pack size', value: '2X Fallen + 30ml', color: '#BA7517' }
+      ],
+      heroMessage: 'Wiederverwendbare Fruchtfliegenfalle \u2014 laborgetestet nach EU-Standards, Lockstoff als Refill erh\u00e4ltlich',
+      keyClaims: [
+        { text: 'Wiederverwendbare Falle', color: '#639922' },
+        { text: 'Laborgetestet nach EU-Standards', color: '#D4537E' },
+        { text: 'Unauff\u00e4lliges Design', color: '#7F77DD' },
+        { text: 'Lockstoff als Refill nachkaufbar', color: '#BA7517' },
+        { text: 'Bis zu 50 Tage pro Bef\u00fcllung', color: '#BA7517' }
+      ],
+      bulletPoints: [
+        { heading: 'WIEDERVERWENDBAR:', body: 'Die Fallen k\u00f6nnen immer wieder verwendet werden \u2014 einfach K\u00f6derfl\u00fcssigkeit nachf\u00fcllen.' },
+        { heading: 'LABORGETESTET:', body: 'Nach EU-Standards getestet f\u00fcr zuverl\u00e4ssige Wirksamkeit.' },
+        { heading: 'UNAUFF\u00c4LLIG:', body: 'Design f\u00fcgt sich diskret in die K\u00fcchenumgebung ein.' },
+        { heading: 'REFILL VERF\u00dcGBAR:', body: 'K\u00f6derfl\u00fcssigkeit separat nachkaufbar \u2014 nachhaltig und kosteneffizient.' },
+        { heading: 'EINFACHE ANWENDUNG:', body: '15ml einf\u00fcllen und an Befallsstelle platzieren. Alle 50 Tage austauschen.' }
+      ],
+      unmetNeeds: [
+        { theme: 'Effectiveness', color: '#1D9E75', text: 'Kein konkreter Wirksamkeitsbeleg \u2014 laborgetestet ohne Details.' },
+        { theme: 'Safety / Non-toxic', color: '#378ADD', text: 'Keine Erw\u00e4hnung ob der Lockstoff giftfrei ist.' }
+      ],
+      strongClaims: [
+        { theme: 'Eco / Sustainability', color: '#639922', text: 'Einziger Wettbewerber mit wiederverwendbarem Konzept + Refill-System.' },
+        { theme: 'Value / Longevity', color: '#BA7517', text: '50 Tage pro Bef\u00fcllung + Refill-System senkt Langzeitkosten.' }
+      ],
+      images: [
+        { src: 'https://m.media-amazon.com/images/I/41nMq3gGQHL.jpg', variant: 'MAIN', isHero: true },
+        { src: 'https://m.media-amazon.com/images/I/41A8j2DhGfL.jpg', variant: 'PT01' },
+        { src: 'https://m.media-amazon.com/images/I/41W2s6DTSSL.jpg', variant: 'PT02' },
+        { src: 'https://m.media-amazon.com/images/I/41QCiXvyTHL.jpg', variant: 'PT03' },
+        { src: 'https://m.media-amazon.com/images/I/41uVm7rBnEL.jpg', variant: 'PT04' },
+        { src: 'https://m.media-amazon.com/images/I/41jHdqe7MZL.jpg', variant: 'PT05' }
+      ],
+      claims: { effectiveness: false, safety: false, design: true, ease: true, value: true, mechanism: true, eco: true }
+    },
+    {
+      asin: 'B0D2HYTLT2',
+      brand: 'ARDAP',
+      title: 'ARDAP Fruchtfliegenfalle \u2013 Obstfliegenfalle zur Reduktion von Fruchtfliegen \u2013 Langzeitwirkung bis zu 6 Wochen',
+      rating: 3.4, ratingStars: '\u2605\u2605\u2605\u00bd\u2606', reviews: 76,
+      price: '\u20ac5.99', bsr: 5800, bsrColor: '#94a3b8',
+      hasAplus: false, hasVideo: false,
+      mainKeyword: 'Fruchtfliegenfalle Obstfliegenfalle',
+      titleStructure: [
+        { key: 'Brand', value: 'ARDAP', color: '#7F77DD' },
+        { key: 'Product type', value: 'Fruchtfliegenfalle \u2013 Obstfliegenfalle', color: '#1D9E75' },
+        { key: 'Key benefit', value: 'Langzeitwirkung bis zu 6 Wochen', color: '#BA7517' },
+        { key: 'Use case', value: 'Reduktion von Fruchtfliegen', color: '#D85A30' }
+      ],
+      heroMessage: 'Insektizidfreie Fruchtfliegenfalle mit dekorativem Design \u2014 6 Wochen Langzeitwirkung, f\u00fcr alle R\u00e4ume geeignet',
+      keyClaims: [
+        { text: 'Insektizidfreier Lockstoff', color: '#378ADD' },
+        { text: 'Dekoratives Design', color: '#7F77DD' },
+        { text: 'Langzeitwirkung bis zu 6 Wochen', color: '#BA7517' },
+        { text: 'F\u00fcr alle R\u00e4ume geeignet', color: '#D85A30' },
+        { text: 'Einfache Anwendung', color: '#D85A30' }
+      ],
+      bulletPoints: [
+        { heading: 'EFFEKTIV:', body: 'Hilft effektiv und schnell gegen Obst-, Frucht- und Essigfliegen in Innenbereichen.' },
+        { heading: 'LANGZEITWIRKUNG:', body: 'Nach dem \u00d6ffnen h\u00e4lt die Lockwirkung bis zu 6 Wochen an.' },
+        { heading: 'VIELSEITIG:', body: 'In beliebigen R\u00e4umen, auch neben Lebensmitteln, einsetzbar.' },
+        { heading: 'DEKORATIV:', body: 'Dekoratives Design f\u00fcgt sich ideal in das Umfeld ein.' },
+        { heading: 'EINFACH:', body: 'Schraubdeckel und Schutzfolie entfernen, Trichterkappe aufschrauben, fertig.' }
+      ],
+      unmetNeeds: [
+        { theme: 'Eco / Sustainability', color: '#639922', text: 'Keine Erw\u00e4hnung von Nachhaltigkeit \u2014 ARDAP als Chemie-Marke braucht Vertrauensaufbau.' },
+        { theme: 'Mechanism / Tech', color: '#D4537E', text: 'Keine Erkl\u00e4rung wie der Lockstoff funktioniert.' }
+      ],
+      strongClaims: [
+        { theme: 'Value / Longevity', color: '#BA7517', text: '6 Wochen bei nur \u20ac5.99 \u2014 g\u00fcnstigstes Produkt im Segment.' },
+        { theme: 'Design / Aesthetics', color: '#7F77DD', text: 'Dekoratives Design kommuniziert \u2014 positioniert sich als K\u00fcchenl\u00f6sung.' }
+      ],
+      images: [
+        { src: 'https://m.media-amazon.com/images/I/41V8Xv9RHFL.jpg', variant: 'MAIN', isHero: true },
+        { src: 'https://m.media-amazon.com/images/I/41W3dTnRf3L.jpg', variant: 'PT01' },
+        { src: 'https://m.media-amazon.com/images/I/41GvHKZO+ML.jpg', variant: 'PT02' },
+        { src: 'https://m.media-amazon.com/images/I/41Tx6C1x0SL.jpg', variant: 'PT03' },
+        { src: 'https://m.media-amazon.com/images/I/41ZE7xI+r2L.jpg', variant: 'PT04' },
+        { src: 'https://m.media-amazon.com/images/I/41P3Wqm4BfL.jpg', variant: 'PT05' }
+      ],
+      claims: { effectiveness: true, safety: true, design: true, ease: true, value: true, mechanism: false, eco: false }
+    }
+  ],
+
+  benchmark: {
+    title: 'How Do These Listings Compare?',
+    subtitle: 'Analysis across 6 critical listing dimensions \u2014 DE market',
+    dimensions: [
+      { label: 'Title structure', leaderPattern: 'Super Ninja: Brand + Product + Eco + Use Case + Pack. Aeroxon: Brand + Product + Mechanism + Count.', recommendation: 'Include pack size + duration in title. Add use-case keywords (K\u00fcche, Innenbereich).' },
+      { label: 'Main keyword focus', leaderPattern: 'Super Ninja: Fruchtfliegenfalle; Aeroxon: Fruchtfliegenfalle Klebefalle; PIC: Fruchtfliegenfalle K\u00fcche', recommendation: 'Target "Fruchtfliegenfalle" as primary + "Obstfliegenfalle K\u00fcche" as secondary.' },
+      { label: 'Key claims', leaderPattern: 'Super Ninja differentiates on eco. Aeroxon/PIC on longevity (8 weeks). Novokill on reusability. ARDAP on price.', recommendation: 'Need unique proof point. Quantifiable claims outperform vague messaging.' },
+      { label: 'Hero message', leaderPattern: 'Super Ninja = eco + instant. Aeroxon = decorative + 8 weeks. Novokill = reusable. Each has one clear differentiator.', recommendation: 'Pick ONE hero differentiator. Avoid generic messaging.' },
+      { label: 'Image strategy', leaderPattern: 'Super Ninja uses 8 slots (best). Others 6-7 slots. Only Super Ninja has lifestyle shots.', recommendation: 'Fill all 8+ slots. Must-haves: lifestyle, infographic, comparison vs. DIY.' },
+      { label: 'Content assets', leaderPattern: '3/5 have A+ Content. Only Super Ninja has video. Novokill and ARDAP have neither.', recommendation: 'A+ is table stakes. Video boosts conversion \u2014 prioritize a 30-60s demo.' }
+    ],
+    gaps: {
+      title: 'Key Gaps & Opportunities',
+      subtitle: 'Identified weaknesses across DE competitor listings',
+      rows: [
+        { area: 'Mechanism', detail: 'Only 2/5 explain how attractant works \u2014 15.8% of customers compare with DIY vinegar', affected: 'Super Ninja, PIC, ARDAP', severity: 'high' },
+        { area: 'Eco/sustainability', detail: 'Only Super Ninja and Novokill mention sustainability \u2014 22.5% of customers value eco', affected: 'Aeroxon, PIC, ARDAP', severity: 'high' },
+        { area: 'Speed claims', detail: 'Only Super Ninja claims instant effect. Others say nothing about time-to-result', affected: 'Aeroxon, PIC, Novokill, ARDAP', severity: 'medium' },
+        { area: 'Video', detail: 'Only Super Ninja has listing video \u2014 video boosts conversion significantly', affected: 'Aeroxon, PIC, Novokill, ARDAP', severity: 'medium' },
+        { area: 'A+ Content', detail: 'Novokill and ARDAP have no A+ Content', affected: 'Novokill, ARDAP', severity: 'medium' },
+        { area: 'Price justification', detail: 'ARDAP at \u20ac5.99 has no value argumentation vs. \u20ac14.99 competitors', affected: 'ARDAP', severity: 'low' }
+      ]
+    },
+    note: '<strong>Data sources:</strong> Helium 10 X-Ray (BSR, revenue, reviews) \u00b7 Amazon.de product pages (March 2026) \u00b7 Manual analysis.'
+  },
+
+  gapAnalysis: {
+    title: 'Voice of Customer vs. Listing Communication \u2014 Gap Analysis (DE)',
+    description: 'Customer themes from 1,051 reviews mapped to listing communication themes. Red = gap. Green = well covered.',
+    columns: ['Customer Theme', 'Maps to', '% Reviews', 'Coverage', 'Status', 'Insight'],
+    rows: [
+      { theme: 'No effect / zero catch', mapsTo: 'Effectiveness', mapsToColor: '#1D9E75', reviewPct: '37.6%', listingCoverage: '4/5', coverageColor: '#1D9E75', status: 'mismatch', assessment: 'All communicate effectiveness, but 37.6% say no effect. Need credible proof.', highlight: true },
+      { theme: 'DIY / vinegar better', mapsTo: 'Mechanism / Tech', mapsToColor: '#D4537E', reviewPct: '15.8%', listingCoverage: '2/5', coverageColor: '#dc2626', status: 'gap', assessment: '15.8% think DIY works better. Only 2/5 explain mechanism. <strong>Opportunity:</strong> explain why pro > vinegar.', highlight: true },
+      { theme: 'Weak attractant', mapsTo: 'Mechanism / Tech', mapsToColor: '#D4537E', reviewPct: '14.3%', listingCoverage: '2/5', coverageColor: '#dc2626', status: 'gap', assessment: 'Customers question lure strength. <strong>Opportunity:</strong> ingredient education.', highlight: false },
+      { theme: 'Overpriced', mapsTo: 'Value / Longevity', mapsToColor: '#BA7517', reviewPct: '13.8%', listingCoverage: '5/5', coverageColor: '#BA7517', status: 'mismatch', assessment: 'Value communicated but not felt. Cost/day calculation could help.', highlight: false },
+      { theme: 'Eco-friendly / natural', mapsTo: 'Safety / Non-toxic', mapsToColor: '#378ADD', reviewPct: '22.5%', listingCoverage: '3/5', coverageColor: '#378ADD', status: 'gap', assessment: '22.5% value eco. Only 3/5 communicate it. <strong>Strong opportunity.</strong>', highlight: false },
+      { theme: 'Highly effective', mapsTo: 'Effectiveness', mapsToColor: '#1D9E75', reviewPct: '53.1%', listingCoverage: '4/5', coverageColor: '#1D9E75', status: 'ok', assessment: 'Main positive. Well covered. Strengthen with social proof.', highlight: false, separator: true },
+      { theme: 'Fast results', mapsTo: 'Effectiveness', mapsToColor: '#1D9E75', reviewPct: '16.8%', listingCoverage: '1/5', coverageColor: '#dc2626', status: 'gap', assessment: 'Only Super Ninja claims speed. Concretize: "Ergebnisse in 24h."', highlight: false },
+      { theme: 'Easy to use', mapsTo: 'Ease of use', mapsToColor: '#D85A30', reviewPct: '14.0%', listingCoverage: '3/5', coverageColor: '#D85A30', status: 'ok', assessment: 'Moderately covered. Confirmed by customers.', highlight: false },
+      { theme: 'Discreet design', mapsTo: 'Design', mapsToColor: '#7F77DD', reviewPct: '6.3%', listingCoverage: '4/5', coverageColor: '#7F77DD', status: 'ok', assessment: 'Well covered. Strengthen with lifestyle images.', highlight: false },
+      { theme: 'Safe for kids/pets', mapsTo: 'Safety / Non-toxic', mapsToColor: '#378ADD', reviewPct: '10.2%', listingCoverage: '3/5', coverageColor: '#378ADD', status: 'ok', assessment: 'Moderately covered. Safety is a purchase trigger.', highlight: false }
+    ],
+    insights: {
+      gaps: { title: '\ud83d\udd34 Key Gaps', bg: '#fee2e2', titleColor: '#991b1b', textColor: '#991b1b', text: '<strong>Mechanism / Tech</strong> \u2014 30.1% of reviews, only 2/5 address it.<br><strong>Fast Results</strong> \u2014 16.8% value speed, only 1/5 claims timeframe.' },
+      mismatches: { title: '\ud83d\udfe0 Mismatches', bg: '#fef9c3', titleColor: '#854d0e', textColor: '#854d0e', text: '<strong>Effectiveness</strong> \u2014 all promise, 37.6% disagree.<br><strong>Value</strong> \u2014 communicated but 13.8% complain.' },
+      wellCovered: { title: '\ud83d\udfe2 Well Covered', bg: '#dcfce7', titleColor: '#166534', textColor: '#166534', text: '<strong>Ease of use</strong> and <strong>Design</strong> \u2014 confirmed by customers.<br><strong>Safety</strong> \u2014 valued, can strengthen.' }
+    },
+    methodology: '<strong>Methodology:</strong> 1,051 reviews from Tab 4 mapped to 7 communication categories. Coverage = listings addressing topic. <strong>GAP</strong> = high review % + low coverage. <strong>MISMATCH</strong> = communicated but disputed. <strong>OK</strong> = confirmed.'
+  }
+};
+
+(function lc5Init() {
+  var D = LC5_DATA;
+
+  // ---- Title & Insight ----
+  document.getElementById('lc5-title').textContent = D.title;
+  document.getElementById('lc5-insight').innerHTML = D.insight;
+
+  // ---- Sub-tabs ----
+  var subtabsEl = document.getElementById('lc5-subtabs');
+  subtabsEl.innerHTML = D.subtabs.map(function(st, i) {
+    return '<div class="lc5-stab' + (i === 0 ? ' active' : '') + '" data-lc5-target="' + st.id + '">' + st.label + '</div>';
+  }).join('');
+
+  subtabsEl.addEventListener('click', function(e) {
+    var target = e.target.getAttribute('data-lc5-target');
+    if (!target) return;
+    document.querySelectorAll('.lc5-sp').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.lc5-stab').forEach(function(t) { t.classList.remove('active'); });
+    document.getElementById(target).classList.add('active');
+    e.target.classList.add('active');
+  });
+
+  // ---- KPIs ----
+  document.getElementById('lc5-kpis').innerHTML = D.kpis.map(function(k) {
+    var sub = k.sublabel ? '<br>' + k.sublabel : '';
+    return '<div class="kpi"><div class="kpi-v">' + k.value + '</div><div class="kpi-l">' + k.label + sub + '</div></div>';
+  }).join('');
+
+  // ---- Claim Theme Matrix ----
+  document.getElementById('lc5-matrix-title').textContent = D.claimMatrixTitle;
+  document.getElementById('lc5-matrix-subtitle').textContent = D.claimMatrixSubtitle;
+
+  // Build matrix column headers from competitors
+  var matrixHeaderLabels = D.competitors.map(function(c) {
+    return '<th>' + c.brand + '<br><span style="font-weight:400;font-size:.62rem;color:#94a3b8">' + c.title.substring(0, 50) + '</span></th>';
+  });
+  document.getElementById('lc5-matrix-thead').innerHTML = '<tr><th>Theme</th>' + matrixHeaderLabels.join('') + '</tr>';
+
+  // Build matrix rows from claimThemes
+  document.getElementById('lc5-matrix-tbody').innerHTML = D.claimThemes.map(function(theme) {
+    var cells = D.competitors.map(function(c) {
+      var has = c.claims[theme.id];
+      if (has) {
+        return '<td><span class="tm-chk" style="color:' + theme.color + '">\u25cf</span></td>';
+      } else {
+        return '<td><span class="tm-miss">\u25cb</span></td>';
+      }
+    }).join('');
+    return '<tr><td style="color:' + theme.color + ';font-weight:500">' + theme.label + '</td>' + cells + '</tr>';
+  }).join('');
+
+  // Matrix legend
+  document.getElementById('lc5-matrix-legend').innerHTML = D.claimThemes.map(function(t) {
+    return '<span style="font-size:.72rem;display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:' + t.color + ';display:inline-block"></span><span style="color:#64748b">' + t.label + '</span></span>';
+  }).join('');
+
+  // Matrix methodology note
+  document.getElementById('lc5-matrix-note').innerHTML = D.claimMethodology;
+
+  // ---- Competitor Cards ----
+  function toggleComp(asin) {
+    var body = document.getElementById('lc5_comp_body_' + asin);
+    body.classList.toggle('open');
+    var arrow = document.getElementById('lc5_comp_arrow_' + asin);
+    arrow.textContent = body.classList.contains('open') ? '\u25b2' : '\u25bc';
+  }
+
+  // Expand/Collapse all buttons
+  document.getElementById('lc5-expand-all').addEventListener('click', function() {
+    document.querySelectorAll('.cc-body').forEach(function(b) { b.classList.add('open'); });
+    document.querySelectorAll('[id^=lc5_comp_arrow_]').forEach(function(a) { a.textContent = '\u25b2'; });
+  });
+  document.getElementById('lc5-collapse-all').addEventListener('click', function() {
+    document.querySelectorAll('.cc-body').forEach(function(b) { b.classList.remove('open'); });
+    document.querySelectorAll('[id^=lc5_comp_arrow_]').forEach(function(a) { a.textContent = '\u25bc'; });
+  });
+
+  function buildCompetitorCard(c) {
+    var html = '';
+
+    // Header
+    html += '<div class="cc"><div class="cc-hdr" onclick="document.getElementById(\'lc5_comp_body_' + c.asin + '\').classList.toggle(\'open\');var a=document.getElementById(\'lc5_comp_arrow_' + c.asin + '\');a.textContent=document.getElementById(\'lc5_comp_body_' + c.asin + '\').classList.contains(\'open\')?\'\u25b2\':\'\u25bc\'" style="border-left-color:' + c.bsrColor + '">';
+    html += '<div style="flex:1;min-width:0">';
+    html += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">';
+    html += '<span style="font-weight:600;font-size:.88rem;color:#0f2942">' + c.brand + '</span>';
+    html += ' <span style="background:' + c.bsrColor + ';color:#fff;font-size:.65rem;padding:2px 8px;border-radius:10px;font-weight:600">BSR #' + c.bsr.toLocaleString() + '</span>';
+    if (c.hasAplus) html += ' <span style="border:1px solid #7F77DD;color:#7F77DD;font-size:.65rem;padding:1px 6px;border-radius:10px;font-weight:500">A+</span>';
+    if (c.hasVideo) html += ' <span style="border:1px solid #D4537E;color:#D4537E;font-size:.65rem;padding:1px 6px;border-radius:10px;font-weight:500">Video</span>';
+    html += '</div>';
+    html += '<p style="font-size:.73rem;color:#64748b;margin:2px 0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + c.title + '</p>';
+    html += '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">';
+    html += '<span style="color:#d97706;letter-spacing:1px">' + c.ratingStars + ' <span style="color:#64748b;font-size:.75rem">' + c.rating + '</span></span>';
+    html += '<span style="font-size:.73rem;color:#64748b">' + c.reviews.toLocaleString() + ' reviews</span>';
+    html += '<span style="font-size:.88rem;font-weight:600;color:#0f2942">' + c.price + '</span>';
+    html += '<span style="font-size:.68rem;color:#94a3b8">keyword: "' + c.mainKeyword + '"</span>';
+    html += '</div></div>';
+    html += '<span id="lc5_comp_arrow_' + c.asin + '" style="font-size:.85rem;color:#94a3b8;margin-left:8px;flex-shrink:0">\u25bc</span>';
+    html += '</div>';
+
+    // Body
+    html += '<div id="lc5_comp_body_' + c.asin + '" class="cc-body">';
+
+    // Title structure
+    html += '<div style="margin-top:14px;margin-bottom:14px">';
+    html += '<p style="font-size:.68rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Title structure</p>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:4px">';
+    html += c.titleStructure.map(function(ts) {
+      return '<span class="ts-tag" style="border:1px solid ' + ts.color + '33;background:' + ts.color + '11"><span style="color:' + ts.color + ';font-weight:500;font-size:.6rem">' + ts.key + ':</span> ' + ts.value + '</span>';
+    }).join(' ');
+    html += '</div></div>';
+
+    // Hero message
+    html += '<div style="margin-bottom:14px">';
+    html += '<p style="font-size:.68rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Hero message</p>';
+    html += '<p style="font-size:.82rem;font-style:italic;color:#1e293b;margin:0;padding:8px 12px;background:#f8fafc;border-radius:6px;line-height:1.4">\u201c' + c.heroMessage + '\u201d</p>';
+    html += '</div>';
+
+    // Key claims
+    html += '<div style="margin-bottom:14px">';
+    html += '<p style="font-size:.68rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Key claims</p>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:2px">';
+    html += c.keyClaims.map(function(cl) {
+      return '<span class="cl-badge" style="border:1px solid ' + cl.color + ';color:' + cl.color + '">' + cl.text + '</span>';
+    }).join(' ');
+    html += '</div></div>';
+
+    // Bullet points
+    html += '<div style="margin-bottom:14px">';
+    html += '<p style="font-size:.68rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Bullet points</p>';
+    html += c.bulletPoints.map(function(bp) {
+      return '<p style="font-size:.73rem;margin:3px 0;line-height:1.4;color:#1e293b"><strong style="color:#0f2942">' + bp.heading + '</strong> ' + bp.body + '</p>';
+    }).join('');
+    html += '</div>';
+
+    // Unmet needs
+    html += '<div style="margin-bottom:14px;margin-top:14px">';
+    html += '<p style="font-size:.68rem;font-weight:600;color:#dc2626;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">\u26a0 Unmet Customer Needs \u2014 tematy nieobecne w listingu</p>';
+    html += c.unmetNeeds.map(function(un) {
+      return '<div style="display:flex;gap:8px;align-items:flex-start;padding:6px 10px;background:#fef2f2;border-radius:6px;margin-bottom:4px;border-left:3px solid ' + un.color + '">' +
+        '<span style="font-size:.72rem;font-weight:700;color:' + un.color + ';white-space:nowrap;min-width:130px">' + un.theme + '</span>' +
+        '<span style="font-size:.72rem;color:#64748b;line-height:1.4">' + un.text + '</span></div>';
+    }).join('');
+
+    // Strong claims
+    html += '<p style="font-size:.68rem;font-weight:600;color:#16a34a;text-transform:uppercase;letter-spacing:.5px;margin-top:10px;margin-bottom:6px">\u2713 Dobrze komunikowane \u2014 potwierdzone przez klient\u00f3w</p>';
+    html += c.strongClaims.map(function(sc) {
+      return '<div style="display:flex;gap:8px;align-items:flex-start;padding:6px 10px;background:#f0fdf4;border-radius:6px;margin-bottom:4px;border-left:3px solid ' + sc.color + '">' +
+        '<span style="font-size:.72rem;font-weight:700;color:' + sc.color + ';white-space:nowrap;min-width:130px">' + sc.theme + '</span>' +
+        '<span style="font-size:.72rem;color:#64748b;line-height:1.4">' + sc.text + '</span></div>';
+    }).join('');
+    html += '</div>';
+
+    // Image gallery
+    html += '<div>';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">';
+    html += '<p style="font-size:.68rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin:0">Image gallery (' + c.images.length + ' slots)</p>';
+    html += '<span style="font-size:.62rem;color:#cbd5e1">Source: Amazon SP-API Catalog Items</span>';
+    html += '</div>';
+    html += '<div class="ig">';
+    html += c.images.map(function(img) {
+      var badge = img.isHero ? '<span class="ig-badge" style="background:#378ADD">Hero</span>' : '';
+      return '<div class="ig-slot">' + badge + '<img src="' + img.src + '" alt="' + img.variant + '" loading="lazy"><div class="ig-var">' + img.variant + '</div></div>';
+    }).join('');
+    html += '</div></div>';
+
+    html += '</div></div>'; // close cc-body, cc
+
+    return html;
+  }
+
+  document.getElementById('lc5-competitors').innerHTML = D.competitors.map(function(c) {
+    return buildCompetitorCard(c);
+  }).join('');
+
+  // ---- Competitive Benchmark (sub-tab 2) ----
+  document.getElementById('lc5-bench-title').textContent = D.benchmark.title;
+  document.getElementById('lc5-bench-subtitle').textContent = D.benchmark.subtitle;
+
+  document.getElementById('lc5-bench-dimensions').innerHTML = D.benchmark.dimensions.map(function(dim) {
+    return '<div class="bench-card"><h4>' + dim.label + '</h4>' +
+      '<div class="bench-row">' +
+      '<div><div class="bench-lbl">Leader pattern</div><div style="color:#475569;line-height:1.5">' + dim.leaderPattern + '</div></div>' +
+      '<div><div class="bench-lbl">Recommendation</div><div class="bench-rec">' + dim.recommendation + '</div></div>' +
+      '</div></div>';
+  }).join('');
+
+  // Gaps & Opportunities
+  document.getElementById('lc5-gaps-title').textContent = D.benchmark.gaps.title;
+  document.getElementById('lc5-gaps-subtitle').textContent = D.benchmark.gaps.subtitle;
+
+  document.getElementById('lc5-gaps-rows').innerHTML = D.benchmark.gaps.rows.map(function(row) {
+    var sevClass = 'gap-' + (row.severity === 'high' ? 'high' : row.severity === 'medium' ? 'med' : 'low');
+    return '<div style="display:grid;grid-template-columns:100px 1fr 140px 70px;gap:8px;padding:8px 0;border-bottom:.5px solid #f1f5f9;align-items:center;font-size:.75rem">' +
+      '<span style="font-weight:600;color:#475569">' + row.area + '</span>' +
+      '<span style="color:#1e293b">' + row.detail + '</span>' +
+      '<span style="color:#94a3b8;font-size:.68rem">' + row.affected + '</span>' +
+      '<span class="gap-badge ' + sevClass + '">' + row.severity + '</span></div>';
+  }).join('');
+
+  document.getElementById('lc5-bench-note').innerHTML = D.benchmark.note;
+
+  // ---- Gap Analysis ----
+  var GA = D.gapAnalysis;
+  document.getElementById('lc5-ga-title').textContent = GA.title;
+  document.getElementById('lc5-ga-description').textContent = GA.description;
+
+  // Gap analysis table header
+  document.getElementById('lc5-ga-thead').innerHTML = '<tr>' +
+    '<th style="text-align:left;width:160px">' + GA.columns[0] + '</th>' +
+    '<th style="text-align:left;width:110px">' + GA.columns[1] + '</th>' +
+    '<th style="text-align:right;width:80px">' + GA.columns[2] + '</th>' +
+    '<th style="text-align:center;width:80px">' + GA.columns[3] + '</th>' +
+    '<th style="text-align:center;width:60px">' + GA.columns[4] + '</th>' +
+    '<th style="text-align:left">' + GA.columns[5] + '</th></tr>';
+
+  // Gap analysis table body
+  var statusMap = {
+    gap: { bg: '#fee2e2', color: '#991b1b', label: 'GAP' },
+    mismatch: { bg: '#fef9c3', color: '#854d0e', label: 'MISMATCH' },
+    ok: { bg: '#dcfce7', color: '#166534', label: 'OK' }
+  };
+
+  document.getElementById('lc5-ga-tbody').innerHTML = GA.rows.map(function(row) {
+    var st = statusMap[row.status];
+    var themeColor = row.status === 'gap' ? '#dc2626' : (row.highlight ? '#dc2626' : (row.status === 'ok' && row.reviewPct && parseFloat(row.reviewPct) > 20 ? '#16a34a' : '#ea580c'));
+    // Determine row text color based on positive/negative
+    var isPositive = (row.status === 'ok' && !row.highlight && row.separator !== true && parseFloat(row.reviewPct) > 10);
+    if (row.separator) themeColor = '#16a34a';
+    if (row.theme.indexOf('Highly effective') === 0 || row.theme.indexOf('Fast results') === 0 || row.theme.indexOf('Easy to use') === 0 || row.theme.indexOf('Eco-friendly') === 0 || row.theme.indexOf('Elegant') === 0) themeColor = '#16a34a';
+    if (row.theme.indexOf('Overpriced') === 0 || row.theme.indexOf('Weak attractant') === 0 || row.theme.indexOf('Attracts wrong') === 0) themeColor = '#ea580c';
+
+    var rowBg = row.highlight ? 'background:#fef2f2' : '';
+    var sep = row.separator ? 'border-top:2px solid #e2e8f0' : '';
+    var style = [rowBg, sep].filter(Boolean).join(';');
+
+    return '<tr' + (style ? ' style="' + style + '"' : '') + '>' +
+      '<td style="font-weight:600;color:' + themeColor + ';text-align:left">' + row.theme + '</td>' +
+      '<td style="text-align:left;color:' + row.mapsToColor + '">' + row.mapsTo + '</td>' +
+      '<td style="text-align:right;font-weight:700">' + row.reviewPct + '</td>' +
+      '<td style="text-align:center"><span style="color:' + row.coverageColor + ';font-weight:700">' + row.listingCoverage + '</span></td>' +
+      '<td style="text-align:center"><span style="background:' + st.bg + ';color:' + st.color + ';padding:2px 8px;border-radius:10px;font-size:.68rem;font-weight:600">' + st.label + '</span></td>' +
+      '<td style="text-align:left;font-size:.72rem;color:#475569">' + row.assessment + '</td></tr>';
+  }).join('');
+
+  // Gap analysis insight boxes
+  var insightKeys = ['gaps', 'mismatches', 'wellCovered'];
+  document.getElementById('lc5-ga-insights').innerHTML = insightKeys.map(function(key) {
+    var ins = GA.insights[key];
+    return '<div style="background:' + ins.bg + ';border-radius:8px;padding:12px 14px">' +
+      '<div style="font-size:.72rem;font-weight:700;color:' + ins.titleColor + ';text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">' + ins.title + '</div>' +
+      '<p style="font-size:.75rem;color:' + ins.textColor + ';margin:0;line-height:1.5">' + ins.text + '</p></div>';
+  }).join('');
+
+  // Gap analysis methodology note
+  document.getElementById('lc5-ga-note').innerHTML = GA.methodology;
+
+})();
+
 
 </script>
 </body>

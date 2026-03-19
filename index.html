@@ -129,20 +129,14 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 
 /* KW Analysis Tab */
 .kw-table{width:100%;border-collapse:collapse;font-size:.72rem}
-.kw-table th{position:sticky;top:0;background:#0f2942;color:#fff;padding:8px 6px;text-align:center;font-size:.62rem;font-weight:600;white-space:nowrap;z-index:2}
-.kw-table td{padding:5px 6px;border-bottom:1px solid #f1f5f9;text-align:center;font-size:.72rem}
-.kw-table tr:hover td{background:#f8fafc}
-.kw-sort{cursor:pointer;user-select:none}
-.kw-sort:hover{color:#93c5fd}
-.kw-table{width:100%;border-collapse:collapse;font-size:.72rem}
 .kw-table thead th{position:sticky;top:0;background:#0f2942;color:#fff;padding:8px 6px;font-size:.68rem;font-weight:600;cursor:pointer;white-space:nowrap;user-select:none}
 .kw-table thead th:hover{background:#1e3a5f}
 .kw-table thead th .sort-arrow{font-size:.6rem;margin-left:3px;opacity:.5}
 .kw-table thead th.sorted .sort-arrow{opacity:1}
-.kw-table tbody td{padding:5px 6px;border-bottom:1px solid #f1f5f9}
+.kw-table tbody td{padding:4px 3px;border-bottom:1px solid #f1f5f9}
 .kw-table tbody tr:hover td{background:#f8fafc!important}
-.kw-sv{font-weight:600;text-align:right;color:#1e293b}
-.kw-term{color:#334155;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kw-sv{font-weight:600;text-align:right;color:#1e293b;white-space:nowrap}
+.kw-term{color:#334155;white-space:nowrap;position:sticky;left:0;background:#fff;z-index:1;text-align:left;padding:6px 10px;font-weight:500;border-right:2px solid #e2e8f0}
 .kw-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:.68rem;color:#64748b}
 .kw-legend span{display:inline-flex;align-items:center;gap:4px}
 .kw-legend i{display:inline-block;width:16px;height:12px;border-radius:2px}
@@ -3408,7 +3402,7 @@ var LC5_DATA = {
         { theme: 'Value / Longevity', color: '#BA7517', text: '8 tygodni dzia\u0142ania \u2014 najd\u0142u\u017cszy longevity-claim w segmencie.' }
       ],
       images: [
-        { src: 'https://m.media-amazon.com/images/I/51nQpO3QdEL.jpg', variant: 'MAIN', isHero: true },
+        { src: 'https://m.media-amazon.com/images/P/B07CHLZQNL.01._SCLZZZZZZZ_SX200_.jpg', variant: 'MAIN', isHero: true },
         { src: 'https://m.media-amazon.com/images/I/51y4sFDpBRL.jpg', variant: 'PT01' },
         { src: 'https://m.media-amazon.com/images/I/51hE4BRRfuL.jpg', variant: 'PT02' },
         { src: 'https://m.media-amazon.com/images/I/41uH5qD2Z6L.jpg', variant: 'PT03' },
@@ -3458,7 +3452,7 @@ var LC5_DATA = {
         { theme: 'Safety / Non-toxic', color: '#378ADD', text: 'Jasna komunikacja bezpiecze\u0144stwa \u2014 \u201egiftfrei und unbedenklich.\u201d' }
       ],
       images: [
-        { src: 'https://m.media-amazon.com/images/I/51lgXY6UURL.jpg', variant: 'MAIN', isHero: true },
+        { src: 'https://m.media-amazon.com/images/P/B07PHGN91L.01._SCLZZZZZZZ_SX200_.jpg', variant: 'MAIN', isHero: true },
         { src: 'https://m.media-amazon.com/images/I/51BqMH5SCCL.jpg', variant: 'PT01' },
         { src: 'https://m.media-amazon.com/images/I/513LsUkfXHL.jpg', variant: 'PT02' },
         { src: 'https://m.media-amazon.com/images/I/51vLx+2n3cL.jpg', variant: 'PT03' },
@@ -3506,12 +3500,12 @@ var LC5_DATA = {
         { theme: 'Value / Longevity', color: '#BA7517', text: '50 dni na jedno nape\u0142nienie + system refill obni\u017ca koszty d\u0142ugoterminowe.' }
       ],
       images: [
-        { src: 'https://m.media-amazon.com/images/I/41jHdqe7MZL.jpg', variant: 'MAIN', isHero: true },
+        { src: 'https://m.media-amazon.com/images/P/B097XV7KC7.01._SCLZZZZZZZ_SX200_.jpg', variant: 'MAIN', isHero: true },
         { src: 'https://m.media-amazon.com/images/I/41A8j2DhGfL.jpg', variant: 'PT01' },
         { src: 'https://m.media-amazon.com/images/I/41W2s6DTSSL.jpg', variant: 'PT02' },
         { src: 'https://m.media-amazon.com/images/I/41QCiXvyTHL.jpg', variant: 'PT03' },
         { src: 'https://m.media-amazon.com/images/I/41uVm7rBnEL.jpg', variant: 'PT04' },
-        { src: 'https://m.media-amazon.com/images/I/41jHdqe7MZL.jpg', variant: 'PT05' }
+        { src: 'https://m.media-amazon.com/images/P/B097XV7KC7.01._SCLZZZZZZZ_SX200_.jpg', variant: 'PT05' }
       ],
       claims: { effectiveness: false, safety: false, design: true, ease: true, value: true, mechanism: true, eco: true }
     },
@@ -3553,9 +3547,9 @@ var LC5_DATA = {
         { theme: 'Design / Aesthetics', color: '#7F77DD', text: 'Dekoracyjny design komunikowany \u2014 pozycjonuje si\u0119 jako rozwi\u0105zanie kuchenne.' }
       ],
       images: [
-        { src: 'https://m.media-amazon.com/images/I/41GvHKZO+ML.jpg', variant: 'MAIN', isHero: true },
+        { src: 'https://m.media-amazon.com/images/P/B0D2HYTLT2.01._SCLZZZZZZZ_SX200_.jpg', variant: 'MAIN', isHero: true },
         { src: 'https://m.media-amazon.com/images/I/41W3dTnRf3L.jpg', variant: 'PT01' },
-        { src: 'https://m.media-amazon.com/images/I/41GvHKZO+ML.jpg', variant: 'PT02' },
+        { src: 'https://m.media-amazon.com/images/P/B0D2HYTLT2.01._SCLZZZZZZZ_SX200_.jpg', variant: 'PT02' },
         { src: 'https://m.media-amazon.com/images/I/41Tx6C1x0SL.jpg', variant: 'PT03' },
         { src: 'https://m.media-amazon.com/images/I/41ZE7xI+r2L.jpg', variant: 'PT04' },
         { src: 'https://m.media-amazon.com/images/I/41P3Wqm4BfL.jpg', variant: 'PT05' }
@@ -3892,13 +3886,13 @@ var KW6_ANALYSIS_DATA = {
 
   competitors: [
     { asin: "B0C6M6DB5H", brand: "Super Ninja", asinShort: "DB5H", image: "https://m.media-amazon.com/images/I/51NNw-+urxL.jpg", price: "37.99 €", sales30d: "5,538", revenue30d: "210,389 €", rating: 4.2, reviews: "11,130", kwsOnP1: 125 },
-    { asin: "B0D2HYTLT2", brand: "ARDAP", asinShort: "TLT2", image: "https://m.media-amazon.com/images/I/41GvHKZO+ML.jpg", price: "5.99 €", sales30d: "4,405", revenue30d: "26,386 €", rating: 4.0, reviews: "3,027", kwsOnP1: 66 },
+    { asin: "B0D2HYTLT2", brand: "ARDAP", asinShort: "TLT2", image: "https://m.media-amazon.com/images/P/B0D2HYTLT2.01._SCLZZZZZZZ_SX200_.jpg", price: "5.99 €", sales30d: "4,405", revenue30d: "26,386 €", rating: 4.0, reviews: "3,027", kwsOnP1: 66 },
     { asin: "B0963J155G", brand: "Super Ninja", asinShort: "155G", image: "https://m.media-amazon.com/images/I/51NNw-+urxL.jpg", price: "8.99 €", sales30d: "2,917", revenue30d: "26,224 €", rating: 4.1, reviews: "20,931", kwsOnP1: 127 },
     { asin: "B0DVBKLWTL", brand: "Super Ninja", asinShort: "LWTL", image: "https://m.media-amazon.com/images/I/51NNw-+urxL.jpg", price: "19.99 €", sales30d: "2,917", revenue30d: "58,311 €", rating: 4.1, reviews: "20,931", kwsOnP1: 127 },
-    { asin: "B097XV7KC7", brand: "Novokill", asinShort: "7KC7", image: "https://m.media-amazon.com/images/I/41jHdqe7MZL.jpg", price: "14.99 €", sales30d: "435", revenue30d: "6,521 €", rating: 4.0, reviews: "2,372", kwsOnP1: 75 },
-    { asin: "B09ZVHKK5K", brand: "Novokill", asinShort: "KK5K", image: "https://m.media-amazon.com/images/I/41jHdqe7MZL.jpg", price: "19.99 €", sales30d: "435", revenue30d: "8,696 €", rating: 4.0, reviews: "2,372", kwsOnP1: 75 },
-    { asin: "B07CHLZQNL", brand: "Aeroxon", asinShort: "ZQNL", image: "https://m.media-amazon.com/images/I/51nQpO3QdEL.jpg", price: "14.78 €", sales30d: "424", revenue30d: "6,267 €", rating: 3.9, reviews: "3,065", kwsOnP1: 69 },
-    { asin: "B07PHGN91L", brand: "PIC", asinShort: "N91L", image: "https://m.media-amazon.com/images/I/51lgXY6UURL.jpg", price: "14.95 €", sales30d: "260", revenue30d: "3,887 €", rating: 4.0, reviews: "5,026", kwsOnP1: 63 },
+    { asin: "B097XV7KC7", brand: "Novokill", asinShort: "7KC7", image: "https://m.media-amazon.com/images/P/B097XV7KC7.01._SCLZZZZZZZ_SX200_.jpg", price: "14.99 €", sales30d: "435", revenue30d: "6,521 €", rating: 4.0, reviews: "2,372", kwsOnP1: 75 },
+    { asin: "B09ZVHKK5K", brand: "Novokill", asinShort: "KK5K", image: "https://m.media-amazon.com/images/P/B097XV7KC7.01._SCLZZZZZZZ_SX200_.jpg", price: "19.99 €", sales30d: "435", revenue30d: "8,696 €", rating: 4.0, reviews: "2,372", kwsOnP1: 75 },
+    { asin: "B07CHLZQNL", brand: "Aeroxon", asinShort: "ZQNL", image: "https://m.media-amazon.com/images/P/B07CHLZQNL.01._SCLZZZZZZZ_SX200_.jpg", price: "14.78 €", sales30d: "424", revenue30d: "6,267 €", rating: 3.9, reviews: "3,065", kwsOnP1: 69 },
+    { asin: "B07PHGN91L", brand: "PIC", asinShort: "N91L", image: "https://m.media-amazon.com/images/P/B07PHGN91L.01._SCLZZZZZZZ_SX200_.jpg", price: "14.95 €", sales30d: "260", revenue30d: "3,887 €", rating: 4.0, reviews: "5,026", kwsOnP1: 63 },
   ],
 
   keywords: [
@@ -4095,15 +4089,15 @@ var KW6_ANALYSIS_DATA = {
   h += '<div class="sec-header" style="margin-bottom:12px"><div class="sec-title">Master Keyword List</div></div>';
   h += '<div class="card" style="padding:0;overflow:hidden"><div style="overflow-x:auto;max-height:650px;overflow-y:auto">';
   h += '<table class="kw-table" id="kw6Table"><thead><tr>';
-  h += '<th style="position:sticky;left:0;z-index:3;background:#0f2942;text-align:left;padding:8px 10px;min-width:200px;cursor:pointer" onclick="kw6Sort(\'t\')" id="kw6H_t">Keyword \u25B2\u25BC</th>';
-  h += '<th style="width:65px;cursor:pointer" onclick="kw6Sort(\'sv\')" id="kw6H_sv">SV \u25B2\u25BC</th>';
-  h += '<th style="width:50px;cursor:pointer" onclick="kw6Sort(\'rl\')" id="kw6H_rl">Rel. \u25B2\u25BC</th>';
+  h += '<th style="position:sticky;left:0;z-index:3;background:#0f2942;text-align:left;padding:8px 10px;min-width:200px;cursor:pointer" onclick="kw6Sort(\'t\')" id="kw6H_t">Keyword <span class="sort-arrow">\u25BC</span></th>';
+  h += '<th style="width:70px;text-align:right;cursor:pointer" onclick="kw6Sort(\'sv\')" id="kw6H_sv">Search Vol <span class="sort-arrow">\u25BC</span></th>';
+  h += '<th style="width:50px;text-align:center;cursor:pointer" onclick="kw6Sort(\'rl\')" id="kw6H_rl">Relev. <span class="sort-arrow">\u25BC</span></th>';
 
   comps.forEach(function(c) {
-    h += '<th style="min-width:70px;cursor:pointer" onclick="kw6Sort(\'r_' + c.asin + '\')">';
-    h += '<img src="' + c.image + '" alt="' + esc(c.brand) + '" style="width:42px;height:42px;object-fit:contain;border-radius:3px;background:#fff;display:block;margin:0 auto 3px">';
-    h += '<span style="font-size:.55rem">' + esc(c.brand) + '</span><br>';
-    h += '<span style="opacity:.5;font-size:.5rem">' + c.asinShort + ' \u25B2\u25BC</span></th>';
+    h += '<th style="width:50px;max-width:60px;padding:6px 3px;cursor:pointer;text-align:center" onclick="kw6Sort(\'r_' + c.asin + '\')">';
+    h += '<img src="' + c.image + '" alt="' + esc(c.brand) + '" style="width:36px;height:36px;object-fit:contain;border-radius:3px;background:#fff;display:block;margin:0 auto 2px">';
+    h += '<span style="font-size:.5rem;line-height:1.1;display:block">' + esc(c.brand) + '</span>';
+    h += '<span style="opacity:.5;font-size:.45rem">' + c.asinShort + ' \u25B2\u25BC</span></th>';
   });
   h += '</tr></thead><tbody id="kw6Body"></tbody></table></div>';
 

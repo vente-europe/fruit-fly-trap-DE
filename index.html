@@ -126,6 +126,18 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 .gap-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.68rem;font-weight:600}
 .gap-high{background:#fee2e2;color:#991b1b}.gap-med{background:#fef3c7;color:#92400e}.gap-low{background:#dcfce7;color:#15803d}
 
+
+/* KW Analysis Tab */
+.kw-table{width:100%;border-collapse:collapse;font-size:.72rem}
+.kw-table th{position:sticky;top:0;background:#0f2942;color:#fff;padding:8px 6px;text-align:center;font-size:.62rem;font-weight:600;white-space:nowrap;z-index:2}
+.kw-table td{padding:5px 6px;border-bottom:1px solid #f1f5f9;text-align:center;font-size:.72rem}
+.kw-table tr:hover td{background:#f8fafc}
+.kw-sort{cursor:pointer;user-select:none}
+.kw-sort:hover{color:#93c5fd}
+.kw-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;padding:8px 12px;font-size:.68rem;color:#64748b}
+.kw-legend span{display:inline-flex;align-items:center;gap:4px}
+.kw-legend i{display:inline-block;width:16px;height:12px;border-radius:2px}
+
 </style>
 </head>
 <body>
@@ -143,6 +155,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
   <div class="tab" onclick="show('tl',this)">3 — Reviews</div>
   <div class="tab" onclick="show('tv',this)">4 — Reviews VOC</div>
   <div class="tab" onclick="show('tlc',this)">5 — Listing Communication</div>
+  <div class="tab" onclick="show('tkw',this)">6 — KW Analysis</div>
 </div>
 
 <div class="content">
@@ -929,6 +942,13 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 </div>
 
 </div><!-- /tlc -->
+
+<!-- ══════════════════════════════════════ TAB 6 — KW Analysis ══════════════ -->
+<div id="tkw" class="panel">
+<h2>Keyword Analysis — DE Lure Segment</h2>
+<div id="kwa6-root"></div>
+</div><!-- /tkw -->
+
 
 
 </div><!-- .content -->
@@ -3842,6 +3862,218 @@ var LC5_DATA = {
   // Gap analysis methodology note
   document.getElementById('lc5-ga-note').innerHTML = GA.methodology;
 
+})();
+
+
+
+
+// ═══════════════════════════════════════════════════════════
+// KW ANALYSIS TAB — Data + Rendering
+// ═══════════════════════════════════════════════════════════
+var KW6_ANALYSIS_DATA = {
+
+  category: "Fruchtfliegenfallen (Lure)",
+  market: "DE",
+  source: "Helium 10 X-Ray + Niche Analysis",
+
+  nicheMedians: {
+    price: "\u20ac14.95",
+    rating: "3.8"
+  },
+
+  competitors: [
+    { asin: "B09SLX6GQS", brand: "Super Ninja", asinShort: "6GQS", image: "https://m.media-amazon.com/images/I/51NNw-+urxL.jpg", price: "\u20ac14.99", sales30d: "3,501", revenue30d: "\u20ac52,508", rating: 4.5, reviews: "3,217", kwsOnP1: 187 },
+    { asin: "B0963J155G", brand: "Super Ninja", asinShort: "155G", image: "https://m.media-amazon.com/images/I/51NNw-+urxL.jpg", price: "\u20ac8.99", sales30d: "2,802", revenue30d: "\u20ac25,191", rating: 4.5, reviews: "3,217", kwsOnP1: 142 },
+    { asin: "B0DVBKLWTL", brand: "Super Ninja", asinShort: "LWTL", image: "https://m.media-amazon.com/images/I/51NNw-+urxL.jpg", price: "\u20ac20.99", sales30d: "664", revenue30d: "\u20ac13,946", rating: 4.5, reviews: "3,217", kwsOnP1: 98 },
+    { asin: "B07CHLZQNL", brand: "Aeroxon", asinShort: "ZQNL", image: "https://m.media-amazon.com/images/I/51nQpO3QdEL.jpg", price: "\u20ac14.78", sales30d: "346", revenue30d: "\u20ac5,118", rating: 3.9, reviews: "1,842", kwsOnP1: 76 },
+    { asin: "B07PHGN91L", brand: "PIC", asinShort: "N91L", image: "https://m.media-amazon.com/images/I/51lgXY6UURL.jpg", price: "\u20ac14.95", sales30d: "172", revenue30d: "\u20ac2,585", rating: 3.7, reviews: "689", kwsOnP1: 54 },
+    { asin: "B097XV7KC7", brand: "Novokill", asinShort: "7KC7", image: "https://m.media-amazon.com/images/I/41nMq3gGQHL.jpg", price: "\u20ac14.99", sales30d: "116", revenue30d: "\u20ac1,739", rating: 3.5, reviews: "412", kwsOnP1: 38 },
+    { asin: "B09ZVHKK5K", brand: "Novokill", asinShort: "KK5K", image: "https://m.media-amazon.com/images/I/41nMq3gGQHL.jpg", price: "\u20ac19.99", sales30d: "66", revenue30d: "\u20ac1,325", rating: 3.5, reviews: "412", kwsOnP1: 29 },
+    { asin: "B0D2HYTLT2", brand: "ARDAP", asinShort: "TLT2", image: "https://m.media-amazon.com/images/I/41V8Xv9RHFL.jpg", price: "\u20ac5.99", sales30d: "146", revenue30d: "\u20ac876", rating: 3.4, reviews: "76", kwsOnP1: 22 },
+    { asin: "B0C6M6DB5H", brand: "Super Ninja", asinShort: "DB5H", image: "https://m.media-amazon.com/images/I/51NNw-+urxL.jpg", price: "\u20ac38.99", sales30d: "197", revenue30d: "\u20ac7,686", rating: 4.5, reviews: "3,217", kwsOnP1: 65 }
+  ],
+
+  keywords: [
+    { t: "fruchtfliegenfalle", sv: 22400, rl: 0.95, r: [1,2,4,3,8,11,15,14,5] },
+    { t: "obstfliegenfalle", sv: 4800, rl: 0.92, r: [2,3,5,6,4,12,18,1,7] },
+    { t: "fruchtfliegen falle", sv: 3200, rl: 0.90, r: [1,2,5,4,7,14,19,10,3] },
+    { t: "fruchtfliegenfalle k\u00fcche", sv: 2900, rl: 0.88, r: [1,3,4,2,5,16,22,11,6] },
+    { t: "fruchtfliegen bek\u00e4mpfen", sv: 2400, rl: 0.82, r: [3,5,8,1,6,9,24,7,12] },
+    { t: "fruchtfliegenfalle innen", sv: 1800, rl: 0.85, r: [1,2,6,5,3,15,21,12,4] },
+    { t: "essigfliegenfalle", sv: 1200, rl: 0.78, r: [4,6,9,1,2,7,16,5,11] },
+    { t: "super ninja fruchtfliegenfalle", sv: 890, rl: 0.95, r: [1,2,4,306,306,306,306,306,3] },
+    { t: "fliegenfalle k\u00fcche", sv: 6500, rl: 0.65, r: [5,7,11,3,4,18,28,8,14] },
+    { t: "obstfliegen falle k\u00fcche", sv: 1600, rl: 0.85, r: [2,3,7,4,1,13,20,6,5] },
+    { t: "fruchtfliegen loswerden", sv: 3400, rl: 0.72, r: [2,4,8,6,9,3,14,5,11] },
+    { t: "fruchtfliegenfalle klebefalle", sv: 720, rl: 0.80, r: [8,12,18,1,2,14,22,6,15] },
+    { t: "fruchtfliegen", sv: 18100, rl: 0.70, r: [2,3,8,5,11,14,22,12,6] },
+    { t: "obstfliegenfalle k\u00fcche", sv: 980, rl: 0.82, r: [1,3,6,4,2,11,18,7,5] },
+    { t: "fruchtfliegenfalle \u00f6kologisch", sv: 480, rl: 0.88, r: [1,2,5,14,22,8,28,306,3] },
+    { t: "fliegenfalle innen", sv: 4200, rl: 0.55, r: [6,8,14,4,5,22,34,9,12] },
+    { t: "fruchtfliegenfalle nat\u00fcrlich", sv: 390, rl: 0.85, r: [1,3,7,5,9,4,15,306,2] },
+    { t: "fruchtfliegen fangen", sv: 1400, rl: 0.75, r: [3,4,9,2,6,8,18,5,7] },
+    { t: "obstfliegen bek\u00e4mpfen", sv: 1100, rl: 0.78, r: [4,5,11,2,3,7,19,1,8] },
+    { t: "fruchtfliegenfalle kaufen", sv: 680, rl: 0.90, r: [1,2,5,3,4,9,16,8,6] },
+    { t: "aeroxon fruchtfliegenfalle", sv: 520, rl: 0.92, r: [306,306,306,1,306,306,306,306,306] },
+    { t: "pic fruchtfliegenfalle", sv: 210, rl: 0.90, r: [306,306,306,306,1,306,306,306,306] },
+    { t: "novokill fruchtfliegenfalle", sv: 170, rl: 0.92, r: [306,306,306,306,306,1,2,306,306] },
+    { t: "ardap fruchtfliegenfalle", sv: 140, rl: 0.88, r: [306,306,306,306,306,306,306,1,306] },
+    { t: "fruchtfliegenfalle giftfrei", sv: 340, rl: 0.85, r: [1,3,5,8,2,6,12,4,7] },
+    { t: "fruchtfliegenfalle wiederverwendbar", sv: 280, rl: 0.82, r: [8,14,22,306,306,1,2,306,18] },
+    { t: "fruchtfliegenfalle test", sv: 1900, rl: 0.72, r: [2,4,8,3,5,6,14,9,7] },
+    { t: "leimfalle fruchtfliegen", sv: 260, rl: 0.78, r: [12,18,28,1,2,8,16,5,22] },
+    { t: "fruchtfliegenfalle ohne gift", sv: 420, rl: 0.85, r: [1,2,6,5,3,4,11,8,4] },
+    { t: "kleine fliegen k\u00fcche", sv: 5400, rl: 0.52, r: [4,6,12,3,5,18,28,8,9] }
+  ]
+
+};
+
+(function() {
+  var D = KW6_ANALYSIS_DATA;
+  var comps = D.competitors;
+  var root = document.getElementById('kwa6-root');
+  var h = '';
+
+  function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+  // ── Description ──
+  h += '<p class="sec-summary" style="margin-bottom:16px">Competitive intelligence from ' + esc(D.source) + '. ' + comps.length + ' competitors ranked by 30-day sales. ' + D.keywords.length + ' tracked keywords with ranking positions.</p>';
+
+  // ── Niche Median KPIs ──
+  h += '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px">';
+  h += '  <div class="card" style="padding:10px 16px;border-left:4px solid #64748b;flex:1;min-width:140px">';
+  h += '    <div style="font-size:.68rem;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Niche Median</div>';
+  h += '    <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:.75rem">';
+  h += '      <div><span style="font-weight:700">' + esc(D.nicheMedians.price) + '</span> <span style="color:#94a3b8">Price</span></div>';
+  h += '      <div><span style="font-weight:700">' + esc(D.nicheMedians.rating) + '</span> <span style="color:#94a3b8">Rating</span></div>';
+  h += '    </div></div></div>';
+
+  // ── Competitor table ──
+  h += '<div class="sec-header" style="margin-bottom:12px"><div class="sec-title">Competitor Details</div></div>';
+  h += '<div class="card" style="padding:0;overflow:hidden;margin-bottom:24px"><div style="overflow-x:auto">';
+  h += '<table style="width:100%;border-collapse:collapse;font-size:.72rem"><thead><tr>';
+  h += '<th style="position:sticky;left:0;background:#0f2942;color:#fff;padding:8px 10px;text-align:left;font-size:.68rem;font-weight:600;z-index:2;min-width:100px">Metric</th>';
+
+  comps.forEach(function(c) {
+    h += '<th style="background:#0f2942;color:#fff;padding:8px 6px;text-align:center;font-size:.62rem;font-weight:600;white-space:nowrap;min-width:80px">';
+    h += '<img src="' + c.image + '" alt="' + esc(c.brand) + '" style="width:54px;height:54px;object-fit:contain;border-radius:4px;background:#fff;display:block;margin:0 auto 4px">';
+    h += '<a href="https://www.amazon.de/dp/' + c.asin + '" target="_blank" style="color:#93c5fd;text-decoration:none;font-size:.62rem">' + esc(c.brand) + '</a>';
+    h += '<br><span style="opacity:.5;font-weight:400;font-size:.55rem">' + c.asinShort + '</span></th>';
+  });
+  h += '</tr></thead><tbody>';
+
+  // Metric rows
+  var metrics = [
+    { label: 'Price', key: 'price' },
+    { label: '30d Sales', key: 'sales30d' },
+    { label: '30d Revenue', key: 'revenue30d' },
+    { label: 'Rating', key: 'rating', format: 'star' },
+    { label: 'Reviews', key: 'reviews' },
+    { label: 'KWs on P1', key: 'kwsOnP1' }
+  ];
+  var tdStyle = 'text-align:center;padding:6px;border-bottom:1px solid #f1f5f9';
+  var stickyTd = 'position:sticky;left:0;background:#f8fafc;padding:6px 10px;font-weight:600;color:#475569;border-bottom:1px solid #f1f5f9;z-index:1';
+
+  metrics.forEach(function(m) {
+    h += '<tr><td style="' + stickyTd + '">' + m.label + '</td>';
+    comps.forEach(function(c) {
+      var val = c[m.key];
+      if (m.format === 'star') val = '\u2B50 ' + val;
+      h += '<td style="' + tdStyle + '">' + val + '</td>';
+    });
+    h += '</tr>';
+  });
+  h += '</tbody></table></div></div>';
+
+  // ── Master Keyword List header ──
+  h += '<div class="sec-header" style="margin-bottom:12px"><div class="sec-title">Master Keyword List</div></div>';
+  h += '<div class="card" style="padding:0;overflow:hidden"><div style="overflow-x:auto;max-height:650px;overflow-y:auto">';
+  h += '<table class="kw-table" id="kwTable"><thead><tr>';
+  h += '<th style="position:sticky;left:0;z-index:3;background:#0f2942;text-align:left;padding:8px 10px;min-width:200px;cursor:pointer" onclick="kw6Sort(\'t\')" id="kwH_t">Keyword \u25B2\u25BC</th>';
+  h += '<th style="width:65px;cursor:pointer" onclick="kw6Sort(\'sv\')" id="kwH_sv">SV \u25B2\u25BC</th>';
+  h += '<th style="width:50px;cursor:pointer" onclick="kw6Sort(\'rl\')" id="kwH_rl">Rel. \u25B2\u25BC</th>';
+
+  comps.forEach(function(c) {
+    h += '<th style="min-width:70px;cursor:pointer" onclick="kw6Sort(\'r_' + c.asin + '\')">';
+    h += '<img src="' + c.image + '" alt="' + esc(c.brand) + '" style="width:42px;height:42px;object-fit:contain;border-radius:3px;background:#fff;display:block;margin:0 auto 3px">';
+    h += '<span style="font-size:.55rem">' + esc(c.brand) + '</span><br>';
+    h += '<span style="opacity:.5;font-size:.5rem">' + c.asinShort + ' \u25B2\u25BC</span></th>';
+  });
+  h += '</tr></thead><tbody id="kwBody"></tbody></table></div>';
+
+  // Legend
+  h += '<div class="kw-legend">';
+  h += '<span><i style="background:#16a34a"></i> 1\u201310</span>';
+  h += '<span><i style="background:#22c55e"></i> 11\u201320</span>';
+  h += '<span><i style="background:#86efac"></i> 21\u201350</span>';
+  h += '<span><i style="background:#fde68a"></i> 51\u2013100</span>';
+  h += '<span><i style="background:#fca5a5"></i> 101\u2013200</span>';
+  h += '<span><i style="background:#ef4444"></i> 201\u2013306</span>';
+  h += '<span><i style="background:#f1f5f9;border:1px solid #e2e8f0"></i> Not ranked</span>';
+  h += '</div></div>';
+
+  root.innerHTML = h;
+
+  // ── Keyword sorting & rendering ──
+  var KW = D.keywords;
+  var sortCol = 'sv', sortDir = -1;
+
+  function rankColor(rank) {
+    if (!rank || rank <= 0 || rank > 305) return { bg: '#f8fafc', fg: '#cbd5e1' };
+    if (rank <= 10) return { bg: '#16a34a', fg: '#fff' };
+    if (rank <= 20) return { bg: '#22c55e', fg: '#fff' };
+    if (rank <= 50) return { bg: '#86efac', fg: '#064e3b' };
+    if (rank <= 100) return { bg: '#fde68a', fg: '#78350f' };
+    if (rank <= 200) return { bg: '#fca5a5', fg: '#7f1d1d' };
+    return { bg: '#ef4444', fg: '#fff' };
+  }
+
+  function renderKW() {
+    var sorted = KW.slice().sort(function(a, b) {
+      var va, vb;
+      if (sortCol === 't') { va = a.t.toLowerCase(); vb = b.t.toLowerCase(); }
+      else if (sortCol === 'sv') { va = a.sv; vb = b.sv; }
+      else if (sortCol === 'rl') { va = a.rl; vb = b.rl; }
+      else if (sortCol.indexOf('r_') === 0) {
+        var idx = 0;
+        for (var i = 0; i < comps.length; i++) { if ('r_' + comps[i].asin === sortCol) { idx = i; break; } }
+        va = a.r[idx] || 999; vb = b.r[idx] || 999;
+      } else { va = a.sv; vb = b.sv; }
+
+      if (typeof va === 'string') return sortDir * va.localeCompare(vb);
+      return sortDir * (va - vb);
+    });
+
+    var body = document.getElementById('kw6Body');
+    if (!body) return;
+    var html = '';
+    sorted.forEach(function(kw) {
+      html += '<tr>';
+      html += '<td style="position:sticky;left:0;background:#fff;z-index:1;text-align:left;padding:6px 10px;font-weight:500;white-space:nowrap;border-bottom:1px solid #f1f5f9">' + kw.t + '</td>';
+      html += '<td style="font-weight:700;color:#0f2942;border-bottom:1px solid #f1f5f9">' + kw.sv.toLocaleString() + '</td>';
+      var relStyle = kw.rl >= 0.8 ? 'font-weight:700;color:#16a34a' : 'color:#64748b';
+      html += '<td style="border-bottom:1px solid #f1f5f9;' + relStyle + '">' + kw.rl.toFixed(2) + '</td>';
+      kw.r.forEach(function(rank) {
+        var c = rankColor(rank);
+        var label = (!rank || rank <= 0 || rank > 305) ? '–' : rank;
+        html += '<td style="border-bottom:1px solid #f1f5f9"><span style="display:inline-block;min-width:28px;padding:2px 5px;border-radius:4px;font-weight:700;font-size:.68rem;background:' + c.bg + ';color:' + c.fg + '">' + label + '</span></td>';
+      });
+      html += '</tr>';
+    });
+    body.innerHTML = html;
+  }
+
+  window.kw6Sort = function(col) {
+    if (sortCol === col) sortDir *= -1;
+    else { sortCol = col; sortDir = col === 'sv' ? -1 : 1; }
+    renderKW();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderKW);
+  } else {
+    setTimeout(renderKW, 50);
+  }
 })();
 
 

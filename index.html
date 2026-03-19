@@ -4085,10 +4085,10 @@ var KW6_ANALYSIS_DATA = {
   // ── Master Keyword List header ──
   h += '<div class="sec-header" style="margin-bottom:12px"><div class="sec-title">Master Keyword List</div></div>';
   h += '<div class="card" style="padding:0;overflow:hidden"><div style="overflow-x:auto;max-height:650px;overflow-y:auto">';
-  h += '<table class="kw-table" id="kwTable"><thead><tr>';
-  h += '<th style="position:sticky;left:0;z-index:3;background:#0f2942;text-align:left;padding:8px 10px;min-width:200px;cursor:pointer" onclick="kw6Sort(\'t\')" id="kwH_t">Keyword \u25B2\u25BC</th>';
-  h += '<th style="width:65px;cursor:pointer" onclick="kw6Sort(\'sv\')" id="kwH_sv">SV \u25B2\u25BC</th>';
-  h += '<th style="width:50px;cursor:pointer" onclick="kw6Sort(\'rl\')" id="kwH_rl">Rel. \u25B2\u25BC</th>';
+  h += '<table class="kw-table" id="kw6Table"><thead><tr>';
+  h += '<th style="position:sticky;left:0;z-index:3;background:#0f2942;text-align:left;padding:8px 10px;min-width:200px;cursor:pointer" onclick="kw6Sort(\'t\')" id="kw6H_t">Keyword \u25B2\u25BC</th>';
+  h += '<th style="width:65px;cursor:pointer" onclick="kw6Sort(\'sv\')" id="kw6H_sv">SV \u25B2\u25BC</th>';
+  h += '<th style="width:50px;cursor:pointer" onclick="kw6Sort(\'rl\')" id="kw6H_rl">Rel. \u25B2\u25BC</th>';
 
   comps.forEach(function(c) {
     h += '<th style="min-width:70px;cursor:pointer" onclick="kw6Sort(\'r_' + c.asin + '\')">';
@@ -4096,7 +4096,7 @@ var KW6_ANALYSIS_DATA = {
     h += '<span style="font-size:.55rem">' + esc(c.brand) + '</span><br>';
     h += '<span style="opacity:.5;font-size:.5rem">' + c.asinShort + ' \u25B2\u25BC</span></th>';
   });
-  h += '</tr></thead><tbody id="kwBody"></tbody></table></div>';
+  h += '</tr></thead><tbody id="kw6Body"></tbody></table></div>';
 
   // Legend
   h += '<div class="kw-legend">';

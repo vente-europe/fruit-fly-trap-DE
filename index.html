@@ -187,6 +187,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
   <div class="tab" onclick="show('tlc',this)">5 — Listing Communication</div>
   <div class="tab" onclick="show('tkw',this)">6 — KW Analysis</div>
   <div class="tab" onclick="show('tis',this)">7 — Image Strategy</div>
+  <div class="tab" onclick="show('tcb',this)">8 — Copy Brief</div>
 </div>
 
 <div class="content">
@@ -985,6 +986,13 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 <h2>Image Strategy Brief — DE Lure Segment</h2>
 <div id="is-root"></div>
 </div><!-- /tis -->
+
+
+<!-- ══ TAB CB — Copy Brief ══ -->
+<div id="tcb" class="panel">
+<h2>Listing Copy Brief — DE Lure Segment</h2>
+<div id="cb-root"></div>
+</div><!-- /tcb -->
 
 </div><!-- .content -->
 
@@ -4550,6 +4558,355 @@ var IMAGE_STRATEGY_DATA = {
   h += '</div>';
 
   // ── Methodology ──
+  h += '<div class="note" style="margin-top:22px">' + D.methodology + '</div>';
+
+  root.innerHTML = h;
+})();
+
+
+// COPY BRIEF TAB
+
+var COPY_BRIEF_DATA = {
+
+  // ── Basic info ──
+  category: "Fruchtfliegenfallen",
+  market: "DE",
+  competitorCount: 8,
+  reviewCount: 1051,
+  keywordCount: 129,
+
+  // ── Intro insight (HTML allowed) ──
+  insight: "<strong>Brief oparty na danych.</strong> Rekomendacje dotyczące tytułu i bullet points oparte na: analizie tytułów 8 konkurentów (Tab 5), luk komunikacyjnych (Gap Analysis), niezaspokojonych potrzeb klientów (Reviews VOC) oraz 129 słów kluczowych z Helium 10 (Tab 6). Słowa kluczowe oznaczone są search volume (SV).",
+
+  // ── Title description ──
+  titleDescription: "Tytuł powinien mieścić się w 150–200 znaków. Poniższa tabela pokazuje rekomendowane składniki, ich funkcję oraz sugerowane słowa kluczowe do wykorzystania. Kolejność ma znaczenie — Amazon indeksuje mocniej początek tytułu.",
+
+  // ── Title structure components ──
+  // color: accent color for the component label
+  // component: component name (displayed as label)
+  // content: what it should contain
+  // keywords: array of {text, sv?, note?} — keyword pills with optional search volume and note
+  // rationale: why this component matters (data-backed)
+  titleComponents: [
+    {
+      color: "#7F77DD",
+      component: "Brand",
+      content: "Nazwa marki na początku",
+      keywords: [{ text: "[Twoja marka]", sv: null, note: null }],
+      rationale: "Wszyscy 5 konkurentów zaczynają od brandu. Buduje rozpoznawalność."
+    },
+    {
+      color: "#1D9E75",
+      component: "Product Type",
+      content: "Główna kategoria produktu z kluczowym keyword",
+      keywords: [
+        { text: "Fruchtfliegenfalle", sv: "14,908", note: null },
+        { text: "Obstfliegenfalle", sv: "1,773", note: null },
+        { text: "Fruchtfliegenfalle für Küche", sv: "1,518", note: null }
+      ],
+      rationale: "Najwyższy SV keyword w kategorii DE. Top 3 konkurenci używają tego zwrotu."
+    },
+    {
+      color: "#BA7517",
+      component: "Pack Size",
+      content: "Ilość sztuk + ew. lure supply",
+      keywords: [
+        { text: "(4er Pack)", sv: null, note: "lub (2er Pack)" },
+        { text: "+ Lockstoff für 180 Tage", sv: null, note: null }
+      ],
+      rationale: "Terro dominuje z \"180 Days\" claimem. 28.4% klientów oczekuje długiej trwałości. Pack size w nawiasie = standard Amazon."
+    },
+    {
+      color: "#378ADD",
+      component: "Key Benefit",
+      content: "Główna korzyść / USP wyróżniający na tle konkurencji",
+      keywords: [
+        { text: "Giftfrei", sv: null, note: "GAP: tylko 3/8 konkurentów" },
+        { text: "Haustier- & kindersicher", sv: null, note: "12.8% motywacja kupujących" },
+        { text: "Schnellwirkend", sv: null, note: "16.8% pozytywnych recenzji" }
+      ],
+      rationale: "<strong>Safety = biggest gap.</strong> Tylko Super Ninja i Novokill komunikują bezpieczeństwo. 12.8% kupujących motywowanych bezpieczeństwem."
+    },
+    {
+      color: "#D85A30",
+      component: "Use Case",
+      content: "Gdzie / do czego używać",
+      keywords: [
+        { text: "für Küche", sv: null, note: "29.2% główny scenariusz" },
+        { text: "Fruchtfliegen", sv: "1,467", note: null },
+        { text: "Fliegenfalle", sv: "919", note: null }
+      ],
+      rationale: "Dodanie \"gnat\" poszerza zasięg o 74K SV. 29.2% klientów używa w kuchni — potwierdza use case."
+    },
+    {
+      color: "#D4537E",
+      component: "Differentiator",
+      content: "Co wyróżnia od konkurencji",
+      keywords: [
+        { text: "Ergebnis in 24 Stunden", sv: null, note: "GAP: potwierdzone recenzjami" },
+        { text: "Pflanzenbasierte Formel", sv: null, note: "22.5% ceni eko skład" }
+      ],
+      rationale: "<strong>Speed claim = competitive gap.</strong> 16.8% recenzji DE chwali szybkość."
+    }
+  ],
+
+  // ── Example title (HTML allowed) ──
+  titleExample: "[Marke] Fruchtfliegenfalle (4er Pack) + 180 Tage Lockstoff — Giftfrei, Haustier- & Kindersicher — Schnellwirkende Obstfliegenfalle für Küche — Ergebnis in 24 Stunden, Pflanzenbasiert",
+  titleExampleNote: "~185 znaków (limit 200). Zawiera: top keywords DE (SV 14.9K + 1.7K), safety gap, speed differentiator, use case.",
+
+  // ── Bullet points description ──
+  bulletsDescription: "Każdy bullet point powinien adresować konkretny temat z Gap Analysis lub Unmet Customer Needs. Poniżej rekomendacje co powinno znaleźć się w każdym z 5 bulletów, jakie słowa kluczowe wykorzystać i jakie dane z recenzji to uzasadniają.",
+
+  // ── Bullet points ──
+  // color: accent color for the bullet
+  // number: bullet number (1-5)
+  // heading: uppercase theme heading (English)
+  // items: array of recommendation strings (Polish, impersonal)
+  // keywords: array of {text, sv?, rel?} — keyword pills
+  // rationale: HTML string with data points backing this bullet
+  bullets: [
+    {
+      color: "#1D9E75",
+      number: 1,
+      heading: "FAST-ACTING RESULTS",
+      items: [
+        "Konkretny czas działania: \"results within 24 hours\"",
+        "Mechanizm: jak wab przyciąga muchy (scientifically formulated lure)",
+        "Zasięg: \"attracts fruit flies from up to 3 feet away\"",
+        "Dowód: \"dramatic decrease in fruit fly population\""
+      ],
+      keywords: [
+        { text: "Fruchtfliegenfalle", sv: "14,908", rel: null },
+        { text: "Obstfliegenfalle", sv: "1,773", rel: null }
+      ],
+      rationale: "<strong style=\"color:#dc2626\">30.9%</strong> recenzji: \"no effect\" — bullet #1 musi natychmiast budować zaufanie do skuteczności.<br><strong style=\"color:#16a34a\">21.6%</strong> pozytywnych chwali szybkość.<br><strong>GAP:</strong> Tylko Super Ninja podaje \"24h\". Okazja do wyróżnienia."
+    },
+    {
+      color: "#378ADD",
+      number: 2,
+      heading: "NON-TOXIC & SAFE",
+      items: [
+        "Bezpieczeństwo: \"safe for use around food, pets, and children\"",
+        "Skład: \"plant-based formula, no harsh chemicals\"",
+        "Certyfikaty / testy jeśli dostępne",
+        "Umiejscowienie: \"safe to place near fruit bowls and kitchen counters\""
+      ],
+      keywords: [
+        { text: "Fruchtfliegen Falle giftfrei", sv: "212", rel: null },
+        { text: "Fruchtfliegenfalle für Küche", sv: "1,518", rel: null }
+      ],
+      rationale: "<strong style=\"color:#dc2626\">BIGGEST GAP:</strong> Tylko 2/5 konkurentów porusza bezpieczeństwo.<br><strong style=\"color:#16a34a\">17.3%</strong> kupujących motywowanych bezpieczeństwem.<br><strong>14.1%</strong> pozytywnych recenzji ceni eko/naturalny skład."
+    },
+    {
+      color: "#BA7517",
+      number: 3,
+      heading: "LONG-LASTING VALUE",
+      items: [
+        "Trwałość: \"each lure lasts up to 45 days\" / \"180-day total supply\"",
+        "Porównanie z DIY: \"no daily mixing like vinegar traps\"",
+        "Koszt: \"less than $2.50/month of protection\"",
+        "Zawartość: \"includes X traps + X refill lures\""
+      ],
+      keywords: [
+        { text: "Fruchtfliegen Lockstoff", sv: "489", rel: null },
+        { text: "Fruchtfliegenfalle Nachfüllung", sv: "121", rel: null }
+      ],
+      rationale: "<strong style=\"color:#dc2626\">15.6%</strong> negatywnych: \"runs out quickly\".<br><strong style=\"color:#dc2626\">13.7%</strong> porównuje z DIY octem (tańsze).<br><strong style=\"color:#d97706\">28.4%</strong> oczekuje dłuższej trwałości.<br>Terro dominuje z \"180 days\" claimem."
+    },
+    {
+      color: "#7F77DD",
+      number: 4,
+      heading: "DISCREET DESIGN & EASY TO USE",
+      items: [
+        "Design: \"blends seamlessly with kitchen decor\"",
+        "Prostota: \"ready to use — just open and place, no assembly\"",
+        "Monitoring: \"built-in window to check progress\"",
+        "Czystość: \"no mess, no sticky residue, no spills\""
+      ],
+      keywords: [
+        { text: "Fliegenfalle", sv: "919", rel: null },
+        { text: "Obstfliegen Falle", sv: "437", rel: null }
+      ],
+      rationale: "<strong style=\"color:#16a34a\">16.2%</strong> pozytywnych: \"easy to use\".<br><strong style=\"color:#16a34a\">10.8%</strong> chwali dyskretny design.<br><strong style=\"color:#dc2626\">20.4%</strong> oczekuje mess-free setup.<br>Monitoring window = unmet need z Rufus (kategoria)."
+    },
+    {
+      color: "#639922",
+      number: 5,
+      heading: "WHERE TO PLACE & HOW IT WORKS",
+      items: [
+        "Lokalizacje: \"near fruit bowls, trash cans, compost areas, kitchen counters\"",
+        "Mechanizm: krótkie wyjaśnienie jak działa (lure attracts → trapped inside)",
+        "Zasięg: \"for fruit flies (Drosophila) and gnats — not house flies\"",
+        "Obietnica: \"covers your entire kitchen with just 2–4 traps\""
+      ],
+      keywords: [
+        { text: "Fruchtfliegen", sv: "1,467", rel: null },
+        { text: "Obstfliegen", sv: "437", rel: null },
+        { text: "Essigfliegen", sv: "261", rel: null }
+      ],
+      rationale: "<strong style=\"color:#dc2626\">2.9%</strong> negatywnych: \"attracts wrong insects\" — konieczne precyzyjne targetowanie.<br><strong style=\"color:#16a34a\">29.2%</strong> używa w kuchni, 13.8% przy śmieciach.<br><strong>GAP:</strong> Mechanism/Tech poruszany tylko przez 2/5 konkurentów."
+    }
+  ],
+
+  // ── Keyword integration map ──
+  keywordMapDescription: "Najważniejsze słowa kluczowe i rekomendowane miejsce ich umieszczenia. Priorytet: tytuł > bullet points > backend keywords.",
+
+  // place: object with title/bullets/backend booleans (true = ● green, false = ○ gray)
+  keywordMap: [
+    { keyword: "fruchtfliegenfalle", sv: 14908, rel: 1.0, place: { title: true, bullets: true, backend: false } },
+    { keyword: "obstfliegenfalle", sv: 1773, rel: 1.0, place: { title: true, bullets: true, backend: false } },
+    { keyword: "fruchtfliegenfalle für küche", sv: 1518, rel: 1.0, place: { title: true, bullets: false, backend: false } },
+    { keyword: "fruchtfliegen", sv: 1467, rel: 1.0, place: { title: true, bullets: true, backend: false } },
+    { keyword: "fliegenfalle", sv: 919, rel: 0.77, place: { title: false, bullets: true, backend: true } },
+    { keyword: "fruchtfliegen lockstoff", sv: 489, rel: 0.85, place: { title: false, bullets: true, backend: true } },
+    { keyword: "obstfliegen falle", sv: 437, rel: 1.0, place: { title: false, bullets: true, backend: true } },
+    { keyword: "fruchtfliegen falle giftfrei", sv: 212, rel: 1.0, place: { title: false, bullets: true, backend: true } },
+    { keyword: "essigfliegen falle", sv: 261, rel: 0.85, place: { title: false, bullets: true, backend: true } },
+    { keyword: "fruchtfliegenfalle nachfüllung", sv: 121, rel: 0.85, place: { title: false, bullets: true, backend: true } }
+  ],
+
+  // ── Methodology note (HTML allowed) ──
+  methodology: "<strong>Metodologia:</strong> Rekomendacje oparte na: (1) analizie tytułów i bullet points 8 konkurentów z Amazon SP-API (Tab 5), (2) Gap Analysis — tematy nieporuszane przez konkurencję (Safety 3/8, Mechanism 2/8), (3) Unmet Customer Needs z 1 051 recenzji (Tab 4), (4) 129 słów kluczowych z Helium 10 Niche Analysis (Tab 6) posortowanych wg Search Volume i Relevancy Score. Forma bezosobowa."
+
+};
+
+(function() {
+  var D = COPY_BRIEF_DATA;
+  var root = document.getElementById('cb-root');
+
+  // ── Helper: keyword pill ──
+  function kwPill(kw, bgColor) {
+    var bg = bgColor || '#dcfce7';
+    var html = '<span style="background:' + bg + ';padding:2px 6px;border-radius:4px;font-weight:600">' + esc(kw.text) + '</span>';
+    if (kw.sv) html += ' <span style="color:#94a3b8;font-size:.68rem">SV ' + kw.sv + '</span>';
+    if (kw.rel) html += ' <span style="color:#94a3b8;font-size:.68rem">rel ' + kw.rel + '</span>';
+    if (kw.note) html += ' <span style="color:#94a3b8;font-size:.68rem">' + kw.note + '</span>';
+    return html;
+  }
+
+  function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+  // Color to light background
+  var colorToBg = {
+    '#7F77DD': '#ede9fe', '#1D9E75': '#dcfce7', '#BA7517': '#fef9c3',
+    '#378ADD': '#dbeafe', '#D85A30': '#ffedd5', '#D4537E': '#fce7f3',
+    '#639922': '#ecfccb'
+  };
+
+  // ── Dot indicators ──
+  var dotOn  = '<span style="color:#16a34a;font-weight:700;font-size:1rem">&#9679;</span>';
+  var dotOff = '<span style="color:#d4d4d4;font-size:1rem">&#9675;</span>';
+
+  // ── Build HTML ──
+  var h = '';
+
+  // Insight
+  h += '<div class="insight" style="background:#eff6ff;border-left-color:#2563eb;color:#1e40af">' + D.insight + '</div>';
+
+  // ═══ TITLE ═══
+  h += '<h2 style="margin-top:22px">Struktura tytułu</h2>';
+  h += '<p style="font-size:.78rem;color:#64748b;margin-bottom:14px;line-height:1.5">' + D.titleDescription + '</p>';
+  h += '<div class="card"><table style="width:100%;border-collapse:collapse;font-size:.78rem">';
+  h += '<thead><tr style="background:#f8fafc">';
+  h += '<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:140px">Składnik</th>';
+  h += '<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:180px">Co powinno zawierać</th>';
+  h += '<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700">Słowa kluczowe do użycia</th>';
+  h += '<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:200px">Uzasadnienie</th>';
+  h += '</tr></thead><tbody>';
+
+  D.titleComponents.forEach(function(c) {
+    var bg = colorToBg[c.color] || '#f1f5f9';
+    h += '<tr>';
+    h += '<td style="padding:10px 12px;border-bottom:1px solid #f1f5f9;font-weight:600;color:' + c.color + '">' + esc(c.component) + '</td>';
+    h += '<td style="padding:10px 12px;border-bottom:1px solid #f1f5f9">' + esc(c.content) + '</td>';
+    h += '<td style="padding:10px 12px;border-bottom:1px solid #f1f5f9">';
+    c.keywords.forEach(function(kw, i) {
+      if (i > 0) h += '<br>';
+      h += kwPill(kw, bg);
+    });
+    h += '</td>';
+    h += '<td style="padding:10px 12px;border-bottom:1px solid #f1f5f9;font-size:.72rem;color:#64748b">' + c.rationale + '</td>';
+    h += '</tr>';
+  });
+
+  h += '</tbody></table>';
+
+  // Title example
+  if (D.titleExample) {
+    h += '<div class="note" style="margin-top:14px">';
+    h += '<strong>Przykładowa struktura:</strong> ' + esc(D.titleExample) + '<br>';
+    h += '<strong>Znaki:</strong> ' + D.titleExampleNote;
+    h += '</div>';
+  }
+  h += '</div>';
+
+  // ═══ BULLETS ═══
+  h += '<h2 style="margin-top:28px">Struktura Bullet Points</h2>';
+  h += '<p style="font-size:.78rem;color:#64748b;margin-bottom:14px;line-height:1.5">' + D.bulletsDescription + '</p>';
+  h += '<div class="card"><table style="width:100%;border-collapse:collapse;font-size:.78rem">';
+  h += '<thead><tr style="background:#f8fafc">';
+  h += '<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:50px">#</th>';
+  h += '<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:160px">Temat (nagłówek)</th>';
+  h += '<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700">Co powinno zawierać</th>';
+  h += '<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:180px">Słowa kluczowe</th>';
+  h += '<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:200px">Uzasadnienie (dane)</th>';
+  h += '</tr></thead><tbody>';
+
+  D.bullets.forEach(function(b) {
+    var bg = colorToBg[b.color] || '#f1f5f9';
+    h += '<tr style="border-left:4px solid ' + b.color + '">';
+    h += '<td style="padding:10px 12px;border-bottom:1px solid #f1f5f9;font-weight:800;color:' + b.color + ';font-size:.95rem">' + b.number + '</td>';
+    h += '<td style="padding:10px 12px;border-bottom:1px solid #f1f5f9;font-weight:700;color:' + b.color + '">' + esc(b.heading) + '</td>';
+    h += '<td style="padding:10px 12px;border-bottom:1px solid #f1f5f9"><ul class="is-bullets" style="margin:0">';
+    b.items.forEach(function(item) { h += '<li>' + esc(item) + '</li>'; });
+    h += '</ul></td>';
+    h += '<td style="padding:10px 12px;border-bottom:1px solid #f1f5f9">';
+    b.keywords.forEach(function(kw, i) {
+      if (i > 0) h += '<br>';
+      h += '<span style="background:' + bg + ';padding:2px 6px;border-radius:4px;font-weight:600;font-size:.72rem">' + esc(kw.text) + '</span>';
+      if (kw.sv) h += ' <span style="color:#94a3b8;font-size:.65rem">SV ' + kw.sv + '</span>';
+      if (kw.rel) h += ' <span style="color:#94a3b8;font-size:.65rem">rel ' + kw.rel + '</span>';
+    });
+    h += '</td>';
+    h += '<td style="padding:10px 12px;border-bottom:1px solid #f1f5f9;font-size:.72rem;color:#64748b">' + b.rationale + '</td>';
+    h += '</tr>';
+  });
+
+  h += '</tbody></table></div>';
+
+  // ═══ KEYWORD MAP ═══
+  h += '<h2 style="margin-top:28px">Mapa integracji słów kluczowych</h2>';
+  h += '<p style="font-size:.78rem;color:#64748b;margin-bottom:14px;line-height:1.5">' + D.keywordMapDescription + '</p>';
+  h += '<div class="card"><table style="width:100%;border-collapse:collapse;font-size:.78rem">';
+  h += '<thead><tr style="background:#f8fafc">';
+  h += '<th style="padding:8px 12px;text-align:left;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700">Słowo kluczowe</th>';
+  h += '<th style="padding:8px 12px;text-align:right;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:80px">SV</th>';
+  h += '<th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:60px">Rel.</th>';
+  h += '<th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:70px">Tytuł</th>';
+  h += '<th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:70px">Bullets</th>';
+  h += '<th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e2e8f0;color:#475569;font-weight:700;width:70px">Backend</th>';
+  h += '</tr></thead><tbody>';
+
+  D.keywordMap.forEach(function(kw) {
+    var relStyle = kw.rel >= 0.8 ? 'font-weight:600;color:#16a34a' : '';
+    var svStyle = kw.sv >= 10000 ? 'font-weight:700;color:#0f2942' : '';
+    h += '<tr>';
+    h += '<td style="padding:7px 12px;border-bottom:1px solid #f1f5f9;font-weight:600">' + esc(kw.keyword) + '</td>';
+    h += '<td style="padding:7px 12px;border-bottom:1px solid #f1f5f9;text-align:right;' + svStyle + '">' + kw.sv.toLocaleString() + '</td>';
+    h += '<td style="padding:7px 12px;border-bottom:1px solid #f1f5f9;text-align:center;' + relStyle + '">' + kw.rel.toFixed(2) + '</td>';
+    h += '<td style="padding:7px 12px;border-bottom:1px solid #f1f5f9;text-align:center">' + (kw.place.title ? dotOn : dotOff) + '</td>';
+    h += '<td style="padding:7px 12px;border-bottom:1px solid #f1f5f9;text-align:center">' + (kw.place.bullets ? dotOn : dotOff) + '</td>';
+    h += '<td style="padding:7px 12px;border-bottom:1px solid #f1f5f9;text-align:center">' + (kw.place.backend ? dotOn : dotOff) + '</td>';
+    h += '</tr>';
+  });
+
+  h += '</tbody></table>';
+  h += '<div class="note" style="margin-top:12px">';
+  h += '<strong>Legenda:</strong> ' + dotOn + ' = należy umieścić &nbsp;|&nbsp; ' + dotOff + ' = nie jest konieczne (pokryte wyżej lub niska relevancy)<br>';
+  h += '<strong>Zasada:</strong> Tytuł powinien zawierać 2–3 top keywords (SV > 15K). Bullet points powinny naturalnie wplatać secondary keywords. Backend keywords służą do pokrycia long-tail i synonimów.';
+  h += '</div></div>';
+
+  // ═══ METHODOLOGY ═══
   h += '<div class="note" style="margin-top:22px">' + D.methodology + '</div>';
 
   root.innerHTML = h;

@@ -4100,12 +4100,12 @@ var KW6_ANALYSIS_DATA = {
 
   // Legend
   h += '<div class="kw-legend">';
-  h += '<span><i style="background:#16a34a"></i> 1\u201310</span>';
-  h += '<span><i style="background:#22c55e"></i> 11\u201320</span>';
-  h += '<span><i style="background:#86efac"></i> 21\u201350</span>';
-  h += '<span><i style="background:#fde68a"></i> 51\u2013100</span>';
-  h += '<span><i style="background:#fca5a5"></i> 101\u2013200</span>';
-  h += '<span><i style="background:#ef4444"></i> 201\u2013306</span>';
+  h += '<span><i style="background:#166534"></i> 1\u20135 (Top)</span>';
+  h += '<span><i style="background:#22c55e"></i> 6\u201310</span>';
+  h += '<span><i style="background:#86efac"></i> 11\u201320</span>';
+  h += '<span><i style="background:#fde68a"></i> 21\u201350</span>';
+  h += '<span><i style="background:#fdba74"></i> 51\u2013100</span>';
+  h += '<span><i style="background:#fca5a5"></i> 100+</span>';
   h += '<span><i style="background:#f1f5f9;border:1px solid #e2e8f0"></i> Not ranked</span>';
   h += '</div></div>';
 
@@ -4117,12 +4117,12 @@ var KW6_ANALYSIS_DATA = {
 
   function rankColor(rank) {
     if (!rank || rank <= 0 || rank > 305) return { bg: '#f8fafc', fg: '#cbd5e1' };
-    if (rank <= 10) return { bg: '#16a34a', fg: '#fff' };
-    if (rank <= 20) return { bg: '#22c55e', fg: '#fff' };
-    if (rank <= 50) return { bg: '#86efac', fg: '#064e3b' };
-    if (rank <= 100) return { bg: '#fde68a', fg: '#78350f' };
-    if (rank <= 200) return { bg: '#fca5a5', fg: '#7f1d1d' };
-    return { bg: '#ef4444', fg: '#fff' };
+    if (rank <= 5) return { bg: '#166534', fg: '#fff' };
+    if (rank <= 10) return { bg: '#22c55e', fg: '#fff' };
+    if (rank <= 20) return { bg: '#86efac', fg: '#166534' };
+    if (rank <= 50) return { bg: '#fde68a', fg: '#92400e' };
+    if (rank <= 100) return { bg: '#fdba74', fg: '#9a3412' };
+    return { bg: '#fca5a5', fg: '#991b1b' };
   }
 
   function renderKW() {
@@ -4148,11 +4148,12 @@ var KW6_ANALYSIS_DATA = {
       html += '<tr>';
       html += '<td style="position:sticky;left:0;background:#fff;z-index:1;text-align:left;padding:6px 10px;font-weight:500;white-space:nowrap;border-bottom:1px solid #f1f5f9">' + kw.t + '</td>';
       html += '<td style="font-weight:700;color:#0f2942;border-bottom:1px solid #f1f5f9">' + kw.sv.toLocaleString() + '</td>';
-      var relStyle = kw.rl >= 0.8 ? 'font-weight:700;color:#16a34a' : 'color:#64748b';
-      html += '<td style="border-bottom:1px solid #f1f5f9;' + relStyle + '">' + kw.rl.toFixed(2) + '</td>';
+      var relPct = Math.round(kw.rl * 100);
+      var relStyle = relPct >= 80 ? 'font-weight:700;color:#16a34a' : 'color:#64748b';
+      html += '<td style="border-bottom:1px solid #f1f5f9;' + relStyle + '">' + relPct + '%</td>';
       kw.r.forEach(function(rank) {
         var c = rankColor(rank);
-        var label = (!rank || rank <= 0 || rank > 305) ? '–' : rank;
+        var label = (!rank || rank <= 0 || rank > 306) ? '\u2014' : rank;
         html += '<td style="border-bottom:1px solid #f1f5f9"><span style="display:inline-block;min-width:28px;padding:2px 5px;border-radius:4px;font-weight:700;font-size:.68rem;background:' + c.bg + ';color:' + c.fg + '">' + label + '</span></td>';
       });
       html += '</tr>';

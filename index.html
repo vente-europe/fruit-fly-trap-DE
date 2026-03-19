@@ -141,6 +141,33 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 .kw-legend span{display:inline-flex;align-items:center;gap:4px}
 .kw-legend i{display:inline-block;width:16px;height:12px;border-radius:2px}
 
+
+/* Image Strategy Tab */
+.is-insights-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:22px}
+.is-insight-card{background:#fff;border-radius:8px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.07);border-top:4px solid #e2e8f0;text-align:center}
+.is-pct{font-size:1.6rem;font-weight:800;line-height:1.1}
+.is-label{font-size:.72rem;color:#64748b;margin-top:6px;line-height:1.4}
+.is-slot-card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:18px;border-left:5px solid #2563eb;position:relative;overflow:hidden}
+.is-slot-num{position:absolute;top:14px;right:18px;font-size:2.2rem;font-weight:900;color:#e2e8f0;line-height:1}
+.is-slot-title{font-size:1rem;font-weight:700;color:#0f2942;margin-bottom:2px}
+.is-slot-purpose{font-size:.78rem;color:#64748b;margin-bottom:14px;line-height:1.4}
+.is-section{margin-bottom:12px}
+.is-section-label{font-size:.68rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.is-bullets{list-style:none;padding:0;margin:0}
+.is-bullets li{font-size:.78rem;color:#1e293b;padding:3px 0 3px 16px;position:relative;line-height:1.5}
+.is-bullets li::before{content:'2';position:absolute;left:0;color:#2563eb;font-weight:700}
+.is-copy-box{background:#eff6ff;border-radius:6px;padding:10px 14px;font-size:.8rem;color:#1e40af;font-style:italic;line-height:1.5;margin-top:4px}
+.is-do-dont{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.is-do{background:#f0fdf4;border-radius:6px;padding:10px 12px;border-left:3px solid #16a34a}
+.is-dont{background:#fef2f2;border-radius:6px;padding:10px 12px;border-left:3px solid #dc2626}
+.is-do h5,.is-dont h5{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.is-do h5{color:#16a34a}.is-dont h5{color:#dc2626}
+.is-do li,.is-dont li{font-size:.72rem;line-height:1.5}
+.is-compliance-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.is-compliance-card{background:#fff;border-radius:8px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.is-compliance-card h4{font-size:.85rem;font-weight:700;color:#0f2942;margin-bottom:8px}
+@media(max-width:700px){.is-do-dont,.is-compliance-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -4182,6 +4209,353 @@ var KW6_ANALYSIS_DATA = {
 })();
 
 
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// IMAGE STRATEGY TAB — Data + Rendering
+// ═══════════════════════════════════════════════════════════════════════════
+
+var IMAGE_STRATEGY_DATA = {
+
+  // ── Intro insight (HTML allowed) ──
+  insight: "<strong>Brief oparty na danych.</strong> Strategia oparta na analizie 5 722 recenzji (Tab 4), audycie listingów 5 konkurentów (Tab 5), badaniu zgodności z Amazon 2025\u20132026 oraz frameworku \u201eConversion-First\u201d 7-Image Stack. Wszystkie procenty odnoszą się do rzeczywistych danych z recenzji klientów.",
+
+  // ── Top insight cards ──
+  // Each: pct (display value), label (HTML allowed), color (hex)
+  insightCards: [
+    { pct: "30.9%", label: "\u201eNo effect / zero catch\u201d<br>Największe wyzwanie wizualne", color: "#dc2626" },
+    { pct: "13.7%", label: "\u201eDIY vinegar works better\u201d<br>Percepcja do wizualnego obalenia", color: "#f97316" },
+    { pct: "17.3%", label: "Motywacja bezpieczeństwem (dzieci/zwierzęta)<br>Niewykorzystana szansa komunikacyjna", color: "#16a34a" },
+    { pct: "38.4%", label: "Oczekiwanie niezawodnej skuteczności<br>Konieczność udowodnienia wizualnie", color: "#d97706" },
+    { pct: "7\u20139", label: "Rekomendowane sloty zdjęć<br>Pełny stack = 32% wyższy CVR", color: "#2563eb" },
+    { pct: "29.2%", label: "Kontrola muszek w kuchni<br>Główny scenariusz użycia \u2014 kontekst hero", color: "#7c3aed" }
+  ],
+
+  // ── Section heading before slots ──
+  slotsHeading: "Stack 7 Zdjęć \u2014 Briefy slotów",
+  slotsDescription: "Każdy slot opisany jest jako kompletny brief fotograficzny: cel, co pokazać, sugerowany copy, zalecenia i antyrekomendacje. Kolejność slotów odpowiada frameworkowi \u201eConversion-First\u201d (hero \u2192 korzyści \u2192 porównanie \u2192 skala \u2192 lifestyle \u2192 dowód \u2192 wartość).",
+
+  // ── Image slots (7 slots) ──
+  // Each slot: number, title, purpose, color (border-left), objective, showItems[], copy, doItems[], dontItems[]
+  slots: [
+    {
+      number: 1, color: "#dc2626",
+      title: "Zdjęcie główne (CTR Driver)",
+      purpose: "Miniaturka widoczna w wynikach wyszukiwania. Musi maksymalizować CTR.",
+      objective: "Produkt powinien zajmować 85%+ kadru na czystym białym tle. Opakowanie widoczne z wydrukowanymi claimami \u2014 jedyny zgodny sposób na tekst.",
+      showItems: [
+        "Produkt pod kątem 45\u00b0 \u2014 widoczna etykieta frontowa + profil boczny",
+        "Opakowanie z fizycznie wydrukowanymi claimami (nie cyfrowymi)",
+        "Jeśli pułapka jest przeźroczysta \u2014 warto dodać delikatną sugestię kolorowego płynu wabiącego",
+        "Wszystkie elementy zestawu powinny być widoczne (np. 4 pułapki ułożone)",
+        "Czyste, ostre cienie dla głębi \u2014 bez ostrego oświetlenia"
+      ],
+      copy: "Brak cyfrowych nakładek tekstowych. Cały przekaz musi być fizycznie wydrukowany na produkcie/opakowaniu: brand name, \"Non-Toxic\", \"Fast-Acting\", pack count.",
+      doItems: [
+        "Wypełnić 85%+ powierzchni zdjęcia produktem",
+        "Użyć prawdziwego opakowania z wydrukowanymi claimami",
+        "Pokazać zawartość całego zestawu",
+        "Rozdzielczość 2000\u20133000px JPEG",
+        "Przetestować vs miniaturki 3 najlepszych konkurentów (PickFu)"
+      ],
+      dontItems: [
+        "Cyfrowe nakładki tekstowe (AI Amazona blokuje w ciągu 1h)",
+        "Badge'e, wstążki, grafiki promocyjne",
+        "Rekwizyty niedołączone do zakupu",
+        "Znaki wodne",
+        "Luka w opakowaniu jest martwa od 2025 \u2014 nie należy dodawać tekstu cyfrowo"
+      ]
+    },
+    {
+      number: 2, color: "#2563eb",
+      title: "Infografika korzyści (\"The Hook\")",
+      purpose: "Pierwsze zdjęcie dodatkowe. Powinno przekazać 3 główne korzyści w poniżej 3 sekund (skanowalne na telefonie).",
+      objective: "Należy pokazać REZULTAT, nie cechy: czysta, wolna od owadów kuchnia z dyskretnie działającą pułapką. Nałożyć 3\u20135 kluczowych korzyści z ikonami.",
+      showItems: [
+        "Centralny obraz produktu (~40% kadru) w czystej kuchni",
+        "Korzyść #1: \"Works in 24 Hours\" \u2014 ikona zegara (21.6% pozytywnych recenzji)",
+        "Korzyść #2: \"Non-Toxic & Pet-Safe\" \u2014 ikona liścia (17.3% motywacja kupujących)",
+        "Korzyść #3: \"180-Day Lure Supply\" \u2014 ikona kalendarza (28.4% oczekuje dłuższej trwałości)",
+        "Opcjonalnie #4: \"Discreet Countertop Design\" \u2014 ikona oka (10.8% pozytywnych)",
+        "Opcjonalnie #5: \"Just Open & Place\" \u2014 ikona bez montażu (16.2% pozytywnych)"
+      ],
+      copy: "\"Works in 24 Hours\" \u2022 \"Non-Toxic & Pet-Safe\" \u2022 \"180-Day Lure Supply\" \u2022 \"Discreet Countertop Design\" \u2022 \"Just Open & Place\"",
+      doItems: [
+        "Maksymalnie 5 korzyści \u2014 mniej = lepiej",
+        "Czcionka min. 32px nagłówki, 16px podtekst (czytelność na telefonie)",
+        "Ikony uniwersalne (ptaszek, liść, zegar)",
+        "Skupić się na KORZYŚCIACH nie cechach (\"pest-free kitchen\" nie \"contains lure\")"
+      ],
+      dontItems: [
+        "Wymienianie składników (nudne, nieskanowalne)",
+        "Więcej niż 25 słów łącznie",
+        "Zatłaczanie \u2014 klient musi złapać wartość w 3 sekundy",
+        "Niebieski jako dominujący kolor (przyciąga muchy \u2014 złe skojarzenie podświadome)"
+      ]
+    },
+    {
+      number: 3, color: "#f97316",
+      title: "My vs. Oni \u2014 Porównanie",
+      purpose: "Odpowiedź na negatywny temat #3: 13.7% klientów twierdzi, że pułapki DIY z octu działają lepiej.",
+      objective: "Porównanie obok siebie pokazujące dlaczego profesjonalna pułapka jest lepsza od DIY. Należy odnieść się do problemów z recenzji konkurencji (wycieki, brzydki wygląd, bałagan).",
+      showItems: [
+        "LEWA strona: bałagan DIY z octem \u2014 plastikowy słoik, folia, rozlany płyn, muchy wokół ale niezłapane",
+        "PRAWA strona: elegancka pułapka \u2014 czysty design, muchy złapane wewnątrz, bez bałaganu",
+        "Wiersze porównania: Design \u2713/\u2717, Effectiveness \u2713/\u2717, Convenience \u2713/\u2717, Safety \u2713/\u2717",
+        "Opcjonalnie: porównanie kosztu dziennego (DIY wymaga codziennego mieszania vs. 45-day lure)"
+      ],
+      copy: "\"Stop making DIY vinegar traps. Our scientifically formulated lure catches 3x more flies than homemade solutions \u2014 without the mess.\"",
+      doItems: [
+        "Kontrast powinien być DRAMATYCZNY \u2014 bałagan vs. czystość",
+        "Użyć prawdziwego słoika DIY (folia, gumka, wykałaczka)",
+        "Pokazać złapane muchy w produkcie (dowód skuteczności)",
+        "Dołączyć prostą metrykę: \"Catches 3x more\" lub \"Lasts 45 days vs. daily mixing\""
+      ],
+      dontItems: [
+        "Podawanie nazw konkurencyjnych marek (naruszenie TOS Amazon)",
+        "Pokazywanie identycznego produktu konkurenta (należy użyć generycznego \"DIY\")",
+        "Zbyt złożone porównanie \u2014 maks. 4 wiersze",
+        "Claim'y, których nie można potwierdzić (np. \"100% effective\")"
+      ]
+    },
+    {
+      number: 4, color: "#3b82f6",
+      title: "Rozmiar i skala",
+      purpose: "Zapobieganie zwrotom z powodu nieporozumień co do rozmiaru. 4.8% klientów oczekuje jasnych instrukcji użycia.",
+      objective: "Należy umieścić pułapkę obok typowych obiektów kuchennych, aby klient mógł wizualizować dokładny rozmiar na swoim blacie.",
+      showItems: [
+        "Pułapka obok cytryny, kubka kawy lub jabłka (referencja rozmiaru)",
+        "Wymiary z opisem: szerokość, wysokość, głębokość w calach/cm",
+        "Pułapka na prawdziwej krawędzi blatu dla kontekstu przestrzennego",
+        "Przy multi-packu: wszystkie elementy rozłożone z odstępami"
+      ],
+      copy: "\"Compact enough for any countertop \u2014 sits discreetly next to your fruit bowl. 3.5\" x 3.5\" x 1.5\".\"",
+      doItems: [
+        "Użyć powszechnie znanych obiektów (cytryna, moneta, dłoń)",
+        "Podać dokładne wymiary ze strzałkami",
+        "Pokazać pułapkę w kontekście (na blacie, nie \"wiszącą\")",
+        "Czysta kompozycja \u2014 tylko pułapka + 1\u20132 obiekty referencyjne"
+      ],
+      dontItems: [
+        "Obiekty o zmiennym rozmiarze (różne odmiany jabłek)",
+        "Przetłaczanie kadru wieloma przedmiotami",
+        "Tylko dłoń jako referencja (zbyt zmienna)",
+        "Pomijanie wymiarów \u2014 konkretne miary zapobiegają zwrotom"
+      ]
+    },
+    {
+      number: 5, color: "#16a34a",
+      title: "Lifestyle i grupa docelowa",
+      purpose: "Produkt w głównym środowisku użycia. 29.2% klientów używa go do kontroli muszek owocówek w kuchni.",
+      objective: "Realistyczna scena kuchenna z pułapką przy misce z owocami. Model powinien odzwierciedlać grupę docelową (właściciel domu, 30\u201350 lat, nowoczesna kuchnia).",
+      showItems: [
+        "Nowoczesna, jasna kuchnia \u2014 granitowy lub marmurowy blat, naturalne światło",
+        "Miska z owocami: banany, jabłka, winogrona (wyzwalacz zakupu)",
+        "Pułapka umieszczona dyskretnie 15\u201330 cm od miski z owocami",
+        "Opcjonalnie: osoba (właściciel domu) w tle, zrelaksowana",
+        "Drugie umiejscowienie: przy koszu na śmieci lub kompostowniku (13.8% scenariusz)"
+      ],
+      copy: "\"Place near fruit bowls, trash cans, or compost areas \u2014 wherever fruit flies breed. Discreet design blends with any kitchen decor.\"",
+      doItems: [
+        "Użyć modela odzwierciedlającego grupę docelową (właściciel domu, kuchnia rodzinna)",
+        "Pokazać pułapkę \"in action\" \u2014 w realistycznym miejscu",
+        "Naturalne oświetlenie \u2014 należy unikać studyjnego odczucia",
+        "Dołączyć miskę z owocami w pobliżu (wizualny wyzwalacz)"
+      ],
+      dontItems: [
+        "Zbliżenia martwych owadów (odrzucające dla kupujących)",
+        "Pułapka jako centrum uwagi (powinna się wtapiać)",
+        "Zimne/kliniczne oświetlenie (powinno być ciepłe, domowe)",
+        "Sam produkt bez kontekstu \u2014 KONTEKST jest przekazem"
+      ]
+    },
+    {
+      number: 6, color: "#7c3aed",
+      title: "Dowód skuteczności \u2014 Before/After",
+      purpose: "Odpowiedź na temat negatywny #1: 30.9% twierdzi \"no effect.\" Wizualny dowód skuteczności jest kluczowy.",
+      objective: "Podział ekranu: muchy latają (before) \u2192 pułapka postawiona, muchy złapane, kuchnia czysta (after). Należy uwzględnić oś czasową 24h.",
+      showItems: [
+        "BEFORE (lewo/góra): miska z owocami otoczona muchami. Lekko ciepłe, zamglone oświetlenie.",
+        "AFTER (prawo/dół): ten sam kąt \u2014 pułapka przy owocach, muchy widocznie złapane. Czyste, jasne światło.",
+        "Nakładka osi czasu: \"Day 0 \u2192 Day 1\" lub \"Before \u2192 After 24 Hours\"",
+        "Wstawka zbliżeniowa: przeźroczyste okienko pułapki z widocznymi złapanymi muchami",
+        "Opcjonalnie: przekrój 3D pułapki pokazujący jak wab przyciąga muchy"
+      ],
+      copy: "\"See results within 24 hours. Our lure attracts fruit flies from up to 3 feet away \u2014 once inside, they can't escape.\"",
+      doItems: [
+        "Ten sam kąt kamery i kadrowanie dla obu ujęć",
+        "Konkretny przedział czasowy (24h, 48h \u2014 nie ogólnikowo)",
+        "Pokazać złapane muchy w przeźroczystym okienku (dowód)",
+        "Transformacja wizualnie dramatyczna (zmiana oświetlenia między before/after)"
+      ],
+      dontItems: [
+        "Obrzydliwe zbliżenia martwych owadów",
+        "Twierdzenie \"100% elimination\" (fałszywe oczekiwania)",
+        "Before/after wyglądające na photoshopa \u2014 musi być autentyczne",
+        "Różne kąty kamery między before i after"
+      ]
+    },
+    {
+      number: 7, color: "#d97706",
+      title: "Wszystko w zestawie / Wartość",
+      purpose: "Odpowiedź na obawy o wartość: 15.6% cytuje \"runs out quickly\", 28.4% oczekuje dłuższej trwałości, 7.4% uważa za przepłacone.",
+      objective: "Flat lay z całą zawartością opakowania i osią czasu zapasu. Zwiększenie postrzeganej wartości przez pokazanie wszystkiego, co klient dostaje.",
+      showItems: [
+        "Flat lay: wszystkie pułapki + wszystkie wkłady wabiowe rozłożone starannie",
+        "Każdy element podpisany: \"Trap #1\", \"Lure #1\" itd.",
+        "Oś czasu zapasu: \"45 days per lure \u00d7 4 = 180 days of protection\"",
+        "Rozkład kosztu: \"Less than $2.50/month of protection\" (przeramowanie wartości)",
+        "Bonus: mapa rozmieszczenia pułapek (schemat kuchni z 4 optymalnymi miejscami)"
+      ],
+      copy: "\"Everything you need for 180 days of protection. 4 traps + 4 lure pods = 6 months of pest-free living. That's less than $2.50/month.\"",
+      doItems: [
+        "Rozłożyć WSZYSTKIE elementy \u2014 postrzegana wartość rośnie gdy widoczne",
+        "Dołączyć oś czasu lub grafikę kalendarza",
+        "Obliczyć i pokazać koszt za miesiąc (przeramowanie wartości)",
+        "Podpisać każdy składnik wyraźnie"
+      ],
+      dontItems: [
+        "Elementy ułożone w stos (zmniejsza postrzeganą ilość)",
+        "Pomijanie osi czasu (claim o trwałości wymaga wizualnego wsparcia)",
+        "Elementy lifestyle (tu chodzi o WARTOŚĆ, nie kontekst)",
+        "Pominięcie instrukcji jeśli jest w zestawie"
+      ]
+    }
+  ],
+
+  // ── Compliance section ──
+  complianceHeading: "Zgodność techniczna z Amazon (2025\u20132026)",
+  complianceCards: [
+    {
+      title: "Zasady zdjęcia głównego", color: "#dc2626",
+      items: [
+        "Czyste białe tło: <strong>RGB 255, 255, 255</strong>",
+        "Produkt zajmuje <strong>85%+</strong> kadru",
+        "Brak cyfrowych nakładek tekstowych (AI blokuje w ciągu 1h)",
+        "Brak badge'ów, wstążek, grafik promocyjnych",
+        "Brak rekwizytów niedołączonych do zakupu",
+        "Brak znaków wodnych ani cyfrowo dodanych logo",
+        "<strong>Luka w opakowaniu jest martwa</strong> \u2014 AI Amazona wykrywa cyfrowe dodatki vs. druk"
+      ]
+    },
+    {
+      title: "Specyfikacja techniczna", color: "#2563eb",
+      items: [
+        "Rozdzielczość: <strong>1600\u20133000px</strong> (umożliwia zoom)",
+        "Format: <strong>JPEG</strong> preferowany (szybsze ładowanie)",
+        "Proporcje: <strong>1:1</strong> (kwadrat, 2000\u00d72000 idealnie)",
+        "Rozmiar pliku: poniżej 10MB",
+        "Pierwsze 7 zdjęć widocznych domyślnie na desktopie",
+        "Należy zawsze sprawdzić na <strong>telefonie</strong> przed wgraniem"
+      ]
+    },
+    {
+      title: "Testy A/B (Manage Your Experiments)", color: "#16a34a",
+      items: [
+        "Najpierw testować zdjęcie główne (największy wpływ na CTR)",
+        "Prowadzić testy 6\u20138 tygodni dla istotności statystycznej",
+        "Wersje muszą się <strong>istotnie różnić</strong> (nie tylko zmiana kąta)",
+        "Nie testować podczas Prime Day / Black Friday",
+        "Jeden element naraz (tylko zdjęcie, nie zdjęcie + tytuł)",
+        "Przypadek: jedna zmiana zdjęcia = <strong>32% wzrost konwersji</strong>"
+      ]
+    },
+    {
+      title: "Optymalizacja mobilna", color: "#d97706",
+      items: [
+        "Czcionki czytelne <strong>bez powiększania</strong>",
+        "Kluczowe detale wyeksponowane bez zatłoczenia",
+        "Układ pionowy preferowany dla before/after (nie obok siebie)",
+        "Testować na ekranie 5\u2033 przed wgraniem",
+        "AI Amazona \u201eczyta\u201d zawartość zdjęć \u2014 metadane muszą pasować do wizuali"
+      ]
+    }
+  ],
+
+  // ── Methodology note (HTML allowed) ──
+  methodology: "<strong>Metodologia:</strong> Strategia oparta na danych z: (1) 5 722 recenzji klientów Amazon (Tab 4 \u2014 Reviews VOC), (2) audytu listingów 5 konkurentów (Tab 5 \u2014 Listing Communication) z danymi z Amazon SP-API, (3) analizy luk komunikacyjnych (VoC vs. Listing Gap Analysis), (4) best practices Amazon 2025\u20132026, (5) frameworku \u201eConversion-First\u201d 7-Image Stack. Wszystkie procenty odnoszą się do rzeczywistych danych z recenzji. Język bezosobowy stosowany zgodnie z konwencją briefów kreatywnych."
+
+};
+
+(function() {
+  var D = IMAGE_STRATEGY_DATA;
+  var root = document.getElementById('is-root');
+  var h = '';
+
+  // ── Insight ──
+  h += '<div class="insight" style="background:#eff6ff;border-left-color:#2563eb;color:#1e40af">' + D.insight + '</div>';
+
+  // ── Insight cards grid ──
+  h += '<div class="is-insights-grid">';
+  D.insightCards.forEach(function(c) {
+    h += '<div class="is-insight-card" style="border-top-color:' + c.color + '">';
+    h += '<div class="is-pct" style="color:' + c.color + '">' + c.pct + '</div>';
+    h += '<div class="is-label">' + c.label + '</div>';
+    h += '</div>';
+  });
+  h += '</div>';
+
+  // ── Slots heading ──
+  h += '<h2 style="margin-top:28px">' + D.slotsHeading + '</h2>';
+  h += '<p style="font-size:.78rem;color:#64748b;margin-bottom:18px;line-height:1.5">' + D.slotsDescription + '</p>';
+
+  // ── Slot cards ──
+  D.slots.forEach(function(s) {
+    h += '<div class="is-slot-card" style="border-left-color:' + s.color + '">';
+    h += '<div class="is-slot-num">#' + s.number + '</div>';
+    h += '<div class="is-slot-title">' + s.title + '</div>';
+    h += '<div class="is-slot-purpose">' + s.purpose + '</div>';
+
+    // Objective
+    h += '<div class="is-section"><div class="is-section-label">Cel</div>';
+    h += '<p style="font-size:.78rem;color:#1e293b;line-height:1.5;margin:0">' + s.objective + '</p></div>';
+
+    // Show items
+    h += '<div class="is-section"><div class="is-section-label">Co pokazać</div>';
+    h += '<ul class="is-bullets">';
+    s.showItems.forEach(function(item) { h += '<li>' + item + '</li>'; });
+    h += '</ul></div>';
+
+    // Copy
+    h += '<div class="is-section"><div class="is-section-label">Sugerowany tekst / copy</div>';
+    h += '<div class="is-copy-box">' + s.copy + '</div></div>';
+
+    // Do / Don't
+    h += '<div class="is-do-dont">';
+    h += '<div class="is-do"><h5>\u2713 Tak</h5><ul class="is-bullets">';
+    s.doItems.forEach(function(item) { h += '<li>' + item + '</li>'; });
+    h += '</ul></div>';
+    h += '<div class="is-dont"><h5>\u2717 Nie</h5><ul class="is-bullets">';
+    s.dontItems.forEach(function(item) { h += '<li>' + item + '</li>'; });
+    h += '</ul></div></div>';
+
+    h += '</div>'; // end slot card
+  });
+
+  // ── Compliance ──
+  h += '<h2 style="margin-top:28px">' + D.complianceHeading + '</h2>';
+  h += '<div class="is-compliance-grid">';
+  D.complianceCards.forEach(function(c) {
+    h += '<div class="is-compliance-card" style="border-left:4px solid ' + c.color + '">';
+    h += '<h4>' + c.title + '</h4>';
+    h += '<ul class="is-bullets">';
+    c.items.forEach(function(item) { h += '<li>' + item + '</li>'; });
+    h += '</ul></div>';
+  });
+  h += '</div>';
+
+  // ── Methodology ──
+  h += '<div class="note" style="margin-top:22px">' + D.methodology + '</div>';
+
+  root.innerHTML = h;
+})();
 </script>
 </body>
 </html>
+<!-- ══════════════════════════════════════ TAB IS — Image Strategy ══════════════ -->
+<div id="tis" class="panel">
+<h2>Image Strategy Brief — DE Lure Segment</h2>
+<div id="is-root"></div>
+</div>
+
+

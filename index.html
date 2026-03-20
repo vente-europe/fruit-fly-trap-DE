@@ -4076,15 +4076,15 @@ var KW6_ANALYSIS_DATA = {
   function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
   // ── Description ──
-  h += '<p class="sec-summary" style="margin-bottom:16px">Competitive intelligence from ' + esc(D.source) + '. ' + comps.length + ' competitors ranked by 30-day sales. ' + D.keywords.length + ' tracked keywords with ranking positions.</p>';
+  h += '<p class="sec-summary" style="margin-bottom:16px">Competitive intelligence from ' + esc(D.insight) + '. ' + comps.length + ' competitors ranked by 30-day sales. ' + D.keywords.length + ' tracked keywords with ranking positions.</p>';
 
   // ── Niche Median KPIs ──
   h += '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px">';
   h += '  <div class="card" style="padding:10px 16px;border-left:4px solid #64748b;flex:1;min-width:140px">';
   h += '    <div style="font-size:.68rem;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Niche Median</div>';
   h += '    <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:.75rem">';
-  h += '      <div><span style="font-weight:700">' + esc(D.nicheMedians.price) + '</span> <span style="color:#94a3b8">Price</span></div>';
-  h += '      <div><span style="font-weight:700">' + esc(D.nicheMedians.rating) + '</span> <span style="color:#94a3b8">Rating</span></div>';
+  h += '      <div><span style="font-weight:700">' + esc(D.nicheMedian.price) + '</span> <span style="color:#94a3b8">Price</span></div>';
+  h += '      <div><span style="font-weight:700">' + esc(D.nicheMedian.rating) + '</span> <span style="color:#94a3b8">Rating</span></div>';
   h += '    </div></div></div>';
 
   // ── Competitor table ──
@@ -4095,7 +4095,7 @@ var KW6_ANALYSIS_DATA = {
 
   comps.forEach(function(c) {
     h += '<th style="background:#0f2942;color:#fff;padding:8px 6px;text-align:center;font-size:.62rem;font-weight:600;white-space:nowrap;min-width:80px">';
-    h += '<img src="' + c.image + '" alt="' + esc(c.brand) + '" style="width:54px;height:54px;object-fit:contain;border-radius:4px;background:#fff;display:block;margin:0 auto 4px">';
+    h += '<img src="' + c.img + '" alt="' + esc(c.brand) + '" style="width:54px;height:54px;object-fit:contain;border-radius:4px;background:#fff;display:block;margin:0 auto 4px">';
     h += '<a href="https://www.amazon.de/dp/' + c.asin + '" target="_blank" style="color:#93c5fd;text-decoration:none;font-size:.62rem">' + esc(c.brand) + '</a>';
     h += '<br><span style="opacity:.5;font-weight:400;font-size:.55rem">' + c.asin + '</span></th>';
   });
@@ -4134,7 +4134,7 @@ var KW6_ANALYSIS_DATA = {
 
   comps.forEach(function(c) {
     h += '<th style="width:8%;padding:6px 3px;cursor:pointer;text-align:center" onclick="kw6Sort(\'r_' + c.asin + '\')">';
-    h += '<img src="' + c.image + '" alt="' + esc(c.brand) + '" style="width:54px;height:54px;object-fit:contain;border-radius:3px;background:#fff;display:block;margin:0 auto 2px">';
+    h += '<img src="' + c.img + '" alt="' + esc(c.brand) + '" style="width:54px;height:54px;object-fit:contain;border-radius:3px;background:#fff;display:block;margin:0 auto 2px">';
     h += '<span style="font-size:.5rem;line-height:1.1;display:block">' + esc(c.brand) + '</span>';
     h += '<span style="opacity:.5;font-size:.45rem">' + c.asin + ' \u25B2\u25BC</span></th>';
   });

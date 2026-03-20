@@ -4154,7 +4154,15 @@ var KW6_ANALYSIS_DATA = {
   root.innerHTML = h;
 
   // ── Keyword sorting & rendering ──
-  var KW = D.keywords;
+  // Map data format: {kw,sv,rel,ranks:{asin:N}} → {t,sv,rl,r:[N,...]}
+  var KW = D.keywords.map(function(k) {
+    return {
+      t: k.kw,
+      sv: k.sv,
+      rl: parseFloat(k.rel) || 0,
+      r: comps.map(function(c) { return k.ranks[c.asin] || 0; })
+    };
+  });
   var sortCol = 'sv', sortDir = -1;
 
   function rankColor(rank) {

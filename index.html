@@ -859,6 +859,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
   <a href="#vsec-cs" onclick="vocScrollTo(event,'vsec-cs',this)">Customer Sentiment</a>
   <a href="#vsec-bm" onclick="vocScrollTo(event,'vsec-bm',this)">Buyers Motivation</a>
   <a href="#vsec-ce" onclick="vocScrollTo(event,'vsec-ce',this)">Customer Expectations</a>
+  <a href="#vsec-ch" onclick="vocScrollTo(event,'vsec-ch',this)">Complaint Heatmap</a>
 </div>
 <div id="vsec-cp">
   <div class="sec-header"><div class="sec-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="sec-title">Customer Profile</div></div>
@@ -904,6 +905,30 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
   <div class="sec-summary">Understand unmet needs to develop products and marketing that address them.</div>
   <div class="card" style="padding:0;overflow:hidden"><table class="us-table"><thead><tr><th style="width:22%">Customer Unmet Needs</th><th>Reason for Customer Unmet Needs</th><th style="width:110px;text-align:right">Percentage</th></tr></thead><tbody id="vceBody"></tbody></table></div>
 </div>
+
+<!-- ── SECTION: Complaint Heatmap ──────────────── -->
+<div id="vsec-ch" style="margin-top:36px">
+  <div class="sec-header">
+    <div class="sec-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+    </div>
+    <div class="sec-title">Complaint Heatmap</div>
+  </div>
+  <div class="sec-summary">Distribution of complaint themes from 1,000 reviews across 2 key ASINs (B0963J155G + B09SLX6GQS). Based on 400 negative reviews (1-2 stars). Regex-based keyword extraction per theme.</div>
+
+  <div class="card" style="padding:20px">
+    <div id="vchBars"></div>
+    <div class="note" style="margin-top:14px">
+      <strong>Data source:</strong> Ninja Reviews export (20/03/2026) — 500 reviews per ASIN, balanced star distribution.
+      Percentages show how many of the 400 negative reviews mention each theme.
+      A single review can match multiple themes.
+    </div>
+  </div>
+</div>
+
 </div><!-- /vci -->
 <div id="vca" class="voc-sub-panel">
   <div class="card">
@@ -3314,6 +3339,57 @@ function vocShowSubTab(id,el){document.querySelectorAll('.voc-sub-tab').forEach(
 function vocScrollTo(e,id,el){e.preventDefault();var t=document.getElementById(id);if(t){var y=t.getBoundingClientRect().top+window.pageYOffset-150;window.scrollTo({top:y,behavior:'smooth'})}document.querySelectorAll('.voc-anchor-nav a').forEach(function(a){a.classList.remove('active')});if(el)el.classList.add('active')}
 function vocToggleNF(row){var d=row.nextElementSibling,o=row.classList.contains('open');document.querySelectorAll('#tv .nf-row.open').forEach(function(r){r.classList.remove('open');r.nextElementSibling.classList.remove('open')});if(!o){row.classList.add('open');d.classList.add('open')}}
 function vocTogglePF(row){var d=row.nextElementSibling,o=row.classList.contains('open');document.querySelectorAll('#tv .pf-row.open').forEach(function(r){r.classList.remove('open');r.nextElementSibling.classList.remove('open')});if(!o){row.classList.add('open');d.classList.add('open')}}
+
+// ── Complaint Heatmap ──
+(function() {
+  var complaints = [
+    {theme:'No effect / does not work', pct:21.5, count:86, color:'#dc2626', icon:'\u26a0\ufe0f',
+     quote:'Keine Wirkung \u2014 Die Fruchtfliegen juckt das Ding nicht.'},
+    {theme:'DIY / vinegar works better', pct:11.5, count:46, color:'#f97316', icon:'\ud83e\uddea',
+     quote:'Hausmittel gehen genauso gut \u2014 Essig mit Sp\u00fclmittel f\u00e4ngt mehr.'},
+    {theme:'Too expensive / poor value', pct:8.8, count:35, color:'#d97706', icon:'\ud83d\udcb8',
+     quote:'Reinste Geldverschwendung. Einfach nur Essig drin.'},
+    {theme:'Packaging / leaking', pct:8.8, count:35, color:'#ea580c', icon:'\ud83d\udce6',
+     quote:'Bei Lieferung war eine Flasche leer, die Verpackung durchweicht.'},
+    {theme:'Too small / tiny bottles', pct:6.0, count:24, color:'#7c3aed', icon:'\ud83d\udd0d',
+     quote:'Die Fl\u00e4schchen sind winzig \u2014 f\u00fcr den Preis erwartet man mehr.'},
+    {theme:'Slow to work', pct:5.5, count:22, color:'#0891b2', icon:'\u23f3',
+     quote:'Selbst nach mehreren Tagen keine einzige Fruchtfliege in der Falle.'},
+    {theme:'Sticky tape / design issues', pct:5.5, count:22, color:'#64748b', icon:'\ud83e\uddf0',
+     quote:'Klebestreifen h\u00e4lt nicht, rutscht ab, hinterl\u00e4sst R\u00fcckst\u00e4nde.'},
+    {theme:'Weak attractant', pct:3.2, count:13, color:'#be185d', icon:'\ud83e\udeb0',
+     quote:'Die Fliegen ignorieren die Falle komplett.'},
+    {theme:'Bad smell / odor', pct:2.8, count:11, color:'#9333ea', icon:'\ud83d\udc43',
+     quote:'Riecht stark nach Essig \u2014 unangenehm in der K\u00fcche.'},
+    {theme:'Short lifespan', pct:2.0, count:8, color:'#059669', icon:'\u26a1',
+     quote:'Trocknet nach wenigen Tagen aus, weit vor der angegebenen Wirkdauer.'},
+    {theme:'Flies sit on trap, won\'t enter', pct:1.8, count:7, color:'#0369a1', icon:'\ud83e\udeb0',
+     quote:'Sie tanzen oben auf dem Zylinder und gehen nicht in die Fl\u00fcssigkeit.'},
+    {theme:'Misleading / fake reviews', pct:1.2, count:5, color:'#94a3b8', icon:'\u2753',
+     quote:'Ich kann die vielen positiven Bewertungen nicht verstehen. Null Effekt.'}
+  ];
+
+  var maxPct = complaints[0].pct;
+  var el = document.getElementById('vchBars');
+  if (!el) return;
+
+  var html = '<div style="display:flex;flex-direction:column;gap:2px">';
+  complaints.forEach(function(c) {
+    var barW = Math.round(c.pct / maxPct * 100);
+    var intensity = c.pct >= 10 ? '1' : c.pct >= 5 ? '.85' : '.65';
+    html += '<div style="display:grid;grid-template-columns:220px 1fr 60px;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #f1f5f9">';
+    html += '  <div style="font-size:.78rem;font-weight:600;color:#1e293b">' + c.theme + '</div>';
+    html += '  <div style="position:relative;height:28px;background:#f8fafc;border-radius:4px;overflow:hidden">';
+    html += '    <div style="position:absolute;left:0;top:0;height:100%;width:' + barW + '%;background:' + c.color + ';opacity:' + intensity + ';border-radius:4px;transition:width .5s"></div>';
+    html += '    <div style="position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:.68rem;color:#fff;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.3)">' + (barW > 15 ? c.pct + '%' : '') + '</div>';
+    html += '    <div style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:.65rem;color:#94a3b8;font-style:italic;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + c.quote + '</div>';
+    html += '  </div>';
+    html += '  <div style="text-align:right;font-size:.75rem;font-weight:700;color:' + c.color + '">' + c.pct + '%</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  el.innerHTML = html;
+})();
 
 
 

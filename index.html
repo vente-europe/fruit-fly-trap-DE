@@ -175,7 +175,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 <header>
   <div>
     <h1>Fruit Fly Traps — Market Analysis Dashboard DE</h1>
-    <p>Source: Main_Xray_Fruit_Fly_Traps2026-03-03.csv &nbsp;·&nbsp; Generated: 2026-03-03 &nbsp;·&nbsp; 49 ASINs</p>
+    <p>Source: Fruit_Flies_DE.csv &nbsp;&middot;&nbsp; Generated: 2026-03-25 &nbsp;&middot;&nbsp; 114 ASINs</p>
   </div>
 </header>
 
@@ -197,7 +197,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 <h2>Segments Analysis</h2>
 
 <div class="insight">
-  <strong>Segment-level view.</strong> All metrics aggregated per segment. 12-month window: Mar 2025 – Feb 2026. &nbsp;·&nbsp; <strong>17 ASINs</strong> with &lt;6 months of sales data are extrapolated: avg monthly × 18 (9 off-peak ×1 + 3 summer months ×3).
+  <strong>Segment-level view.</strong> All metrics aggregated per segment. 12-month window: Mar 2025 – Mar 2026. &nbsp;·&nbsp; <strong>19 ASINs</strong> with &lt;6 months of sales data are extrapolated: avg monthly × 18 (9 off-peak ×1 + 3 summer months ×3).<strong>17 ASINs</strong> with &lt;6 months of sales data are extrapolated: avg monthly × 18 (9 off-peak ×1 + 3 summer months ×3).
 </div>
 
 <!-- TOTAL CATEGORY KPI -->
@@ -249,7 +249,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 <h2>Market Structure — Lure Segment</h2>
 
 <div class="insight">
-  Lure segment only. 12-month window: Mar 2025 – Feb 2026. &nbsp;·&nbsp; 9 ASINs &nbsp;·&nbsp; ASINs with &lt;6M of sales history extrapolated at ×18 multiplier.
+  Lure segment only. 12-month window: Mar 2025 – Mar 2026. &nbsp;·&nbsp; 9 ASINs &nbsp;·&nbsp; ASINs with &lt;6M of sales history extrapolated at ×18 multiplier.
 </div>
 
 <!-- KPIs -->
@@ -307,7 +307,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
       <div class="cw" style="height:260px"><canvas id="packBrand3Chart"></canvas></div>
     </div>
   </div>
-  <div class="note" style="margin-top:14px">Brand unit share within top 3 pack sizes. Lure segment only, 12M (Mar 2025 – Feb 2026). 4-pack and 2-pack: Super Ninja dominates. 3-pack: Aeroxon only.</div>
+  <div class="note" style="margin-top:14px">Brand unit share within top 3 pack sizes. Lure segment only, 12M (Mar 2025 – Mar 2026). 4-pack and 2-pack: Super Ninja dominates. 3-pack: Aeroxon only.</div>
 </div>
 
 <!-- BRAND SHARE BY PACK SIZE — REVENUE -->
@@ -327,14 +327,14 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
       <div class="cw" style="height:260px"><canvas id="packBrand3RevChart"></canvas></div>
     </div>
   </div>
-  <div class="note" style="margin-top:14px">Brand revenue share within top 3 pack sizes. Lure segment only, 12M (Mar 2025 – Feb 2026). Revenue = units × ASIN list price.</div>
+  <div class="note" style="margin-top:14px">Brand revenue share within top 3 pack sizes. Lure segment only, 12M (Mar 2025 – Mar 2026). Revenue = units × ASIN list price.</div>
 </div>
 
 <!-- % UNIT SHARE BRAND LINE CHART -->
 <div class="card">
   <h3>% Unit Share — Brand vs. Total Lure</h3>
   <div class="cw" style="height:460px"><canvas id="lureShareChartTb"></canvas></div>
-  <div class="note">Monthly unit share per brand as % of total Lure segment (12M, Mar 2025 – Feb 2026).</div>
+  <div class="note">Monthly unit share per brand as % of total Lure segment (12M, Mar 2025 – Mar 2026).</div>
 </div>
 
 <div id="psc_insights" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px"></div>
@@ -356,7 +356,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
       <div class="cw" style="height:280px"><canvas id="pscPie3Chart"></canvas></div>
     </div>
   </div>
-  <div class="note" style="margin-top:14px">Unit share % by pack size. Lure segment, 12M (Mar 2025 – Feb 2026).</div>
+  <div class="note" style="margin-top:14px">Unit share % by pack size. Lure segment, 12M (Mar 2025 – Mar 2026).</div>
 </div>
 
 <!-- PRICE POSITIONING + SCATTER -->
@@ -1038,7 +1038,7 @@ function show(id, el) {
 //   avg_monthly × 18  (= 9 off-peak months × 1 + 3 summer months × 3)
 // Monthly breakdown arrays = actual observed values (no per-month extrapolation).
 const SEGMENT_DATA = {
-  segments: ['Lure', 'Fruit-Bait', 'Sticky', 'Electric'],
+  segments: ['Sticky', 'Lure', 'Electric', 'Fruit-Bait'],
   month_labels: ['Mar 2025','Apr 2025','May 2025','Jun 2025','Jul 2025','Aug 2025',
                  'Sep 2025','Oct 2025','Nov 2025','Dec 2025','Jan 2026','Feb 2026'],
   monthly_units: {
@@ -1054,10 +1054,10 @@ const SEGMENT_DATA = {
     'Electric':   [5081,  9287,  29085,  43445,  230521, 423546, 376992, 143926, 76265,  43796,  40138,  42679]
   },
   kpis: {
-    'Lure':       {skus:9,  units_12m:178555, revenue_12m:2463758, unit_share:20.6, rev_share:28.1},
-    'Fruit-Bait': {skus:6,  units_12m:70903,  revenue_12m:681407,  unit_share:8.2,  rev_share:7.8},
-    'Sticky':     {skus:22, units_12m:527755, revenue_12m:3850812, unit_share:60.9, rev_share:43.9},
-    'Electric':   {skus:12, units_12m:89363,  revenue_12m:1781843, unit_share:10.3, rev_share:20.2}
+    'Lure':       {skus:18, units_12m:196802,  revenue_12m:2662693, unit_share:20.7, rev_share:28.2},
+    'Fruit-Bait': {skus:9,  units_12m:70155,   revenue_12m:674652,  unit_share:7.4,  rev_share:7.2},
+    'Sticky':     {skus:64, units_12m:583203,  revenue_12m:3829949, unit_share:61.3, rev_share:40.6},
+    'Electric':   {skus:23, units_12m:101242,  revenue_12m:2264549, unit_share:10.6, rev_share:24.0}
   }
 };
 
@@ -1083,11 +1083,11 @@ function segInit() {
       <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;min-width:120px">Total Category</div>
       <div>
         <div style="font-size:1.6rem;font-weight:700;color:#1e293b;line-height:1">€${(totalRev12m/1e6).toFixed(2)}M</div>
-        <div style="font-size:.75rem;color:#64748b;margin-top:3px">Revenue · Last 12M (Mar 2025 – Feb 2026)</div>
+        <div style="font-size:.75rem;color:#64748b;margin-top:3px">Revenue · Last 12M (Mar 2025 – Mar 2026)</div>
       </div>
       <div>
         <div style="font-size:1.6rem;font-weight:700;color:#1e293b;line-height:1">${totalUnits12m.toLocaleString('en-US')}</div>
-        <div style="font-size:.75rem;color:#64748b;margin-top:3px">Units Sold · Last 12M (Mar 2025 – Feb 2026)</div>
+        <div style="font-size:.75rem;color:#64748b;margin-top:3px">Units Sold · Last 12M (Mar 2025 – Mar 2026)</div>
       </div>
     </div>`;
 
@@ -1273,9 +1273,9 @@ segInit();
   }
 
   // ── Pack Size data ──────────────────────────────────────────────────────────
-  const PACK_LABELS = ['4-pack', '2-pack', '3-pack', '6-pack', '12-pack', '1-pack'];
-  const PACK_UNITS  = [78400, 67723, 16355, 9976, 3771, 2330];
-  const PACK_REV    = [1183775, 667887, 241725, 209398, 147014, 13959];
+  const PACK_LABELS = ["4-pack", "2-pack", "6-pack", "3-pack", "12-pack", "1-pack"];
+  const PACK_UNITS  = [79680, 81272, 12499, 16120, 3844, 3387];
+  const PACK_REV    = [1202826, 789093, 262354, 238254, 149878, 20288];
 
   const fmtU  = (v, t) => (v / 1000).toFixed(1) + 'K units (' + Math.round(v / t * 100) + '%)';
   const fmtR  = (v, t) => '€' + (v / 1000).toFixed(0) + 'K (' + Math.round(v / t * 100) + '%)';
@@ -1286,9 +1286,9 @@ segInit();
   makePie('packRevPieChart',  PACK_LABELS, PACK_REV,   lblR, fmtR);
 
   // ── Brand data ──────────────────────────────────────────────────────────────
-  const BRAND_LABELS = ['Super Ninja', 'Aeroxon', 'Novokill', 'PIC', 'ARDAP'];
-  const BRAND_UNITS  = [140020, 16355, 11621, 8229, 2330];
-  const BRAND_REV    = [1901972, 241725, 183081, 123021, 13959];
+  const BRAND_LABELS = ["Super Ninja", "Aeroxon", "Novokill", "PIC", "ARDAP"];
+  const BRAND_UNITS  = [157754, 16120, 11492, 8049, 3387];
+  const BRAND_REV    = [2102808, 238254, 181010, 120333, 20288];
 
   makePie('brandUnitsPieChart', BRAND_LABELS, BRAND_UNITS, lblU, fmtU);
   makePie('brandRevPieChart',   BRAND_LABELS, BRAND_REV,   lblR, fmtR);

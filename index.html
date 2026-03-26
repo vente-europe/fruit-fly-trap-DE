@@ -197,7 +197,7 @@ h2{font-size:1rem;margin-bottom:16px;color:#1e293b;font-weight:700}
 <h2>Segments Analysis</h2>
 
 <div class="insight">
-  <strong>Segment-level view.</strong> All metrics aggregated per segment. 12-month window: Mar 2025 – Mar 2026. &nbsp;·&nbsp; <strong>19 ASINs</strong> with &lt;6 months of sales data are extrapolated: avg monthly × 18 (9 off-peak ×1 + 3 summer months ×3).<strong>17 ASINs</strong> with &lt;6 months of sales data are extrapolated: avg monthly × 18 (9 off-peak ×1 + 3 summer months ×3).
+  <strong>Segment-level view.</strong> All metrics aggregated per segment. 12-month window: Mar 2025 – Mar 2026. &nbsp;·&nbsp; <strong>19 ASINs</strong> with &lt;6 months of sales data are extrapolated: avg monthly × 21 (9 off-peak ×1 + 3 summer months ×4 = 21).<strong>17 ASINs</strong> with &lt;6 months of sales data are extrapolated: avg monthly × 21 (9 off-peak ×1 + 3 summer months ×4 = 21).
 </div>
 
 <!-- TOTAL CATEGORY KPI -->
@@ -1054,10 +1054,10 @@ const SEGMENT_DATA = {
     'Electric':   [5081,  9287,  29085,  43445,  230521, 423546, 376992, 143926, 76265,  43796,  40138,  42679]
   },
   kpis: {
-    'Lure':       {skus:18, units_12m:196802,  revenue_12m:2662693, unit_share:20.7, rev_share:28.2},
-    'Fruit-Bait': {skus:9,  units_12m:70155,   revenue_12m:674652,  unit_share:7.4,  rev_share:7.2},
-    'Sticky':     {skus:64, units_12m:583203,  revenue_12m:3829949, unit_share:61.3, rev_share:40.6},
-    'Electric':   {skus:23, units_12m:101242,  revenue_12m:2264549, unit_share:10.6, rev_share:24.0}
+    'Lure':       {skus:18, units_12m:223672, revenue_12m:3016750, unit_share:21.7, rev_share:29.7},
+    'Fruit-Bait': {skus:9, units_12m:70516, revenue_12m:679696, unit_share:6.8, rev_share:6.7},
+    'Sticky':     {skus:64, units_12m:631587, revenue_12m:4123650, unit_share:61.3, rev_share:40.6},
+    'Electric':   {skus:23, units_12m:104222, revenue_12m:2347007, unit_share:10.1, rev_share:23.1}
   }
 };
 
@@ -1274,8 +1274,8 @@ segInit();
 
   // ── Pack Size data ──────────────────────────────────────────────────────────
   const PACK_LABELS = ["4-pack", "2-pack", "6-pack", "3-pack", "12-pack", "1-pack"];
-  const PACK_UNITS  = [79680, 81272, 12499, 16120, 3844, 3387];
-  const PACK_REV    = [1202826, 789093, 262354, 238254, 149878, 20288];
+  const PACK_UNITS  = [91331, 93191, 14585, 16120, 4487, 3958];
+  const PACK_REV    = [1377477, 896241, 306137, 238256, 174929, 23711];
 
   const fmtU  = (v, t) => (v / 1000).toFixed(1) + 'K units (' + Math.round(v / t * 100) + '%)';
   const fmtR  = (v, t) => '€' + (v / 1000).toFixed(0) + 'K (' + Math.round(v / t * 100) + '%)';
@@ -1287,8 +1287,8 @@ segInit();
 
   // ── Brand data ──────────────────────────────────────────────────────────────
   const BRAND_LABELS = ["Super Ninja", "Aeroxon", "Novokill", "PIC", "ARDAP"];
-  const BRAND_UNITS  = [157754, 16120, 11492, 8049, 3387];
-  const BRAND_REV    = [2102808, 238254, 181010, 120333, 20288];
+  const BRAND_UNITS  = [184053, 16120, 11492, 8049, 3958];
+  const BRAND_REV    = [2453451, 238256, 181003, 120330, 23711];
 
   makePie('brandUnitsPieChart', BRAND_LABELS, BRAND_UNITS, lblU, fmtU);
   makePie('brandRevPieChart',   BRAND_LABELS, BRAND_REV,   lblR, fmtR);
